@@ -234,18 +234,18 @@ document.getElementById('nick').oninput=()=>{
 function doJoin(){
   myNick=document.getElementById('nick').value.trim()||'Player';
 
-  // FIX: block duplicate names — check presence list before joining
+  // Use promise-based presence.get (Ably v2 dropped callbacks)
   channel=ably.channels.get(myRoom);
-  channel.presence.get((err,members)=>{
-    if(!err && members){
+  channel.presence.get()
+    .then(members=>{
       const taken=members.some(m=>m.data&&m.data.nick&&m.data.nick.toLowerCase()===myNick.toLowerCase());
       if(taken){
         document.getElementById('nick-err').textContent='That name is already taken in this server!';
         return;
       }
-    }
-    actuallyJoin();
-  });
+      actuallyJoin();
+    })
+    .catch(()=>actuallyJoin());
 }
 
 function actuallyJoin(){
@@ -272,7 +272,7 @@ function actuallyJoin(){
       members.forEach(m=>{if(m.clientId!==myId) regPlayer(m.clientId,m.data.nick,m.data.color);});
       showPhase('wait');refreshLobbyOverlay();
     })
-    .catch(err=>{stat('Join failed: '+(err.message||err),'err');document.getElementById('join-btn').disabled=false;});
+    .catch(err=>{stat('Join failed: '+(err.message||String(err)),'err');document.getElementById('join-btn').disabled=false;console.error('join error',err);});
 }
 
 function regPlayer(id,nick,color){
