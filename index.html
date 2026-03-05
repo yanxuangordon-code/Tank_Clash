@@ -8,11 +8,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=VT323&display=swap');
 :root{--gold:#ffd700;--red:#ff4040;--blue:#40c8ff;--green:#40ff80;--bg:#07070f;--border:rgba(255,255,255,0.09);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{background:var(--bg);font-family:'VT323',monospace;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+body{background:var(--bg);font-family:'VT323',monospace;color:#fff;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;overflow-x:hidden;overflow-y:auto;}
+body.in-game{overflow:hidden;height:100vh;position:fixed;width:100%;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:36px 36px;animation:gm 22s linear infinite;pointer-events:none;z-index:0;}
 @keyframes gm{from{background-position:0 0}to{background-position:0 36px}}
-#app{position:relative;z-index:1;width:100%;max-width:980px;display:flex;flex-direction:column;align-items:center;}
+#app{position:relative;z-index:1;width:100%;max-width:980px;display:flex;flex-direction:column;align-items:center;padding:20px 0 40px;}
 .screen{display:none;flex-direction:column;align-items:center;width:100%;}.screen.active{display:flex;}
+#game-screen.active{width:820px;flex-shrink:0;}
 .game-title{font-family:'Black Ops One',cursive;font-size:54px;letter-spacing:6px;background:linear-gradient(135deg,var(--red),var(--gold),var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 24px rgba(255,215,0,0.5));animation:pulse 3s ease-in-out infinite;margin-bottom:4px;}
 .tagline{font-size:13px;letter-spacing:8px;color:#444;margin-bottom:20px;}
 @keyframes pulse{0%,100%{filter:drop-shadow(0 0 14px rgba(255,215,0,0.3))}50%{filter:drop-shadow(0 0 40px rgba(255,215,0,0.8))}}
@@ -64,7 +66,7 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 #lstat.ok{color:var(--green);text-shadow:0 0 8px var(--green);}
 #lstat.err{color:var(--red);text-shadow:0 0 8px var(--red);}
 #lstat.wait{color:var(--gold);text-shadow:0 0 8px var(--gold);}
-#game-wrap{position:relative;display:flex;flex-direction:column;align-items:center;}
+#game-wrap{position:relative;display:flex;flex-direction:column;align-items:center;overflow:visible;width:820px;}
 #hud{width:820px;height:56px;display:flex;align-items:center;background:rgba(0,0,0,0.88);border:1px solid var(--border);border-bottom:none;padding:0 8px;gap:6px;}
 .phud{width:165px;flex-shrink:0;padding:3px 6px;}
 .phud .pname{font-family:'Black Ops One',cursive;font-size:10px;letter-spacing:2px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
@@ -159,7 +161,8 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
 
 
 /* XP / Level Panel */
-#xp-panel{position:fixed;top:12px;right:12px;z-index:99998;width:200px;background:rgba(0,0,0,0.9);border:1px solid rgba(255,215,0,0.25);padding:10px 12px;font-family:'VT323',monospace;}
+#xp-panel{position:fixed;top:12px;right:12px;z-index:99998;width:210px;background:rgba(0,0,0,0.92);border:1px solid rgba(255,215,0,0.28);padding:12px 14px;font-family:'VT323',monospace;transition:opacity 0.3s;}
+body.in-game #xp-panel{opacity:0;pointer-events:none;}
 #xp-level-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
 #xp-level-badge{width:36px;height:36px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Black Ops One',cursive;font-size:14px;color:var(--gold);text-shadow:0 0 8px var(--gold);background:rgba(255,215,0,0.08);flex-shrink:0;}
 #xp-level-info{flex:1;}
@@ -171,8 +174,8 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
 @keyframes xptoast{0%{opacity:0;transform:translate(-50%,-60%);}15%{opacity:1;transform:translate(-50%,-50%);}80%{opacity:1;}100%{opacity:0;transform:translate(-50%,-40%);}}
 .xp-toast-title{font-family:'Black Ops One',cursive;font-size:20px;letter-spacing:4px;color:var(--gold);text-shadow:0 0 20px var(--gold);}
 .xp-toast-sub{font-size:14px;letter-spacing:2px;color:#888;margin-top:4px;}
-.xp-gain-float{position:fixed;font-family:'Black Ops One',cursive;font-size:16px;color:var(--gold);text-shadow:0 0 10px var(--gold);pointer-events:none;z-index:99999;animation:xpfloat 1.4s ease forwards;}
-@keyframes xpfloat{0%{opacity:1;transform:translateY(0);}100%{opacity:0;transform:translateY(-50px);}}
+.xp-gain-float{position:fixed;font-family:'Black Ops One',cursive;font-size:13px;color:var(--gold);text-shadow:0 0 8px var(--gold);pointer-events:none;z-index:99999;animation:xpfloat 1.8s ease forwards;white-space:nowrap;background:rgba(0,0,0,0.7);padding:2px 8px;border-left:2px solid var(--gold);}
+@keyframes xpfloat{0%{opacity:0;transform:translateY(6px);}12%{opacity:1;}80%{opacity:1;transform:translateY(-22px);}100%{opacity:0;transform:translateY(-36px);}}
 
 /* Skin selector in lobby */
 #skin-section{width:100%;}
@@ -182,16 +185,6 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
 .skin-btn.locked{opacity:0.35;cursor:not-allowed;}
 .skin-btn .skin-lv{font-size:9px;color:#ff4040;letter-spacing:1px;}
 
-/* Bot config in singleplayer */
-#bot-config-section{width:100%;display:none;}
-.bot-count-row{display:flex;gap:8px;align-items:center;margin-bottom:8px;}
-.bot-count-btn{width:32px;height:32px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);color:#555;font-family:'Black Ops One',cursive;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;}
-.bot-count-btn:hover,.bot-count-btn.on{border-color:var(--gold);color:var(--gold);}
-#bot-count-display{font-family:'Black Ops One',cursive;font-size:16px;color:var(--gold);min-width:24px;text-align:center;}
-.personality-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
-.pers-btn{padding:8px 6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);cursor:pointer;text-align:center;font-family:'Black Ops One',cursive;font-size:9px;letter-spacing:1px;color:#444;transition:all .2s;}
-.pers-btn.on{border-color:var(--gold);color:var(--gold);background:rgba(255,215,0,0.05);}
-.pers-icon{font-size:18px;display:block;margin-bottom:3px;}
 
 /* Laser beam */
 .laser-fx{position:absolute;pointer-events:none;}
@@ -264,6 +257,24 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
       <div id="xp-bar-label">0 / 100 XP</div>
     </div>
   </div>
+  <div id="xp-stats-row" style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.06);padding-top:7px;display:flex;justify-content:space-between;">
+    <div style="text-align:center;">
+      <div id="xp-stat-kills" style="font-family:'Black Ops One',cursive;font-size:14px;color:var(--red);">0</div>
+      <div style="font-size:9px;color:#333;letter-spacing:2px;">KILLS</div>
+    </div>
+    <div style="text-align:center;">
+      <div id="xp-stat-games" style="font-family:'Black Ops One',cursive;font-size:14px;color:var(--blue);">0</div>
+      <div style="font-size:9px;color:#333;letter-spacing:2px;">GAMES</div>
+    </div>
+    <div style="text-align:center;">
+      <div id="xp-stat-kd" style="font-family:'Black Ops One',cursive;font-size:14px;color:var(--gold);">—</div>
+      <div style="font-size:9px;color:#333;letter-spacing:2px;">K/D</div>
+    </div>
+  </div>
+  <div id="xp-next-unlock" style="margin-top:7px;font-size:10px;color:#2a2a38;letter-spacing:1px;text-align:center;min-height:14px;"></div>
+  <div style="margin-top:6px;text-align:right;">
+    <span onclick="resetProfile()" style="font-size:9px;color:#1a1a1a;letter-spacing:1px;cursor:pointer;" title="Reset all progress">RESET</span>
+  </div>
 </div>
 <div id="app">
   <!-- LOBBY -->
@@ -295,16 +306,7 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
           <div class="diff-btn" id="diff-med" onclick="setDiff('medium')">🟡 MEDIUM</div>
           <div class="diff-btn" id="diff-hard" onclick="setDiff('hard')">🔴 HARD</div>
         </div>
-        <div style="height:10px;"></div>
-        <div style="font-size:10px;letter-spacing:4px;color:#2a2a38;margin-bottom:6px;">NUMBER OF BOTS</div>
-        <div class="bot-count-row">
-          <div class="bot-count-btn" onclick="setBotCount(1)" id="bcount-1">1</div>
-          <div class="bot-count-btn" onclick="setBotCount(2)" id="bcount-2">2</div>
-          <div class="bot-count-btn" onclick="setBotCount(3)" id="bcount-3">3</div>
-          <span style="font-size:11px;color:#333;letter-spacing:2px;margin-left:4px;">bots</span>
-        </div>
-        <div style="font-size:10px;letter-spacing:4px;color:#2a2a38;margin-bottom:6px;">BOT PERSONALITY</div>
-        <div class="personality-grid" id="personality-grid"></div>
+
       </div>
 
       <!-- Ability Picker -->
@@ -319,6 +321,21 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
         <div style="font-size:10px;letter-spacing:4px;color:#2a2a38;margin-bottom:6px;">TANK SKIN</div>
         <div class="skin-row" id="skin-row"></div>
       </div>
+      <!-- XP How It Works info (collapsed) -->
+      <div id="xp-info-toggle" onclick="toggleXPInfo()" style="width:100%;padding:6px 10px;background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.1);cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-family:'Black Ops One',cursive;font-size:10px;letter-spacing:3px;color:#2a2a38;">HOW XP WORKS</span>
+        <span id="xp-info-arrow" style="font-size:12px;color:#2a2a38;">▼</span>
+      </div>
+      <div id="xp-info-box" style="display:none;width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(255,215,0,0.08);border-top:none;padding:10px 12px;font-size:11px;color:#444;letter-spacing:1px;line-height:1.9;">
+        <div>⚔️ <b style="color:#666">Kill enemy</b> — +60 XP</div>
+        <div>💀 <b style="color:#666">Survive a life</b> — +15 XP</div>
+        <div>❤️ <b style="color:#666">Pick up medkit</b> — +8 XP</div>
+        <div>⚡ <b style="color:#666">Use an ability</b> — +3 XP</div>
+        <div>🏁 <b style="color:#666">Complete a game</b> — +25 XP</div>
+        <div style="margin-top:6px;color:#2a2a38;">Level up to unlock skins &amp; ability upgrades.</div>
+        <div style="color:#2a2a38;">Progress is saved automatically in your browser.</div>
+      </div>
+
       <!-- Server selection (mp only) -->
       <div id="sv-section" style="width:100%;">
         <div style="font-size:10px;letter-spacing:4px;color:#2a2a38;margin-bottom:6px;">PICK A SERVER</div>
@@ -338,7 +355,7 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
     <div id="game-wrap">
       <div id="hud">
         <div class="phud"><div class="pname" id="h-left">YOU</div><div class="hp-wrap"><div class="hp-fill" id="hp-left" style="width:100%"></div></div></div>
-        <div id="hud-mid"><div id="hud-score">—</div><div id="hud-room">SERVER 1</div></div>
+        <div id="hud-mid"><div id="hud-score">—</div><div id="hud-room">SERVER 1</div><div id="hud-coins" style="font-size:11px;color:#ffd700;letter-spacing:2px;margin-top:1px;">🪙 0</div></div>
         <div class="phud" style="text-align:right"><div class="pname" id="h-right">OPPONENT</div><div class="hp-wrap"><div class="hp-fill" id="hp-right" style="width:100%;float:right"></div></div></div>
         <div id="hud-lead"></div>
       </div>
@@ -419,87 +436,125 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
 // ═══════════════════════════════════════════════════════════
 // XP / LEVEL / PERSISTENCE SYSTEM
 // ═══════════════════════════════════════════════════════════
-const RANK_NAMES = ['RECRUIT','PRIVATE','CORPORAL','SERGEANT','LIEUTENANT','CAPTAIN','MAJOR','COLONEL','GENERAL','COMMANDER'];
+const RANK_NAMES = [
+  'RECRUIT','PRIVATE','CORPORAL','SERGEANT','LIEUTENANT',
+  'CAPTAIN','MAJOR','COLONEL','GENERAL','COMMANDER'
+];
 const TANK_SKINS = [
-  {id:'default',  name:'STANDARD',   unlockLv:1,  desc:'Default tank'},
-  {id:'stealth',  name:'STEALTH',    unlockLv:3,  desc:'Dark matte hull'},
-  {id:'camo',     name:'CAMO',       unlockLv:5,  desc:'Camouflage pattern'},
-  {id:'chrome',   name:'CHROME',     unlockLv:8,  desc:'Reflective hull'},
-  {id:'neon',     name:'NEON',       unlockLv:12, desc:'Glowing neon trim'},
-  {id:'inferno',  name:'INFERNO',    unlockLv:16, desc:'Fire pattern hull'},
-  {id:'gold',     name:'GOLDEN',     unlockLv:20, desc:'Full gold hull'},
-  {id:'void',     name:'VOID',       unlockLv:25, desc:'Dark energy hull'},
+  {id:'default', name:'STANDARD', unlockLv:1,  emoji:'🟩', desc:'Default hull'},
+  {id:'stealth', name:'STEALTH',  unlockLv:3,  emoji:'⬛', desc:'Dark matte hull'},
+  {id:'camo',    name:'CAMO',     unlockLv:5,  emoji:'🟫', desc:'Camouflage pattern'},
+  {id:'chrome',  name:'CHROME',   unlockLv:8,  emoji:'⬜', desc:'Reflective hull'},
+  {id:'neon',    name:'NEON',     unlockLv:12, emoji:'🟦', desc:'Glowing neon trim'},
+  {id:'inferno', name:'INFERNO',  unlockLv:16, emoji:'🟥', desc:'Fire pattern'},
+  {id:'gold',    name:'GOLDEN',   unlockLv:20, emoji:'🟨', desc:'Full gold hull'},
+  {id:'void',    name:'VOID',     unlockLv:25, emoji:'🟣', desc:'Dark energy'},
 ];
 const AB_UPGRADES = {
-  // Ability upgrades unlocked at certain levels
-  laser_range:   {name:'LASER+',   desc:'Laser range +50%',  unlockLv:7,  ability:'laser'},
-  shield_double: {name:'2x SHIELD',desc:'Shield blocks 2 hits',unlockLv:10,ability:'shield'},
-  heal_boost:    {name:'MEDKIT+',  desc:'Heal restores 60HP', unlockLv:13, ability:'heal'},
-  speed_longer:  {name:'TURBO+',   desc:'Speed lasts 6s',     unlockLv:17, ability:'speed'},
-  emp_bigger:    {name:'EMP+',     desc:'EMP radius ×1.5',    unlockLv:22, ability:'emp'},
+  laser_range:   {name:'LASER+',    desc:'Beam dmg +50%',       unlockLv:7,  ability:'laser',   icon:'⚡'},
+  shield_double: {name:'2× SHIELD', desc:'Blocks 2 hits',        unlockLv:10, ability:'shield',  icon:'🛡️'},
+  heal_boost:    {name:'MEDKIT+',   desc:'Heals 60 HP',          unlockLv:13, ability:'heal',    icon:'❤️'},
+  speed_longer:  {name:'TURBO+',    desc:'Speed lasts 6s',       unlockLv:17, ability:'speed',   icon:'💨'},
+  emp_bigger:    {name:'EMP+',      desc:'Blast radius ×1.5',    unlockLv:22, ability:'emp',     icon:'💥'},
 };
 
-function xpForLevel(lv) { return Math.floor(100 * Math.pow(lv, 1.35)); }
+// XP required to reach NEXT level (scales gradually)
+function xpForLevel(lv) { return Math.floor(120 * Math.pow(lv, 1.28)); }
+
+// XP sources with amounts
+const XP_SOURCES = {
+  kill:     {amt:60, label:'Enemy destroyed'},
+  assist:   {amt:20, label:'Assist'},
+  survived: {amt:15, label:'Survived a life'},
+  medkit:   {amt:8,  label:'Medkit collected'},
+  ability:  {amt:3,  label:'Ability used'},
+  coin:     {amt:4,  label:'Coin collected'},
+  game:     {amt:25, label:'Game completed'},
+};
 
 let profile = loadProfile();
+let xpSessionGained = 0; // track XP earned this game session
+let sessionCoins = 0;     // coins collected this game
 
 function loadProfile(){
   try {
     const raw = localStorage.getItem('tankclash_profile');
-    if(raw) return JSON.parse(raw);
+    if(raw){
+      const p = JSON.parse(raw);
+      // Migrate old profile if missing fields
+      p.totalKills  = p.totalKills  || 0;
+      p.totalGames  = p.totalGames  || 0;
+      p.totalDeaths = p.totalDeaths || 0;
+      p.abUpgrades  = p.abUpgrades  || {};
+      p.skin        = p.skin        || 'default';
+      return p;
+    }
   } catch(e){}
-  return {xp:0, level:1, totalKills:0, totalGames:0, skin:'default', abUpgrades:{}};
+  return {xp:0,level:1,totalKills:0,totalGames:0,totalDeaths:0,skin:'default',abUpgrades:{}};
 }
 function saveProfile(){
   try { localStorage.setItem('tankclash_profile', JSON.stringify(profile)); } catch(e){}
 }
 function getRank(lv){ return RANK_NAMES[Math.min(lv-1, RANK_NAMES.length-1)]; }
 
-function awardXP(amount, label){
+// Main XP award function — called from game events
+function awardXP(sourceKey, overrideAmt){
+  const src = XP_SOURCES[sourceKey];
+  const amount = overrideAmt !== undefined ? overrideAmt : (src ? src.amt : 0);
   if(amount <= 0) return;
-  const oldLv = profile.level;
+  xpSessionGained += amount;
   profile.xp += amount;
-  // Level up loop
-  let levelled = false;
+  // Level-up loop — handle multiple level-ups at once
   while(profile.xp >= xpForLevel(profile.level)){
     profile.xp -= xpForLevel(profile.level);
     profile.level++;
-    levelled = true;
     onLevelUp(profile.level);
   }
   saveProfile();
   updateXPUI();
-  // Floating XP gain near HUD
-  showXPFloat('+'+amount+' XP'+(label?' ('+label+')':''));
+  showXPFloat('+'+amount, src ? src.label : '');
 }
 
 function onLevelUp(newLv){
-  // Check for unlocks
   const skinUnlock = TANK_SKINS.find(s=>s.unlockLv===newLv);
   const abUnlock   = Object.values(AB_UPGRADES).find(u=>u.unlockLv===newLv);
-  let unlockMsg = 'LEVEL ' + newLv + ' — ' + getRank(newLv);
-  let subMsg = '';
-  if(skinUnlock){ subMsg = '🎨 Unlocked skin: ' + skinUnlock.name; }
-  else if(abUnlock){ subMsg = '⚡ Unlocked upgrade: ' + abUnlock.name; profile.abUpgrades[abUnlock.ability] = abUnlock.ability+'_up'; }
-  else { subMsg = 'Keep fighting, soldier!'; }
-  showLevelUpToast(unlockMsg, subMsg);
+  let subMsg = 'Keep pushing, soldier.';
+  if(skinUnlock){ subMsg = skinUnlock.emoji+' New skin: '+skinUnlock.name; }
+  if(abUnlock){ 
+    subMsg = abUnlock.icon+' Upgrade unlocked: '+abUnlock.name+' — '+abUnlock.desc;
+    profile.abUpgrades[abUnlock.ability] = true;
+  }
+  saveProfile();
+  showLevelUpToast('LEVEL UP  ▲  '+newLv, getRank(newLv), subMsg);
   buildSkinRow();
+  updateXPUI();
 }
 
-function showLevelUpToast(title, sub){
+function showLevelUpToast(title, rank, sub){
   const t = document.createElement('div');
   t.className = 'xp-unlock-toast';
-  t.innerHTML = '<div class="xp-toast-title">▲ ' + title + '</div><div class="xp-toast-sub">' + sub + '</div>';
+  t.innerHTML = '<div class="xp-toast-title">'+title+'</div>'
+    +'<div style="font-size:11px;letter-spacing:4px;color:var(--gold);opacity:0.7;margin:3px 0 6px">'+rank+'</div>'
+    +'<div class="xp-toast-sub">'+sub+'</div>';
   document.body.appendChild(t);
-  setTimeout(()=>t.remove(), 3100);
+  setTimeout(()=>t.remove(), 3600);
 }
-function showXPFloat(text){
+
+let _xpFloatY = 60; // stagger floats so they don't overlap
+let _xpFloatTimer = null;
+function showXPFloat(amount, label){
+  // Only show during gameplay on canvas
   const el = document.createElement('div');
   el.className = 'xp-gain-float';
-  el.textContent = text;
-  el.style.cssText = 'right:220px;top:18px;';
+  el.innerHTML = '<span style="color:var(--gold)">' + amount + ' XP</span>'
+    + (label ? '<span style="font-size:11px;color:#666;margin-left:6px">'+label+'</span>' : '');
+  // Position: bottom-right of HUD bar, staggered vertically
+  el.style.cssText = 'right:16px;top:'+_xpFloatY+'px;';
+  _xpFloatY += 22; if(_xpFloatY > 130) _xpFloatY = 60;
+  clearTimeout(_xpFloatTimer);
+  _xpFloatTimer = setTimeout(()=>{ _xpFloatY=60; }, 2000);
   document.body.appendChild(el);
-  setTimeout(()=>el.remove(), 1500);
+  setTimeout(()=>el.remove(), 1800);
 }
 
 function updateXPUI(){
@@ -509,7 +564,35 @@ function updateXPUI(){
   document.getElementById('xp-level-badge').textContent = lv;
   document.getElementById('xp-rank-name').textContent = getRank(lv);
   document.getElementById('xp-bar-fill').style.width = pct+'%';
-  document.getElementById('xp-bar-label').textContent = profile.xp+' / '+needed+' XP';
+  document.getElementById('xp-bar-label').textContent = profile.xp+' / '+needed+' XP to next level';
+  // Stats
+  document.getElementById('xp-stat-kills').textContent = profile.totalKills;
+  document.getElementById('xp-stat-games').textContent = profile.totalGames;
+  const kd = profile.totalDeaths > 0 ? (profile.totalKills/profile.totalDeaths).toFixed(1) : profile.totalKills > 0 ? profile.totalKills+'—' : '—';
+  document.getElementById('xp-stat-kd').textContent = kd;
+  // Next unlock hint
+  const nextSkin = TANK_SKINS.find(s=>s.unlockLv>lv);
+  const nextAb   = Object.values(AB_UPGRADES).find(u=>u.unlockLv>lv);
+  const nextUnlock = [nextSkin, nextAb].filter(Boolean).sort((a,b)=>a.unlockLv-b.unlockLv)[0];
+  const el = document.getElementById('xp-next-unlock');
+  if(el){
+    if(nextUnlock){
+      el.textContent = 'Lv'+nextUnlock.unlockLv+' → '+('emoji' in nextUnlock ? nextUnlock.emoji+' '+nextUnlock.name : nextUnlock.icon+' '+nextUnlock.name);
+    } else {
+      el.textContent = '★ MAX RANK ACHIEVED';
+      el.style.color = 'var(--gold)';
+    }
+  }
+}
+
+function resetProfile(){
+  if(!confirm('Reset ALL progress? This cannot be undone.')) return;
+  localStorage.removeItem('tankclash_profile');
+  profile = loadProfile();
+  xpSessionGained = 0;
+  updateXPUI();
+  buildSkinRow();
+  selectedSkin = 'default';
 }
 
 function buildSkinRow(){
@@ -526,41 +609,24 @@ function buildSkinRow(){
   });
 }
 
-function buildPersonalityGrid(){
-  const grid = document.getElementById('personality-grid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  const persList = [
-    {id:'hunter',  icon:'🎯', name:'HUNTER',  desc:'Balanced'},
-    {id:'sniper',  icon:'🔭', name:'SNIPER',  desc:'Hangs back'},
-    {id:'rusher',  icon:'⚡', name:'RUSHER',  desc:'Aggressive'},
-    {id:'coward',  icon:'💨', name:'COWARD',  desc:'Flees low HP'},
-    {id:'random',  icon:'🎲', name:'RANDOM',  desc:'Unpredictable'},
-  ];
-  persList.forEach(p=>{
-    const d = document.createElement('div');
-    d.className = 'pers-btn' + (selectedPersonality===p.id?' on':'');
-    d.innerHTML = '<span class="pers-icon">'+p.icon+'</span>'+p.name+'<br><span style="font-size:8px;color:#333">'+p.desc+'</span>';
-    d.onclick = ()=>{ selectedPersonality=p.id; buildPersonalityGrid(); };
-    grid.appendChild(d);
-  });
-}
+
 
 let selectedSkin = 'default';
-let selectedPersonality = 'hunter';
-let botCount = 1;
+const botCount = 1;
 
-function setBotCount(n){
-  botCount = n;
-  [1,2,3].forEach(i => document.getElementById('bcount-'+i).classList.toggle('on', i===n));
+
+function toggleXPInfo(){
+  const box = document.getElementById('xp-info-box');
+  const arrow = document.getElementById('xp-info-arrow');
+  const open = box.style.display==='none';
+  box.style.display = open ? 'block' : 'none';
+  arrow.textContent = open ? '▲' : '▼';
 }
 
 // Init on load
 window.addEventListener('load', ()=>{
   updateXPUI();
   buildSkinRow();
-  buildPersonalityGrid();
-  setBotCount(1);
 });
 
 // ═══════════════════════════════════════════════════════════
@@ -734,7 +800,7 @@ function setMode(m) {
   document.getElementById('join-btn').style.display = m==='mp' ? 'inline-block' : 'none';
   document.getElementById('sp-btn').style.display = m==='sp' ? 'inline-block' : 'none';
   if (m==='sp') document.getElementById('lstat').textContent='';
-  buildSkinRow(); buildPersonalityGrid();
+  buildSkinRow();
 }
 function setDiff(d) {
   botDifficulty = d;
@@ -790,7 +856,41 @@ window.addEventListener('load',()=>{
   ably.connection.on('disconnected',()=>{connected=false;stat('Disconnected—reconnecting...','err');refreshBtn();});
 });
 
-document.getElementById('nick').oninput=()=>{myNick=document.getElementById('nick').value.trim()||'Player';};
+document.getElementById('nick').oninput=()=>{
+  const val=document.getElementById('nick').value;
+  myNick=val.trim()||'Player';
+  // Easter egg cheat code
+  if(val.trim().toLowerCase()==='hacker67') activateCheatCode();
+};
+
+function activateCheatCode(){
+  // Unlock all ability upgrades
+  Object.values(AB_UPGRADES).forEach(u=>{ profile.abUpgrades[u.ability]=true; });
+  // Bump level to at least 25 to unlock all skins (keep existing xp/kills)
+  if(profile.level < 25){
+    profile.level = 25;
+    profile.xp = 0;
+  }
+  saveProfile();
+  updateXPUI();
+  buildSkinRow();
+  // Flash the nick field red briefly
+  const el=document.getElementById('nick');
+  el.style.borderColor='#ff4040';
+  el.style.color='#ff4040';
+  setTimeout(()=>{ el.style.borderColor=''; el.style.color=''; }, 1200);
+  // Show hacker toast
+  const t=document.createElement('div');
+  t.className='xp-unlock-toast';
+  t.style.cssText='border-color:#ff4040;';
+  t.innerHTML='<div class="xp-toast-title" style="color:#ff4040">⚠ HACKER67 ⚠</div>'
+    +'<div style="font-size:11px;letter-spacing:3px;color:#ff6666;margin:4px 0;">ALL UPGRADES UNLOCKED</div>'
+    +'<div class="xp-toast-sub">Every ability upgraded. Use wisely.</div>';
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(), 4000);
+  // Also add a chat line if in game
+  if(gameActive) addChatLine('⚠','CHEAT ACTIVATED','#ff4040');
+}
 
 // ═══════════════════════════════════════════════════════════
 // JOIN MULTIPLAYER
@@ -817,7 +917,7 @@ function actuallyJoin(){
   });
   channel.presence.enter({nick:myNick,color:myColor,abilities:selectedAbilities})
     .then(()=>{
-      showScreen('game-screen');initAbilityState();
+      showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);initAbilityState();
       document.getElementById('hud-room').textContent='SERVER '+(ROOMS.findIndex(r=>r.id===myRoom)+1);
       buildWalls();showPhase('conn');
       return channel.presence.get();
@@ -834,36 +934,28 @@ function actuallyJoin(){
 // ═══════════════════════════════════════════════════════════
 const BOT_NAMES=['VIPER','GHOST','TITAN','BLAZE','NOVA','ROGUE','SPECTRE','PHANTOM'];
 const BOT_COLORS=['#ff4040','#ff9900','#a0ff40','#ff40ff','#40c8ff','#00ffee','#ff6666','#ffcc44'];
-const PERSONALITY_ICONS={hunter:'🎯',sniper:'🔭',rusher:'⚡',coward:'💨',random:'🎲'};
 
-function makeBot(id, nick, color, spawnIdx, personality){
-  const pers = personality==='random'
-    ? ['hunter','sniper','rusher','coward'][Math.floor(Math.random()*4)]
-    : personality;
+function makeBot(id, nick, color, spawnIdx){
   const sp = SPAWNS[spawnIdx % SPAWNS.length];
   const abs = pickNpcAbilities();
   return {
-    id, nick, color, personality:pers,
+    id, nick, color,
     x:sp.x, y:sp.y, angle:sp.a,
     hp:100, alive:true, kills:0,
     vx:0, vy:0, trail:[], invulnTimer:0,
     abilities:abs, shielded:false, ghost:false, invisible:false,
     stunTimer:0, speedBoost:false, ricBounces:false,
     aiTimer:Math.floor(Math.random()*200),
-    aiShootCd:Math.floor(Math.random()*60),
+    aiShootCd:Math.floor(Math.random()*60)+40,
     aiAbilityCd:[180+Math.floor(Math.random()*120), 240+Math.floor(Math.random()*120)],
-    aiWanderAngle:Math.random()*Math.PI*2,
-    respawnTimer:0,
-    // Per-personality state
-    sniperRetreatAngle: Math.random()*Math.PI*2,
-    cowardFleeing: false,
+    respawnTimer:0, aimSettleT:0, aimNoise:0,
   };
 }
 
 function startSinglePlayer(){
   myNick=document.getElementById('nick').value.trim()||'Player';
   if(selectedAbilities.length<2){alert('Choose 2 abilities first!');return;}
-  gameMode='sp';showScreen('game-screen');buildWalls();initAbilityState();
+  gameMode='sp';showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);buildWalls();initAbilityState();
   document.getElementById('hud-room').textContent='VS '+botCount+' BOT'+(botCount>1?'S':'')+' — '+botDifficulty.toUpperCase();
   document.getElementById('chat').style.display='none';
   // Spawn player
@@ -877,8 +969,7 @@ function startSinglePlayer(){
     const bid='npc_'+i;
     const bname=BOT_NAMES[i%BOT_NAMES.length];
     const bcolor=BOT_COLORS[i%BOT_COLORS.length];
-    const pers=botCount===1?selectedPersonality:['hunter','sniper','rusher','coward'][i%4];
-    const bot=makeBot(bid, bname, bcolor, i+1, pers);
+    const bot=makeBot(bid, bname, bcolor, i+1);
     npcs.push(bot);
     players[bid]=bot;
   }
@@ -888,9 +979,11 @@ function startSinglePlayer(){
   document.getElementById('go').classList.add('hide');
   updateAbilityHUD();
   profile.totalGames++;saveProfile();
+  xpSessionGained=0;sessionCoins=0;
+  const hc=document.getElementById('hud-coins');if(hc)hc.textContent='🪙 0';
   // Spawn initial ground medkits
   groundMedkits=[];medkitSpawnTimer=0;
-  for(let i=0;i<3;i++) spawnGroundMedkit();
+  spawnGroundMedkit();spawnGroundMedkit(); // start with 2
 }
 
 function pickNpcAbilities(){
@@ -951,14 +1044,15 @@ function useAbility(slot){
 }
 
 function activateAbility(tank, st, ab, slot, isMe){
+  if(isMe) awardXP('ability');
   const cdFrames=ab.cd*60;
   // Apply ability upgrades from player profile
   let abDuration = ab.duration;
   let abDmg = 35; // laser dmg
   if(tank.id===myId){
-    if(ab.id==='laser' && profile.abUpgrades['laser']) abDmg=52;
+    if(ab.id==='laser' && profile.abUpgrades['laser']) abDmg=53;
     if(ab.id==='heal' && profile.abUpgrades['heal']) { /* handled below */ }
-    if(ab.id==='speed' && profile.abUpgrades['speed']) abDuration=360;
+    if(ab.id==='speed' && profile.abUpgrades['speed']) abDuration=380;
     if(ab.id==='emp' && profile.abUpgrades['emp']) { /* handled below */ }
   }
   switch(ab.id){
@@ -997,7 +1091,7 @@ function activateAbility(tank, st, ab, slot, isMe){
       if(isMe) addChatLine('ABILITY','↩️ RICOCHET — bullets bounce 6×!',ab.color);
       break;
     case 'heal':
-      const healAmt=(tank.id===myId&&profile.abUpgrades['heal'])?60:40;
+      const healAmt=(tank.id===myId&&profile.abUpgrades['heal'])?65:40;
       tank.hp=Math.min(100, tank.hp+healAmt);
       st.cooldownTimer=cdFrames;
       spawnPart(tank.x,tank.y,'#40ff80',20,4);
@@ -1083,7 +1177,7 @@ function doTeleport(tank){
 }
 
 function doEMP(tank, isMe){
-  const radius=(tank.id===myId&&profile.abUpgrades['emp'])?300:200;
+  const radius=(tank.id===myId&&profile.abUpgrades['emp'])?310:200;
   spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',30,6);shakeFrames=8;
   for(const pid in players){
     const t=players[pid];if(t.id===tank.id||!t.alive) continue;
@@ -1114,7 +1208,7 @@ function applyHit(attacker, victim, dmg, bx, by, bid){
     addKF(attacker.nick,victim.nick);
     attacker.kills=(attacker.kills||0)+1;
     spawnCoins(victim.x,victim.y,victim.color,5);
-    if(attacker.id===myId){ awardXP(50,'kill'); profile.totalKills++;saveProfile(); }
+    if(attacker.id===myId){ awardXP('kill'); profile.totalKills++;saveProfile(); }
     if(gameMode==='mp'&&attacker.id===myId) channel.publish('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:0,knick:attacker.nick,vnick:victim.nick});
     updateHUD();
   }
@@ -1124,20 +1218,32 @@ function applyHit(attacker, victim, dmg, bx, by, bid){
 // ═══════════════════════════════════════════════════════════
 // NPC AI — MULTI-BOT + PERSONALITIES
 // ═══════════════════════════════════════════════════════════
+
+// ═══════════════════════════════════════════════════════════
+// NPC AI
+// ═══════════════════════════════════════════════════════════
 const NPC_PROFILES={
-  easy:  {speed:0.58, turnRate:0.026, shootCd:95,  aimNoise:0.45, abilityCd:700, reactionDist:340},
-  medium:{speed:0.82, turnRate:0.036, shootCd:52,  aimNoise:0.22, abilityCd:420, reactionDist:500},
-  hard:  {speed:1.08, turnRate:0.050, shootCd:30,  aimNoise:0.05, abilityCd:220, reactionDist:820},
+  easy:   {speed:0.55, turnRate:0.024, shootCd:140, settleFrames:38, aimTol:0.30, reactionDist:320, abilityCd:700},
+  medium: {speed:0.78, turnRate:0.034, shootCd:90,  settleFrames:22, aimTol:0.18, reactionDist:490, abilityCd:420},
+  hard:   {speed:1.05, turnRate:0.048, shootCd:55,  settleFrames:10, aimTol:0.09, reactionDist:780, abilityCd:220},
 };
 
-// Find closest medkit position
 function closestMedkit(bot){
   let best=null,bestD=Infinity;
-  groundMedkits.forEach(m=>{
-    const d=Math.hypot(m.x-bot.x,m.y-bot.y);
-    if(d<bestD){bestD=d;best=m;}
-  });
+  groundMedkits.forEach(m=>{const d=Math.hypot(m.x-bot.x,m.y-bot.y);if(d<bestD){bestD=d;best=m;}});
   return best;
+}
+
+function wallAvoidanceForce(bot){
+  const margin=80, force={x:0,y:0};
+  walls.forEach(w=>{
+    const cx=w.x+w.w/2, cy=w.y+w.h/2;
+    const dx=bot.x-cx, dy=bot.y-cy;
+    const dist=Math.hypot(dx,dy);
+    const minDist=Math.max(w.w,w.h)/2+margin;
+    if(dist<minDist&&dist>0){const str=(1-dist/minDist)*0.6;force.x+=dx/dist*str;force.y+=dy/dist*str;}
+  });
+  return force;
 }
 
 function updateSingleBot(bot){
@@ -1146,96 +1252,64 @@ function updateSingleBot(bot){
   bot.aiTimer++;
   if(bot.stunTimer>0){bot.stunTimer--;return;}
 
-  // Choose target: player or other bot (bots don't fight each other for now)
   const target = myTank && myTank.alive ? myTank : null;
   if(!target) return;
 
   const dx=target.x-bot.x, dy=target.y-bot.y;
   const dist=Math.hypot(dx,dy);
-  const pers = bot.personality || 'hunter';
 
-  // ── MEDKIT HUNTING: override movement if hurt and medkit nearby ──
-  const medkitHuntHp = pers==='coward' ? 60 : (pers==='sniper' ? 40 : 35);
-  const nearMedkit = bot.hp < medkitHuntHp ? closestMedkit(bot) : null;
-  let moveTarget = {x: target.x, y: target.y};
-  if(nearMedkit){
-    const md = Math.hypot(nearMedkit.x-bot.x, nearMedkit.y-bot.y);
-    if(md < 600){ moveTarget = {x: nearMedkit.x, y: nearMedkit.y}; bot.huntingMedkit=true; }
+  // ── MEDKIT HUNTING when low HP ──
+  const nearMedkit = bot.hp < 40 ? closestMedkit(bot) : null;
+  if(nearMedkit && Math.hypot(nearMedkit.x-bot.x,nearMedkit.y-bot.y)<650){
+    bot.huntingMedkit=true;
   } else { bot.huntingMedkit=false; }
 
-  // ── ANGLE TO MOVE TARGET ──
-  const mtDx = moveTarget.x-bot.x, mtDy = moveTarget.y-bot.y;
-  const aimAtTarget = Math.atan2(dy, dx) + (Math.random()-0.5)*prof.aimNoise;
-  const moveAngle = Math.atan2(mtDy, mtDx);
-  let desiredAngle = aimAtTarget;
+  // ── AIM: stable per-shot noise, re-rolled only on each shot ──
+  if(bot.aimNoise===undefined) bot.aimNoise=0;
+  const trueAimAngle = Math.atan2(dy,dx) + bot.aimNoise;
 
-  // ── PER-PERSONALITY BEHAVIOUR ──
-  let idealDist, moveAccel=0.5, moveMult=1;
-  switch(pers){
-    case 'sniper':
-      // stays far, retreats if player gets close, high accuracy
-      idealDist = 550;
-      desiredAngle = aimAtTarget;
-      if(dist < 300){
-        // retreat perpendicular
-        const retreatA = Math.atan2(bot.y-target.y, bot.x-target.x);
-        moveTarget = {x: bot.x+Math.cos(retreatA)*200, y: bot.y+Math.sin(retreatA)*200};
-      }
-      break;
-    case 'rusher':
-      // charges in, very aggressive, close range preference
-      idealDist = 120;
-      moveAccel = 0.7;
-      moveMult = 1.15;
-      break;
-    case 'coward':
-      // normal until below 45HP, then flees
-      idealDist = 400;
-      if(bot.hp < 45){
-        bot.cowardFleeing = true;
-        const fleeA = Math.atan2(bot.y-target.y, bot.x-target.x) + (bot.aiTimer%200<100 ? 0.5 : -0.5);
-        moveTarget = {x: bot.x+Math.cos(fleeA)*300, y: bot.y+Math.sin(fleeA)*300};
-      } else { bot.cowardFleeing = false; }
-      if(bot.cowardFleeing) moveMult=1.2;
-      break;
-    default: // hunter
-      idealDist = botDifficulty==='hard'?270:botDifficulty==='medium'?310:370;
-  }
-  if(bot.huntingMedkit) idealDist = 0;
+  const idealDist = botDifficulty==='hard'?260 : botDifficulty==='medium'?305 : 365;
 
   // ── ROTATE ──
-  let angleDiff = desiredAngle - bot.angle;
-  while(angleDiff>Math.PI) angleDiff-=Math.PI*2;
+  let angleDiff = trueAimAngle - bot.angle;
+  while(angleDiff>Math.PI)  angleDiff-=Math.PI*2;
   while(angleDiff<-Math.PI) angleDiff+=Math.PI*2;
-  const turn = Math.min(Math.abs(angleDiff),prof.turnRate*moveMult)*Math.sign(angleDiff);
-  bot.angle += turn;
+  bot.angle += Math.min(Math.abs(angleDiff), prof.turnRate) * Math.sign(angleDiff);
+
+  // ── AIM SETTLE: must hold aim before firing ──
+  bot.aimSettleT = bot.aimSettleT||0;
+  if(Math.abs(angleDiff) < prof.aimTol){ bot.aimSettleT=Math.min(bot.aimSettleT+1, prof.settleFrames+5); }
+  else { bot.aimSettleT=Math.max(0, bot.aimSettleT-2); }
+  const aimReady = bot.aimSettleT >= prof.settleFrames;
 
   // ── MOVE ──
-  const spd = T_SPD * prof.speed * moveMult * (bot.speedBoost?2:1);
-  const mdx2=moveTarget.x-bot.x, mdy2=moveTarget.y-bot.y;
-  const distToMove=Math.hypot(mdx2,mdy2);
-  if(bot.huntingMedkit && distToMove>20){
-    const ma=Math.atan2(mdy2,mdx2);
-    bot.vx+=Math.cos(ma)*moveAccel;bot.vy+=Math.sin(ma)*moveAccel;
-  } else if(!bot.huntingMedkit){
-    if(dist>idealDist+40){bot.vx+=Math.cos(bot.angle)*moveAccel;bot.vy+=Math.sin(bot.angle)*moveAccel;}
-    else if(dist<idealDist-40){bot.vx-=Math.cos(bot.angle)*0.3;bot.vy-=Math.sin(bot.angle)*0.3;}
-    else{const strafeA=bot.angle+Math.PI/2*(bot.aiTimer%120<60?1:-1);bot.vx+=Math.cos(strafeA)*0.28;bot.vy+=Math.sin(strafeA)*0.28;}
+  const spd = T_SPD * prof.speed * (bot.speedBoost?2:1);
+  if(bot.huntingMedkit){
+    const mk=closestMedkit(bot);
+    if(mk){const ma=Math.atan2(mk.y-bot.y,mk.x-bot.x);bot.vx+=Math.cos(ma)*0.5;bot.vy+=Math.sin(ma)*0.5;}
+  } else if(dist>idealDist+40){
+    bot.vx+=Math.cos(bot.angle)*0.48; bot.vy+=Math.sin(bot.angle)*0.48;
+  } else if(dist<idealDist-40){
+    bot.vx-=Math.cos(bot.angle)*0.28; bot.vy-=Math.sin(bot.angle)*0.28;
+  } else {
+    const strafeA=bot.angle+Math.PI/2*(bot.aiTimer%110<55?1:-1);
+    bot.vx+=Math.cos(strafeA)*0.25; bot.vy+=Math.sin(strafeA)*0.25;
   }
-
-  bot.vx*=0.83;bot.vy*=0.83;
-  const sv=Math.hypot(bot.vx,bot.vy);if(sv>spd){bot.vx=bot.vx/sv*spd;bot.vy=bot.vy/sv*spd;}
-  const px=bot.x,py=bot.y;
-  bot.x+=bot.vx; if(!bot.ghost&&tankInWall(bot)){bot.x=px;bot.vx*=-0.35;}
-  bot.y+=bot.vy; if(!bot.ghost&&tankInWall(bot)){bot.y=py;bot.vy*=-0.35;}
-  bot.trail=bot.trail||[];bot.trail.unshift({x:bot.x,y:bot.y});if(bot.trail.length>16)bot.trail.pop();
+  const waf=wallAvoidanceForce(bot);
+  bot.vx+=waf.x*0.4; bot.vy+=waf.y*0.4;
+  bot.vx*=0.82; bot.vy*=0.82;
+  const sv=Math.hypot(bot.vx,bot.vy); if(sv>spd){bot.vx=bot.vx/sv*spd;bot.vy=bot.vy/sv*spd;}
+  const px=bot.x, py=bot.y;
+  bot.x+=bot.vx; if(!bot.ghost&&tankInWall(bot)){bot.x=px;bot.vx*=-0.4;bot.aimSettleT=0;}
+  bot.y+=bot.vy; if(!bot.ghost&&tankInWall(bot)){bot.y=py;bot.vy*=-0.4;bot.aimSettleT=0;}
+  bot.trail=bot.trail||[]; bot.trail.unshift({x:bot.x,y:bot.y}); if(bot.trail.length>16)bot.trail.pop();
 
   // ── SHOOT ──
   if(bot.aiShootCd>0) bot.aiShootCd--;
-  const aimOk=Math.abs(angleDiff)<(pers==='sniper'?0.15:0.28)&&dist<prof.reactionDist;
-  const shouldShoot = pers==='coward' ? (!bot.cowardFleeing && aimOk) : aimOk;
-  if(bot.aiShootCd<=0 && shouldShoot && !bot.huntingMedkit){
-    bot.aiShootCd = prof.shootCd * (pers==='rusher'?0.75:1);
+  if(bot.aiShootCd<=0 && aimReady && dist<prof.reactionDist && !bot.huntingMedkit){
+    bot.aiShootCd = Math.ceil(prof.shootCd * (1.0 + Math.random()*0.5));
+    bot.aimNoise = (Math.random()-0.5)*prof.aimTol*2.2;
+    bot.aimSettleT = 0;
     const bid=bot.id+'_b'+(bulletSeq++);
     const bx=bot.x+Math.cos(bot.angle)*22, by=bot.y+Math.sin(bot.angle)*22;
     bullets.push({id:bid,x:bx,y:by,vx:Math.cos(bot.angle)*B_SPD,vy:Math.sin(bot.angle)*B_SPD,owner:bot.id,color:bot.color,bounces:0,maxBounce:bot.ricBounces?6:2});
@@ -1247,16 +1321,17 @@ function updateSingleBot(bot){
     const abId=bot.abilities[i];if(!abId) continue;
     const ab=ABILITIES[abId];if(!ab) continue;
     let use=false;
+    const aimOk=Math.abs(angleDiff)<0.25&&dist<prof.reactionDist;
     switch(abId){
       case 'heal':      use=bot.hp<50;break;
-      case 'shield':    use=dist<(pers==='sniper'?200:300);break;
-      case 'speed':     use=(pers==='rusher'&&dist>200)||(pers==='coward'&&bot.cowardFleeing)||(dist>400||bot.hp<40);break;
+      case 'shield':    use=dist<300;break;
+      case 'speed':     use=dist>400||bot.hp<40;break;
       case 'ghost':     use=bot.aiTimer%300<10&&dist<500;break;
-      case 'invisible': use=bot.hp<60||(pers==='sniper'&&bot.hp<80);break;
-      case 'teleport':  use=(pers==='coward'&&bot.hp<40)||(bot.hp<30);break;
-      case 'emp':       use=dist<(pers==='rusher'?280:180);break;
-      case 'laser':     use=dist<(pers==='sniper'?700:460)&&aimOk;break;
-      case 'triple':    use=dist<400&&aimOk&&pers!=='sniper';break;
+      case 'invisible': use=bot.hp<60;break;
+      case 'teleport':  use=bot.hp<30;break;
+      case 'emp':       use=dist<200;break;
+      case 'laser':     use=dist<500&&aimOk;break;
+      case 'triple':    use=dist<400&&aimOk;break;
       case 'ricochet':  use=bot.aiTimer%200<8;break;
     }
     if(use){
@@ -1265,25 +1340,31 @@ function updateSingleBot(bot){
     }
   }
 
-  // ── TICK BOT ACTIVE EFFECTS ──
-  if(bot.ghost){bot.ghostT=(bot.ghostT||ABILITIES.ghost.duration);bot.ghostT--;if(bot.ghostT<=0){bot.ghost=false;bot.ghostT=0;}}
-  if(bot.speedBoost){bot.speedT=(bot.speedT||ABILITIES.speed.duration);bot.speedT--;if(bot.speedT<=0){bot.speedBoost=false;bot.speedT=0;}}
+  // ── TICK ACTIVE EFFECTS ──
+  if(bot.ghost)    {bot.ghostT   =(bot.ghostT   ||ABILITIES.ghost.duration);   bot.ghostT--;   if(bot.ghostT<=0)   {bot.ghost=false;   bot.ghostT=0;}}
+  if(bot.invisible){bot.invisT   =(bot.invisT   ||ABILITIES.invisible.duration);bot.invisT--;  if(bot.invisT<=0)   {bot.invisible=false;bot.invisT=0;}}
+  if(bot.speedBoost){bot.speedT  =(bot.speedT   ||ABILITIES.speed.duration);   bot.speedT--;   if(bot.speedT<=0)   {bot.speedBoost=false;bot.speedT=0;}}
+  if(bot.shielded) {bot.shieldT  =(bot.shieldT  ||ABILITIES.shield.duration);  bot.shieldT--;  if(bot.shieldT<=0)  {bot.shielded=false; bot.shieldT=0;}}
+  if(bot.ricBounces){bot.ricT    =(bot.ricT     ||ABILITIES.ricochet.duration); bot.ricT--;     if(bot.ricT<=0)     {bot.ricBounces=false;bot.ricT=0;}}
 }
 
 function updateAllNPCs(){
   npcs.forEach(bot=>{
-    if(bot.alive) updateSingleBot(bot);
+    if(bot.alive){ updateSingleBot(bot); }
     else {
       bot.respawnTimer=(bot.respawnTimer||0)+1;
       if(bot.respawnTimer>=RESPAWN_SECS*60){
         const sp=SPAWNS[1+Math.floor(Math.random()*(SPAWNS.length-1))];
-        Object.assign(bot,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,ghost:false,invisible:false,shielded:false,stunTimer:0,speedBoost:false,ricBounces:false,cowardFleeing:false,huntingMedkit:false,respawnTimer:0,aiShootCd:60});
+        Object.assign(bot,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,
+          ghost:false,ghostT:0,invisible:false,invisT:0,shielded:false,shieldT:0,stunTimer:0,
+          speedBoost:false,speedT:0,ricBounces:false,ricT:0,huntingMedkit:false,
+          respawnTimer:0,aiShootCd:80,aimSettleT:0,aimNoise:0});
       }
     }
   });
 }
 
-// legacy
+// legacy compat
 function updateNPC(){ if(npc) updateSingleBot(npc); }
 function respawnNPC(){ if(!npc) return; const sp=SPAWNS[3+Math.floor(Math.random()*5)]; Object.assign(npc,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,ghost:false,invisible:false,shielded:false,stunTimer:0,speedBoost:false,ricBounces:false,aiShootCd:60}); }
 let npcRespawnTimer=0;
@@ -1333,7 +1414,7 @@ function doStart(spawnMap,nonce){
     if(players[id]) Object.assign(players[id],{x:s.x,y:s.y,angle:s.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:0,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false});
   });
   initAbilityState();
-  groundMedkits=[];medkitSpawnTimer=0;for(let i=0;i<3;i++) spawnGroundMedkit();
+  groundMedkits=[];medkitSpawnTimer=0;spawnGroundMedkit();spawnGroundMedkit(); // start with 2
   camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();hideOverlay();updateHUD();
 }
 function getRandomSpawn(){let best=SPAWNS[0],bestDist=0;SPAWNS.forEach(sp=>{let minDist=Infinity;Object.values(players).forEach(p=>{if(p.alive&&p.id!==myId) minDist=Math.min(minDist,Math.hypot(p.x-sp.x,p.y-sp.y));});if(minDist>bestDist){bestDist=minDist;best=sp;}});return best;}
@@ -1342,7 +1423,7 @@ function respawnMe(){
   const sp=getRandomSpawn();
   myTank.x=sp.x;myTank.y=sp.y;myTank.angle=sp.a;myTank.hp=100;myTank.alive=true;myTank.vx=0;myTank.vy=0;myTank.trail=[];
   myTank.invulnTimer=180;myTank.ghost=false;myTank.invisible=false;myTank.shielded=false;myTank.stunTimer=0;myTank.speedBoost=false;myTank.ricBounces=false;
-  awardXP(10,'survived');
+  awardXP('survived');
   // re-sync selected abilities
   selectedAbilities=[myAbilityState[0].id,myAbilityState[1].id];
   // reset ability timers for newly switched abilities
@@ -1421,7 +1502,15 @@ function updateCoins(){
   if(myTank&&myTank.alive){
     coins=coins.filter(c=>{
       if(c.age<20) return true;
-      if(Math.hypot(c.x-myTank.x,c.y-myTank.y)<22){spawnPart(c.x,c.y,'#ffd700',6,3);if(channel) channel.publish('evt',{e:'coin_collect',cid:c.id});return false;}
+      if(Math.hypot(c.x-myTank.x,c.y-myTank.y)<22){
+        spawnPart(c.x,c.y,'#ffd700',8,3);
+        awardXP('coin');
+        sessionCoins++;
+        const hc=document.getElementById('hud-coins');
+        if(hc) hc.textContent='🪙 '+sessionCoins;
+        if(channel) channel.publish('evt',{e:'coin_collect',cid:c.id});
+        return false;
+      }
       return true;
     });
   }
@@ -1495,7 +1584,8 @@ function update(){
     for(const pid in players){
       if(pid===b.owner) continue;
       const t=players[pid];if(!t.alive||t.invulnTimer>0) continue;
-      if(t.invisible&&b.owner===myId) continue; // invisible enemies dodge player bullets only
+      // Invisible players have 65% dodge chance vs bullets
+      if(t.invisible && b.owner!==t.id && Math.random()<0.65) continue;
       if(Math.hypot(b.x-t.x,b.y-t.y)<18){
         const attacker=players[b.owner]||myTank;
         applyHit(attacker,t,20,b.x,b.y,b.id);
@@ -1509,16 +1599,17 @@ function update(){
   // Player death trigger
   if(myTank&&!myTank.alive&&deathCountdown===0){
     deathCountdown=RESPAWN_SECS*60;
+    profile.totalDeaths++;saveProfile();
     document.getElementById('death-screen').style.display='flex';
     document.getElementById('death-timer').textContent='Respawning in '+RESPAWN_SECS+'...';
-    document.getElementById('death-xp').textContent='LV '+profile.level+' ★ '+getRank(profile.level);
+    document.getElementById('death-xp').textContent='LV '+profile.level+' '+getRank(profile.level)+' — '+xpSessionGained+' XP this game';
     deathSelectedSlot=0;
     selectDeathSlot(0);
     buildDeathAbilityGrid();
   }
 
   tickAbilities();
-  if(gameMode==='mp') updateCoins();
+  updateCoins(); // runs in both mp and sp
   updateGroundMedkits();
   for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.91;p.vy*=.91;p.life-=p.decay;if(p.life<=0)particles.splice(i,1);}
   for(let i=shockwaves.length-1;i>=0;i--){const s=shockwaves[i];s.r+=(s.maxR-s.r)*.18;s.life-=.055;if(s.life<=0)shockwaves.splice(i,1);}
@@ -1550,7 +1641,11 @@ function addChatLine(nick,msg,color){
 }
 function sendChat(){const ci=document.getElementById('ci'),msg=ci.value.trim();if(!msg||!channel) return;channel.publish('chat',{nick:myNick,msg,color:myColor});addChatLine('YOU',msg,myColor);ci.value='';}
 function addKF(k,v){const kf=document.getElementById('kf');const d=document.createElement('div');d.className='kfe';d.textContent=k+' ⚡ '+v;kf.appendChild(d);setTimeout(()=>d.remove(),4000);}
-function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
 
 // ═══════════════════════════════════════════════════════════
 // SURRENDER
@@ -1566,12 +1661,13 @@ function doSurrender(){
   }
   // Clean up
   bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];
+  if(xpSessionGained>0) awardXP('game'); xpSessionGained=0;
   players={};myTank=null;npc=null;npcs=[];channel=null;npcRespawnTimer=0;deathCountdown=0;
   document.getElementById('surrender-confirm').style.display='none';
   document.getElementById('death-screen').style.display='none';
   document.getElementById('go').classList.remove('hide');
   document.getElementById('chat').style.display='';
-  showScreen('lobby-screen');
+  document.body.classList.remove('in-game');showScreen('lobby-screen');
   stat('Select a server and join.','ok');
   document.getElementById('join-btn').disabled=false;
   document.getElementById('sp-btn').style.display=(gameMode==='sp'?'inline-block':'none');
@@ -1583,27 +1679,39 @@ function doSurrender(){
 // ═══════════════════════════════════════════════════════════
 let groundMedkits=[];
 let medkitSeq=0;
-const MEDKIT_POSITIONS=[
-  {x:1000,y:750},{x:500,y:400},{x:1500,y:400},{x:500,y:1100},{x:1500,y:1100},
-  {x:1000,y:300},{x:1000,y:1200},{x:300,y:750},{x:1700,y:750},{x:700,y:700},{x:1300,y:700}
-];
 let medkitSpawnTimer=0;
-const MEDKIT_SPAWN_INTERVAL=600; // 10 seconds
-const MEDKIT_MAX=5;
+const MEDKIT_SPAWN_INTERVAL=1200; // 20 seconds between spawns
+const MEDKIT_MAX=3;               // max 3 on map at once
 const MEDKIT_HEAL=25;
+const MEDKIT_MIN_DIST=200;        // min distance from walls and other medkits
+
+function randomMedkitPos(){
+  // Try up to 30 times to find a valid random position
+  for(let attempt=0;attempt<30;attempt++){
+    const x=100+Math.random()*(MAP_W-200);
+    const y=100+Math.random()*(MAP_H-200);
+    // Not inside a wall
+    let inWall=false;
+    for(const w of walls){
+      if(x>w.x-20&&x<w.x+w.w+20&&y>w.y-20&&y<w.y+w.h+20){inWall=true;break;}
+    }
+    if(inWall) continue;
+    // Not too close to existing medkits
+    let tooClose=false;
+    for(const m of groundMedkits){
+      if(Math.hypot(m.x-x,m.y-y)<MEDKIT_MIN_DIST){tooClose=true;break;}
+    }
+    if(tooClose) continue;
+    return {x,y};
+  }
+  return null;
+}
 
 function spawnGroundMedkit(){
   if(groundMedkits.length>=MEDKIT_MAX) return;
-  // pick a position not already occupied
-  const used=new Set(groundMedkits.map(m=>m.posIdx));
-  const avail=MEDKIT_POSITIONS.map((p,i)=>i).filter(i=>!used.has(i));
-  if(avail.length===0) return;
-  const idx=avail[Math.floor(Math.random()*avail.length)];
-  const pos=MEDKIT_POSITIONS[idx];
-  // don't spawn inside a wall
-  let inWall=false;for(const w of walls){if(pos.x>w.x&&pos.x<w.x+w.w&&pos.y>w.y&&pos.y<w.y+w.h){inWall=true;break;}}
-  if(inWall) return;
-  groundMedkits.push({id:'mk'+(medkitSeq++),x:pos.x,y:pos.y,posIdx:idx,pulse:0});
+  const pos=randomMedkitPos();
+  if(!pos) return;
+  groundMedkits.push({id:'mk'+(medkitSeq++),x:pos.x,y:pos.y,pulse:0});
 }
 
 function updateGroundMedkits(){
@@ -1621,7 +1729,7 @@ function updateGroundMedkits(){
         spawnPart(m.x,m.y,'#40ff80',16,4);
         spawnWave(m.x,m.y,'#40ff80');
         groundMedkits.splice(i,1);
-        if(t.id===myId){ addChatLine('PICKUP','❤ +'+MEDKIT_HEAL+' HP from medkit!','#40ff80'); awardXP(5,'medkit'); }
+        if(t.id===myId){ addChatLine('PICKUP','❤ +'+MEDKIT_HEAL+' HP from medkit!','#40ff80'); awardXP('medkit'); }
         updateHUD();
         break;
       }
@@ -1755,13 +1863,7 @@ function drawTank(t,isMe){
   if(t.shielded){ctx.globalAlpha=0.5+Math.sin(roundTimer*0.15)*0.3;ctx.strokeStyle='#40c8ff';ctx.shadowColor='#40c8ff';ctx.shadowBlur=18;ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,22,0,Math.PI*2);ctx.stroke();}
   // ricochet highlight
   if(t.ricBounces){ctx.globalAlpha=0.3;ctx.strokeStyle='#ff9900';ctx.shadowColor='#ff9900';ctx.shadowBlur=12;ctx.lineWidth=2;ctx.setLineDash([4,4]);ctx.beginPath();ctx.arc(0,0,24,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);}
-  // personality icon for bots
-  if(!isMe && t.personality){
-    const pIcon={'hunter':'🎯','sniper':'🔭','rusher':'⚡','coward':'💨','random':'🎲'}[t.personality]||'🤖';
-    ctx.save();ctx.font='13px Arial';ctx.textAlign='center';
-    ctx.fillText(pIcon, t.x+18, t.y-38);
-    ctx.restore();
-  }
+
   ctx.restore();
   // name + hp bar (above tank)
   ctx.save();ctx.textAlign='center';ctx.shadowColor='#000';ctx.shadowBlur=6;
