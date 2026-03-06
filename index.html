@@ -9,7 +9,7 @@
 :root{--gold:#ffd700;--red:#ff4040;--blue:#40c8ff;--green:#40ff80;--bg:#07070f;--border:rgba(255,255,255,0.09);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{background:var(--bg);font-family:'VT323',monospace;color:#fff;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;overflow-x:hidden;overflow-y:auto;}
-body.in-game{overflow:hidden;height:100vh;position:fixed;width:100%;}
+body.in-game{overflow:hidden;height:100vh;position:fixed;width:100%;top:0;left:0;}
 body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:36px 36px;animation:gm 22s linear infinite;pointer-events:none;z-index:0;}
 @keyframes gm{from{background-position:0 0}to{background-position:0 36px}}
 #app{position:relative;z-index:1;width:100%;max-width:980px;display:flex;flex-direction:column;align-items:center;padding:20px 0 40px;}
@@ -159,7 +159,6 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
 .diff-btn{flex:1;padding:10px 6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);cursor:pointer;text-align:center;font-family:'Black Ops One',cursive;font-size:11px;letter-spacing:2px;color:#444;transition:all .2s;}
 .diff-btn.on{border-color:var(--gold);color:var(--gold);background:rgba(255,215,0,0.05);}
 
-
 /* XP / Level Panel */
 #xp-panel{position:fixed;top:12px;right:12px;z-index:99998;width:210px;background:rgba(0,0,0,0.92);border:1px solid rgba(255,215,0,0.28);padding:12px 14px;font-family:'VT323',monospace;transition:opacity 0.3s;}
 body.in-game #xp-panel{opacity:0;pointer-events:none;}
@@ -185,12 +184,34 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
 .skin-btn.locked{opacity:0.35;cursor:not-allowed;}
 .skin-btn .skin-lv{font-size:9px;color:#ff4040;letter-spacing:1px;}
 
-
 /* Laser beam */
 .laser-fx{position:absolute;pointer-events:none;}
 
 /* Ability effects overlay */
 #fx-overlay{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;pointer-events:none;z-index:7;}
+
+/* Duplicate name warning */
+#name-taken-overlay{
+  display:none;position:fixed;inset:0;z-index:999990;
+  background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);
+  flex-direction:column;align-items:center;justify-content:center;
+  animation:ntfadein .2s ease;
+}
+@keyframes ntfadein{from{opacity:0}to{opacity:1}}
+#name-taken-overlay.show{display:flex;}
+.nt-box{
+  border:2px solid #ff4040;padding:32px 48px;text-align:center;
+  background:rgba(0,0,0,0.95);box-shadow:0 0 60px rgba(255,64,64,0.4);
+  animation:ntshake .4s cubic-bezier(.36,.07,.19,.97);
+}
+@keyframes ntshake{10%,90%{transform:translateX(-5px);}20%,80%{transform:translateX(7px);}30%,50%,70%{transform:translateX(-7px);}40%,60%{transform:translateX(7px);}}
+.nt-icon{font-size:48px;margin-bottom:12px;animation:ntspin .6s ease;}
+@keyframes ntspin{from{transform:rotate(-20deg) scale(0.5)}to{transform:none}}
+.nt-title{font-family:'Black Ops One',cursive;font-size:26px;letter-spacing:5px;color:#ff4040;text-shadow:0 0 30px #ff4040;margin-bottom:8px;}
+.nt-sub{font-size:15px;letter-spacing:3px;color:#888;margin-bottom:24px;}
+.nt-name{color:#ff4040;font-family:'Black Ops One',cursive;}
+.nt-btn{background:transparent;border:2px solid #ff4040;color:#ff4040;font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:4px;padding:12px 32px;cursor:pointer;transition:all .2s;}
+.nt-btn:hover{background:rgba(255,64,64,0.12);box-shadow:0 0 24px rgba(255,64,64,0.5);}
 </style>
 </head>
 <body>
@@ -246,6 +267,15 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
   </div>
 </div>
 
+<!-- DUPLICATE NAME WARNING -->
+<div id="name-taken-overlay">
+  <div class="nt-box">
+    <div class="nt-icon">⚠️</div>
+    <div class="nt-title">NAME TAKEN</div>
+    <div class="nt-sub">A player named <span class="nt-name" id="nt-name-display">???</span> is already in that server.</div>
+    <button class="nt-btn" onclick="document.getElementById('name-taken-overlay').classList.remove('show');document.getElementById('nick').focus();">✎ CHANGE NAME</button>
+  </div>
+</div>
 
 <!-- XP / LEVEL PANEL -->
 <div id="xp-panel">
@@ -315,12 +345,12 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
         <div class="ability-grid" id="ability-grid"></div>
       </div>
 
-
       <!-- Skin / Unlock Preview -->
-      <div id="skin-section">
+      <div id="skin-section" style="width:100%;">
         <div style="font-size:10px;letter-spacing:4px;color:#2a2a38;margin-bottom:6px;">TANK SKIN</div>
         <div class="skin-row" id="skin-row"></div>
       </div>
+
       <!-- XP How It Works info (collapsed) -->
       <div id="xp-info-toggle" onclick="toggleXPInfo()" style="width:100%;padding:6px 10px;background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.1);cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
         <span style="font-family:'Black Ops One',cursive;font-size:10px;letter-spacing:3px;color:#2a2a38;">HOW XP WORKS</span>
@@ -329,7 +359,7 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
       <div id="xp-info-box" style="display:none;width:100%;background:rgba(0,0,0,0.4);border:1px solid rgba(255,215,0,0.08);border-top:none;padding:10px 12px;font-size:11px;color:#444;letter-spacing:1px;line-height:1.9;">
         <div>⚔️ <b style="color:#666">Kill enemy</b> — +60 XP</div>
         <div>💀 <b style="color:#666">Survive a life</b> — +15 XP</div>
-        <div>❤️ <b style="color:#666">Pick up medkit</b> — +8 XP</div>
+        <div>❤️ <b style="color:#666">Pick up medkit</b> — +8 XP &nbsp;(heals 30 HP)</div>
         <div>⚡ <b style="color:#666">Use an ability</b> — +3 XP</div>
         <div>🏁 <b style="color:#666">Complete a game</b> — +25 XP</div>
         <div style="margin-top:6px;color:#2a2a38;">Level up to unlock skins &amp; ability upgrades.</div>
@@ -341,9 +371,9 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
         <div style="font-size:10px;letter-spacing:4px;color:#2a2a38;margin-bottom:6px;">PICK A SERVER</div>
         <div class="sv-row" id="svgrid"></div>
       </div>
-      <div id="lstat" class="wait">Connecting<span class="dot-anim"></span></div>
+      <div id="lstat" class="wait">Pick a server to join</div>
       <div style="display:flex;gap:12px;">
-        <button class="btn" id="join-btn" disabled onclick="doJoin()">⚔ JOIN BATTLE</button>
+        <button class="btn" id="join-btn" onclick="doJoin()">⚔ JOIN BATTLE</button>
         <button class="btn btn-red" id="sp-btn" style="display:none" onclick="startSinglePlayer()">▶ PLAY vs BOT</button>
       </div>
       <div style="font-size:11px;color:#1a1a28;letter-spacing:2px;">ARROWS — MOVE &nbsp;|&nbsp; SPACE — FIRE &nbsp;|&nbsp; Q / E — USE ABILITIES</div>
@@ -414,6 +444,12 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
         </div>
       </div>
       <button id="surrender-btn" onclick="showSurrenderConfirm()">🏳 SURRENDER</button>
+      <div id="game-summary" style="display:none;position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;z-index:25;background:rgba(0,0,0,0.96);flex-direction:column;align-items:center;justify-content:center;gap:12px;">
+        <div style="font-family:'Black Ops One',cursive;font-size:28px;letter-spacing:6px;color:var(--gold);text-shadow:0 0 20px var(--gold);" id="summary-title">BATTLE OVER</div>
+        <div id="summary-stats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;width:420px;margin-top:8px;"></div>
+        <div id="summary-xp" style="font-size:14px;letter-spacing:3px;color:#40ff80;margin-top:4px;"></div>
+        <button class="btn" onclick="hideSummary()" style="margin-top:12px;">BACK TO LOBBY</button>
+      </div>
       <div id="surrender-confirm">
         <h2>SURRENDER?</h2>
         <p>You will forfeit this battle and return to the lobby.</p>
@@ -430,7 +466,7 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
   </div>
 </div>
 
-<script src="https://cdn.ably.com/lib/ably.min-2.js"></script>
+<!-- multiplayer via WebSocket relay, no external SDK needed -->
 <script>
 
 // ═══════════════════════════════════════════════════════════
@@ -466,15 +502,17 @@ const XP_SOURCES = {
   kill:     {amt:60, label:'Enemy destroyed'},
   assist:   {amt:20, label:'Assist'},
   survived: {amt:15, label:'Survived a life'},
-  medkit:   {amt:8,  label:'Medkit collected'},
   ability:  {amt:3,  label:'Ability used'},
   coin:     {amt:4,  label:'Coin collected'},
+  medkit:   {amt:8,  label:'Medkit collected'},
   game:     {amt:25, label:'Game completed'},
 };
 
 let profile = loadProfile();
-let xpSessionGained = 0; // track XP earned this game session
-let sessionCoins = 0;     // coins collected this game
+let xpSessionGained = 0;
+let sessionCoins = 0;
+let myKillStreak = 0;
+let floatDmgNums = [];
 
 function loadProfile(){
   try {
@@ -526,7 +564,7 @@ function onLevelUp(newLv){
   }
   saveProfile();
   showLevelUpToast('LEVEL UP  ▲  '+newLv, getRank(newLv), subMsg);
-  buildSkinRow();
+  
   updateXPUI();
 }
 
@@ -591,7 +629,7 @@ function resetProfile(){
   profile = loadProfile();
   xpSessionGained = 0;
   updateXPUI();
-  buildSkinRow();
+  
   selectedSkin = 'default';
 }
 
@@ -603,17 +641,14 @@ function buildSkinRow(){
     const locked = profile.level < sk.unlockLv;
     const d = document.createElement('div');
     d.className = 'skin-btn' + (selectedSkin===sk.id?' on':'') + (locked?' locked':'');
-    d.innerHTML = '<span>' + sk.name + '</span>' + (locked?'<span class="skin-lv">LV'+sk.unlockLv+'</span>':'');
+    d.innerHTML = sk.emoji+' <span>' + sk.name + '</span>' + (locked?'<span class="skin-lv">LV'+sk.unlockLv+'</span>':'');
     if(!locked) d.onclick = () => { selectedSkin = sk.id; buildSkinRow(); };
     row.appendChild(d);
   });
 }
 
-
-
 let selectedSkin = 'default';
 const botCount = 1;
-
 
 function toggleXPInfo(){
   const box = document.getElementById('xp-info-box');
@@ -626,7 +661,10 @@ function toggleXPInfo(){
 // Init on load
 window.addEventListener('load', ()=>{
   updateXPUI();
+  
   buildSkinRow();
+  setMode('mp'); // init correct display state
+  refreshBtn();
 });
 
 // ═══════════════════════════════════════════════════════════
@@ -649,8 +687,6 @@ const ABILITY_LIST = Object.values(ABILITIES);
 // ═══════════════════════════════════════════════════════════
 // GAME CONFIG
 // ═══════════════════════════════════════════════════════════
-const ABLY_KEY='Xzs3kg.94NIEw:6DtlFTphDJ7SPj-HQKQfI-oVMLXHw5H1vU0JVu8VhlY';
-const ROOMS=[{id:'tc-r1',name:'Server 1',flag:'🔴'},{id:'tc-r2',name:'Server 2',flag:'🔵'},{id:'tc-r3',name:'Server 3',flag:'🟢'}];
 const MAX_P=8,COLORS=['#ff4040','#40c8ff','#ffd700','#40ff80','#ff40ff','#ff9900','#00ffee','#a0ff40'];
 const MAP_W=2000,MAP_H=1500,VP_W=820,VP_H=560;
 const SPAWNS=[
@@ -665,10 +701,13 @@ const T_SPD=3.2,T_TRN=0.046,B_SPD=8,F_CD=28,RESPAWN_SECS=4;
 // STATE
 // ═══════════════════════════════════════════════════════════
 let myId='p'+Math.random().toString(36).slice(2,9);
-let myNick='Player',myColor=COLORS[0],myRoom=null;
-let ably=null,channel=null,connected=false;
+let myNick='Player',myColor=COLORS[0];
+// Multiplayer state
+let ws=null, wsRoom=null, mqttWs=null, mqttConnected=false, mqttPingInterval=null, mqttTopic=null;
+let hostConn=null, guestConns=[];  // unused stubs for compat
+let isHost=false, connected=false;
+let channel={publish:(type,data)=>broadcast(type,data)};  // shim
 let players={},myTank=null,gameActive=false;
-let svCounts={};
 let camX=MAP_W/2-VP_W/2,camY=MAP_H/2-VP_H/2;
 let bullets=[],particles=[],shockwaves=[],walls=[],coins=[];
 let roundTimer=0,shakeFrames=0,shootTimer=0,bulletSeq=0;
@@ -797,15 +836,19 @@ function setMode(m) {
   document.getElementById('mode-sp').classList.toggle('on', m==='sp');
   document.getElementById('sv-section').style.display = m==='mp' ? 'block' : 'none';
   document.getElementById('diff-section').style.display = m==='sp' ? 'block' : 'none';
-  document.getElementById('join-btn').style.display = m==='mp' ? 'inline-block' : 'none';
   document.getElementById('sp-btn').style.display = m==='sp' ? 'inline-block' : 'none';
-  if (m==='sp') document.getElementById('lstat').textContent='';
-  buildSkinRow();
+  refreshBtn();
+  if(m==='mp'){ renderServers(); stat('Pick a server to join',''); }
+  else stat('','');
+  
 }
 function setDiff(d) {
   botDifficulty = d;
-  ['easy','med','hard'].forEach(x=>document.getElementById('diff-'+x).classList.remove('on'));
-  document.getElementById('diff-'+d).classList.add('on');
+  // Element IDs: diff-easy, diff-med, diff-hard
+  // d values:    'easy',    'medium',  'hard'
+  const idMap = {easy:'easy', medium:'med', hard:'hard'};
+  ['easy','med','hard'].forEach(x => document.getElementById('diff-'+x).classList.remove('on'));
+  document.getElementById('diff-'+idMap[d]).classList.add('on');
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -822,112 +865,304 @@ COLORS.forEach((c,i)=>{
 // ═══════════════════════════════════════════════════════════
 // SERVER UI
 // ═══════════════════════════════════════════════════════════
+function stat(m,c){
+  const e=document.getElementById('lstat');
+  if(!e) return;
+  e.innerHTML=m;
+  // c is 'ok','err','wait' or ''
+  e.style.color = c==='ok'?'#40ff80' : c==='err'?'#ff4040' : c==='wait'?'#ffd700' : '#555';
+  e.style.textShadow = c?'0 0 8px currentColor':'';
+}
+
+// ══════════════════════════════════════════════════════
+// SERVER PICKER
+// ══════════════════════════════════════════════════════
+const SERVERS = [
+  {id:'s1', name:'SERVER 1', flag:'🔴'},
+  {id:'s2', name:'SERVER 2', flag:'🔵'},
+  {id:'s3', name:'SERVER 3', flag:'🟢'},
+];
+let selectedServer = null;
+let svCounts = {s1:0, s2:0, s3:0};
+
 function renderServers(){
-  const grid=document.getElementById('svgrid');grid.innerHTML='';
-  ROOMS.forEach(r=>{
-    const cnt=svCounts[r.id]||0,full=cnt>=MAX_P,pct=(cnt/MAX_P)*100;
-    const bc=pct<50?'#40ff80':pct<80?'#ffd700':'#ff4040';
-    const d=document.createElement('div');
-    d.className='sv'+(full?' full':'')+(myRoom===r.id?' on':'');
-    d.innerHTML='<div class="sv-flag">'+r.flag+'</div><div class="sv-name">'+r.name+'</div><div class="sv-cnt" style="color:'+bc+'">'+cnt+'<span style="color:#333;font-size:13px"> / '+MAX_P+'</span></div><div class="sv-bar"><div class="sv-fill" style="width:'+pct+'%;background:'+bc+'"></div></div><div class="sv-tick">✓ SELECTED</div>';
-    if(!full) d.onclick=()=>{myRoom=r.id;renderServers();refreshBtn();};
+  const grid = document.getElementById('svgrid');
+  if(!grid) return;
+  grid.innerHTML = '';
+  SERVERS.forEach(sv=>{
+    const cnt = svCounts[sv.id]||0;
+    const d = document.createElement('div');
+    d.className = 'sv' + (selectedServer===sv.id?' on':'');
+    d.innerHTML = '<div class="sv-flag">'+sv.flag+'</div>'
+      +'<div class="sv-name">'+sv.name+'</div>'
+      +'<div class="sv-cnt" style="color:#40ff80">'+cnt
+      +'<span style="color:#333;font-size:13px"> online</span></div>'
+      +'<div class="sv-tick">✓</div>';
+    d.onclick = ()=>{ selectedServer=sv.id; renderServers(); refreshBtn(); };
     grid.appendChild(d);
   });
 }
-renderServers();
-function refreshBtn(){const ok=connected&&!!myRoom;const btn=document.getElementById('join-btn');btn.disabled=!ok;}
-function stat(m,c){const e=document.getElementById('lstat');e.textContent=m;e.className=c||'';}
 
-// ═══════════════════════════════════════════════════════════
-// ABLY CONNECT
-// ═══════════════════════════════════════════════════════════
-window.addEventListener('load',()=>{
-  stat('Connecting...','wait');
-  ably=new Ably.Realtime({key:ABLY_KEY,clientId:myId});
-  ably.connection.on('connected',()=>{
-    connected=true;stat('Connected! Pick a server and join.','ok');refreshBtn();
-    ROOMS.forEach(r=>{
-      const ch=ably.channels.get(r.id);
-      const refresh=()=>{ch.presence.get().then(m=>{svCounts[r.id]=m.length;renderServers();}).catch(()=>{});};
-      ch.attach().then(()=>{ch.presence.subscribe(refresh);refresh();}).catch(()=>{});
-    });
-  });
-  ably.connection.on('failed',()=>{connected=false;stat('Connection failed','err');refreshBtn();});
-  ably.connection.on('disconnected',()=>{connected=false;stat('Disconnected—reconnecting...','err');refreshBtn();});
-});
+function refreshBtn(){
+  // button is always enabled; doJoin() will validate server selection
+}
 
-document.getElementById('nick').oninput=()=>{
-  const val=document.getElementById('nick').value;
-  myNick=val.trim()||'Player';
-  // Easter egg cheat code
-  if(val.trim().toLowerCase()==='hacker67') activateCheatCode();
-};
+// ══════════════════════════════════════════════════════
+// WEBSOCKET MULTIPLAYER
+// Uses free public WS relay — no account, no API key,
+// works from file:// and http://
+// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════
+// MQTT MULTIPLAYER via HiveMQ public broker
+// wss://broker.hivemq.com:8884/mqtt
+// True pub/sub — messages go to ALL subscribers on a topic.
+// No account, no API key, completely free, battle-tested.
+// ══════════════════════════════════════════════════════════
+const MQTT_URL = 'wss://broker.hivemq.com:8884/mqtt';
 
-function activateCheatCode(){
-  // Unlock all ability upgrades
-  Object.values(AB_UPGRADES).forEach(u=>{ profile.abUpgrades[u.ability]=true; });
-  // Bump level to at least 25 to unlock all skins (keep existing xp/kills)
-  if(profile.level < 25){
-    profile.level = 25;
-    profile.xp = 0;
+function buildMqttConnect(clientId){
+  // MQTT 3.1.1 CONNECT packet
+  const clientIdBytes = new TextEncoder().encode(clientId);
+  const len = 10 + 2 + clientIdBytes.length;
+  const buf = new Uint8Array(2 + len);
+  let i = 0;
+  buf[i++] = 0x10; // CONNECT
+  buf[i++] = len;
+  // Protocol name "MQTT"
+  buf[i++]=0;buf[i++]=4;buf[i++]=77;buf[i++]=81;buf[i++]=84;buf[i++]=84;
+  buf[i++] = 4;    // Protocol level 3.1.1
+  buf[i++] = 2;    // Connect flags: clean session
+  buf[i++] = 0;buf[i++] = 60; // keepalive 60s
+  buf[i++] = 0;buf[i++] = clientIdBytes.length;
+  clientIdBytes.forEach(b=>buf[i++]=b);
+  return buf;
+}
+function buildMqttSubscribe(topic, msgId){
+  const tb = new TextEncoder().encode(topic);
+  const len = 2 + 2 + tb.length + 1;
+  const buf = new Uint8Array(2 + len);
+  let i=0;
+  buf[i++]=0x82;buf[i++]=len;
+  buf[i++]=(msgId>>8)&0xff;buf[i++]=msgId&0xff;
+  buf[i++]=0;buf[i++]=tb.length;
+  tb.forEach(b=>buf[i++]=b);
+  buf[i++]=0; // QoS 0
+  return buf;
+}
+function buildMqttPublish(topic, payload){
+  const tb = new TextEncoder().encode(topic);
+  const pb = new TextEncoder().encode(payload);
+  const len = 2 + tb.length + pb.length;
+  const buf = new Uint8Array(2 + len);
+  let i=0;
+  buf[i++]=0x30;buf[i++]=len; // PUBLISH, QoS 0
+  buf[i++]=0;buf[i++]=tb.length;
+  tb.forEach(b=>buf[i++]=b);
+  pb.forEach(b=>buf[i++]=b);
+  return buf;
+}
+function buildMqttPingReq(){ return new Uint8Array([0xC0,0x00]); }
+function parseMqttPacket(data){
+  const buf = new Uint8Array(data);
+  const type = (buf[0]>>4);
+  if(type===3){ // PUBLISH
+    let i=2; // skip fixed header
+    const topicLen=(buf[i++]<<8)|buf[i++];
+    const topic=new TextDecoder().decode(buf.slice(i,i+topicLen)); i+=topicLen;
+    const payload=new TextDecoder().decode(buf.slice(i));
+    return {type:'publish', topic, payload};
   }
-  saveProfile();
-  updateXPUI();
-  buildSkinRow();
-  // Flash the nick field red briefly
+  if(type===2) return {type:'connack', rc:buf[3]};
+  if(type===9) return {type:'suback'};
+  if(type===13) return {type:'pingresp'};
+  return {type:'unknown', code:type};
+}
+
+function broadcast(type, data){
+  if(!mqttWs || mqttWs.readyState!==WebSocket.OPEN || !mqttConnected) return;
+  const payload = JSON.stringify({from:myId, type, data});
+  mqttWs.send(buildMqttPublish(mqttTopic, payload));
+}
+
+function closeWS(){
+  clearInterval(mqttPingInterval); mqttPingInterval=null;
+  try{if(mqttWs){mqttWs.onclose=null;mqttWs.onerror=null;mqttWs.close();}}catch(e){}
+  mqttWs=null; mqttTopic=null; mqttConnected=false; connected=false;
+}
+function closePeer(){ closeWS(); }
+
+function doJoin(){
+  if(!selectedServer){ stat('⚠ Pick a server first!','err'); return; }
+  myNick = document.getElementById('nick').value.trim()||'Player';
+  if(selectedAbilities.length<2){ stat('⚠ Choose 2 abilities first!','err'); return; }
+  // Check for duplicate name among connected players
+  const nameTaken = Object.values(players).some(p => p.id !== myId && p.nick && p.nick.toLowerCase() === myNick.toLowerCase());
+  if(nameTaken){
+    document.getElementById('nt-name-display').textContent = myNick;
+    document.getElementById('name-taken-overlay').classList.add('show');
+    return;
+  }
+  connectMQTT();
+}
+
+function connectMQTT(){
+  closeWS();
+  mqttTopic = 'tankclash/v7/' + selectedServer;
+  const serverName = SERVERS.find(s=>s.id===selectedServer).name;
+  stat('Connecting to '+serverName+'...','wait');
+
+  const timeout = setTimeout(()=>{
+    if(!connected) stat('Connection timed out — check your internet','err');
+  }, 10000);
+
+  try{ mqttWs = new WebSocket(MQTT_URL, ['mqtt']); }
+  catch(e){ clearTimeout(timeout); stat('WebSocket error: '+e.message,'err'); return; }
+  mqttWs.binaryType = 'arraybuffer';
+
+  mqttWs.onopen = ()=>{
+    // Send CONNECT packet
+    const clientId = 'tc-'+myId.slice(0,10);
+    mqttWs.send(buildMqttConnect(clientId));
+  };
+
+  mqttWs.onmessage = e=>{
+    const pkt = parseMqttPacket(e.data);
+    if(pkt.type==='connack'){
+      clearTimeout(timeout);
+      if(pkt.rc!==0){ stat('MQTT auth error: '+pkt.rc,'err'); return; }
+      // Subscribe to our topic
+      mqttWs.send(buildMqttSubscribe(mqttTopic, 1));
+      // Start keepalive ping
+      mqttPingInterval = setInterval(()=>{
+        if(mqttWs&&mqttWs.readyState===WebSocket.OPEN) mqttWs.send(buildMqttPingReq());
+      }, 45000);
+      // Now we're connected — announce and enter game
+      mqttConnected=true; connected=true;
+      broadcast('_hello',{nick:myNick, color:myColor, abilities:selectedAbilities});
+      stat('Connected ✓','ok');
+      regPlayer(myId, myNick, myColor, selectedAbilities);
+      showScreen('game-screen');
+      document.body.classList.add('in-game');
+      window.scrollTo(0,0);
+      document.getElementById('hud-room').textContent = serverName;
+      buildWalls(); showPhase('conn');
+      setTimeout(()=>showPhase('wait'),400);
+      refreshLobbyOverlay(); initAbilityState();
+    } else if(pkt.type==='publish'){
+      if(pkt.topic !== mqttTopic) return;
+      let msg; try{ msg=JSON.parse(pkt.payload); }catch(er){return;}
+      if(!msg||msg.from===myId) return;
+      if(msg.type==='_hello'){
+        // Check for name conflict after connecting
+        if(!gameActive && msg.data.nick && msg.data.nick.toLowerCase() === myNick.toLowerCase() && msg.from !== myId){
+          document.getElementById('nt-name-display').textContent = myNick;
+          document.getElementById('name-taken-overlay').classList.add('show');
+          broadcast('_bye',{});
+          closeWS();
+          showScreen('lobby-screen');document.body.classList.remove('in-game');
+          return;
+        }
+        regPlayer(msg.from, msg.data.nick, msg.data.color, msg.data.abilities||[]);
+        if(!gameActive) refreshLobbyOverlay();
+        // Re-announce so newcomer sees us
+        broadcast('_hello',{nick:myNick, color:myColor, abilities:selectedAbilities});
+      } else if(msg.type==='_bye'){
+        delete players[msg.from];
+        if(!gameActive) refreshLobbyOverlay();
+      } else if(msg.type==='mv')  onMove({data:msg.data});
+      else if(msg.type==='evt')   onEvt({data:msg.data});
+      else if(msg.type==='chat')  onChatMsg({data:msg.data});
+    }
+  };
+
+  mqttWs.onerror = ()=>{ if(!connected) stat('Connection error — check internet','err'); };
+  mqttWs.onclose = ()=>{
+    clearInterval(mqttPingInterval); mqttPingInterval=null;
+    if(connected){ connected=false; mqttConnected=false; stat('Disconnected','err'); refreshLobbyOverlay(); }
+  };
+}
+
+// Cheat code — defined first so it's always available
+function activateCheatCode(){
+  Object.values(AB_UPGRADES).forEach(u=>{ profile.abUpgrades[u.ability]=true; });
+  if(profile.level < 25){ profile.level=25; profile.xp=0; }
+  saveProfile(); updateXPUI(); 
+  // Flash nick field
   const el=document.getElementById('nick');
-  el.style.borderColor='#ff4040';
-  el.style.color='#ff4040';
-  setTimeout(()=>{ el.style.borderColor=''; el.style.color=''; }, 1200);
-  // Show hacker toast
+  el.style.borderColor='#ff4040'; el.style.color='#ff4040'; el.style.textShadow='0 0 8px #ff4040';
+  setTimeout(()=>{ el.style.borderColor=''; el.style.color=''; el.style.textShadow=''; }, 1800);
+  // Big toast
   const t=document.createElement('div');
   t.className='xp-unlock-toast';
-  t.style.cssText='border-color:#ff4040;';
-  t.innerHTML='<div class="xp-toast-title" style="color:#ff4040">⚠ HACKER67 ⚠</div>'
-    +'<div style="font-size:11px;letter-spacing:3px;color:#ff6666;margin:4px 0;">ALL UPGRADES UNLOCKED</div>'
-    +'<div class="xp-toast-sub">Every ability upgraded. Use wisely.</div>';
+  t.style.cssText='border-color:#ff4040;min-width:320px;';
+  t.innerHTML='<div class="xp-toast-title" style="color:#ff4040;font-size:24px">⚠ HACKER67 ⚠</div>'
+    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin:6px 0 4px">ALL ABILITIES UPGRADED</div>'
+    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL SKINS UNLOCKED — LV 25</div>'
+    +'<div class="xp-toast-sub" style="color:#ff4040;opacity:0.6">use wisely, soldier</div>';
   document.body.appendChild(t);
-  setTimeout(()=>t.remove(), 4000);
-  // Also add a chat line if in game
+  setTimeout(()=>t.remove(), 5000);
   if(gameActive) addChatLine('⚠','CHEAT ACTIVATED','#ff4040');
+}
+
+// Nick input — use addEventListener so nothing can overwrite it
+document.getElementById('nick').addEventListener('input', function(){
+  const val = this.value;
+  myNick = val.trim() || 'Player';
+  if(val.trim().toLowerCase() === 'hacker67') activateCheatCode();
+});
+
+function showSummary(won){
+  const el=document.getElementById('game-summary');
+  const title=document.getElementById('summary-title');
+  const stats=document.getElementById('summary-stats');
+  const xpEl=document.getElementById('summary-xp');
+  if(!el) return;
+  title.textContent = won ? '⚔ VICTORY' : '💀 DEFEATED';
+  title.style.color = won ? 'var(--gold)' : 'var(--red)';
+  // Build stat cards
+  const myKills = myTank ? (myTank.kills||0) : 0;
+  const items = [
+    {icon:'⚔',label:'KILLS',val:myKills},
+    {icon:'🪙',label:'COINS',val:sessionCoins},
+    {icon:'⭐',label:'XP EARNED',val:xpSessionGained},
+  ];
+  stats.innerHTML = items.map(it=>'<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);padding:14px 8px;text-align:center;">'
+    +'<div style="font-size:22px">'+it.icon+'</div>'
+    +'<div style="font-family:Black Ops One,cursive;font-size:20px;color:var(--gold);margin:4px 0">'+it.val+'</div>'
+    +'<div style="font-size:9px;letter-spacing:3px;color:#333">'+it.label+'</div></div>').join('');
+  xpEl.textContent = 'LEVEL '+profile.level+' — '+getRank(profile.level);
+  el.style.display='flex';
+}
+function hideSummary(){
+  const el=document.getElementById('game-summary');
+  if(el) el.style.display='none';
+  doSurrender();
+}
+
+function showStreakBanner(streak, bonus){
+  const msgs=['','','','TRIPLE KILL!','QUAD KILL!','PENTA KILL!','RAMPAGE!!','UNSTOPPABLE!!!'];
+  const msg = msgs[Math.min(streak, msgs.length-1)] || (streak+'× KILLSTREAK!');
+  const colors = ['','','','#ff9900','#ff4040','#ff00ff','#ff0000','#ffffff'];
+  const col = colors[Math.min(streak, colors.length-1)] || '#ff4040';
+  const b = document.createElement('div');
+  b.style.cssText='position:fixed;top:35%;left:50%;transform:translateX(-50%);z-index:99999;'
+    +'font-family:"Black Ops One",cursive;font-size:28px;letter-spacing:6px;color:'+col+';'
+    +'text-shadow:0 0 30px '+col+';pointer-events:none;animation:xpfloat 1.8s ease forwards;'
+    +'text-align:center;';
+  b.innerHTML = msg + '<div style="font-size:14px;letter-spacing:3px;margin-top:4px;color:var(--gold)">+XP BONUS</div>';
+  document.body.appendChild(b);
+  setTimeout(()=>b.remove(), 1900);
+  // Screen tint
+  const tint=document.createElement('div');
+  tint.style.cssText='position:fixed;inset:0;z-index:99990;pointer-events:none;background:'+col+'22;animation:xpfloat 0.6s ease forwards;';
+  document.body.appendChild(tint);
+  setTimeout(()=>tint.remove(), 650);
 }
 
 // ═══════════════════════════════════════════════════════════
 // JOIN MULTIPLAYER
 // ═══════════════════════════════════════════════════════════
-function doJoin(){
-  myNick=document.getElementById('nick').value.trim()||'Player';
-  if(selectedAbilities.length<2){stat('Choose 2 abilities first!','err');return;}
-  channel=ably.channels.get(myRoom);
-  channel.presence.get()
-    .then(members=>{
-      const taken=members.some(m=>m.data&&m.data.nick&&m.data.nick.toLowerCase()===myNick.toLowerCase());
-      if(taken){document.getElementById('nick-err').textContent='That name is taken!';return;}
-      actuallyJoin();
-    }).catch(()=>actuallyJoin());
-}
-function actuallyJoin(){
-  document.getElementById('join-btn').disabled=true;
-  channel.subscribe('mv',onMove);channel.subscribe('evt',onEvt);channel.subscribe('chat',onChatMsg);
-  channel.presence.subscribe(msg=>{
-    if(msg.clientId===myId) return;
-    if(msg.action==='enter'||msg.action==='present') regPlayer(msg.clientId,msg.data.nick,msg.data.color,msg.data.abilities||[]);
-    if(msg.action==='leave') delete players[msg.clientId];
-    if(!gameActive) refreshLobbyOverlay();
-  });
-  channel.presence.enter({nick:myNick,color:myColor,abilities:selectedAbilities})
-    .then(()=>{
-      showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);initAbilityState();
-      document.getElementById('hud-room').textContent='SERVER '+(ROOMS.findIndex(r=>r.id===myRoom)+1);
-      buildWalls();showPhase('conn');
-      return channel.presence.get();
-    })
-    .then(members=>{
-      members.forEach(m=>{if(m.clientId!==myId) regPlayer(m.clientId,m.data.nick,m.data.color,m.data.abilities||[]);});
-      showPhase('wait');refreshLobbyOverlay();
-    })
-    .catch(err=>{stat('Join failed: '+(err.message||String(err)),'err');document.getElementById('join-btn').disabled=false;});
-}
+// doJoin/doHost defined above in PeerJS block
 
 // ═══════════════════════════════════════════════════════════
 // SINGLE PLAYER
@@ -980,11 +1215,12 @@ function startSinglePlayer(){
   updateAbilityHUD();
   profile.totalGames++;saveProfile();
   xpSessionGained=0;sessionCoins=0;
+  groundMedkits=[];medkitSpawnTimer=0;
+  for(let _i=0;_i<10&&groundMedkits.length<2;_i++) spawnGroundMedkit();myKillStreak=0;floatDmgNums=[];
   const hc=document.getElementById('hud-coins');if(hc)hc.textContent='🪙 0';
   // Spawn initial ground medkits
-  groundMedkits=[];medkitSpawnTimer=0;
-  spawnGroundMedkit();spawnGroundMedkit(); // start with 2
-}
+  // Guarantee exactly 2 medkits at game start
+  }
 
 function pickNpcAbilities(){
   const pool=Object.keys(ABILITIES);
@@ -1109,12 +1345,20 @@ function tickAbilities(){
     if(st.cooldownTimer>0) st.cooldownTimer--;
     if(st.active){
       st.activeTimer--;
+      // Flash the ability slot in last second as warning
+      const slotEl=document.getElementById('ab-slot-'+i);
+      if(slotEl){
+        if(st.activeTimer<=60 && st.activeTimer>0){
+          slotEl.style.outline = Math.floor(st.activeTimer/8)%2===0 ? '2px solid #ff4040' : '';
+        } else { slotEl.style.outline=''; }
+      }
       if(st.activeTimer<=0){
+        if(slotEl) slotEl.style.outline='';
         st.active=false;
         st.cooldownTimer=ab.cd*60;
         // deactivate effect
         switch(ab.id){
-          case 'ghost': if(myTank) myTank.ghost=false;break;
+          case 'ghost': if(myTank){ myTank.ghost=false; pushOutOfWall(myTank); }break;
           case 'invisible': if(myTank) myTank.invisible=false;break;
           case 'shield': if(myTank) myTank.shielded=false;break;
           case 'speed': if(myTank) myTank.speedBoost=false;break;
@@ -1154,7 +1398,7 @@ function fireLaser(tank, isMe){
       }
     }
   }
-  if(isMe&&channel) channel.publish('evt',{e:'ability',from:myId,ab:'laser',angle});
+  if(isMe&&connected) broadcast('evt',{e:'ability',from:myId,ab:'laser',angle});
 }
 
 function fireTriple(tank, isMe){
@@ -1164,7 +1408,7 @@ function fireTriple(tank, isMe){
     const bid=tank.id+'_t'+(bulletSeq++)+'_'+i;
     const bx=tank.x+Math.cos(a)*22,by=tank.y+Math.sin(a)*22;
     bullets.push({id:bid,x:bx,y:by,vx:Math.cos(a)*B_SPD,vy:Math.sin(a)*B_SPD,owner:tank.id,color:tank.color,bounces:0,maxBounce});
-    if(isMe&&channel) channel.publish('evt',{e:'shoot',from:myId,bid,bx,by,angle:a});
+    if(isMe&&connected) broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:a});
   });
   spawnPart(tank.x,tank.y,tank.color,8,3);
 }
@@ -1200,7 +1444,7 @@ function applyHit(attacker, victim, dmg, bx, by, bid){
   const newHp=Math.max(0,(victim.hp||100)-dmg);victim.hp=newHp;
   if(newHp>0) victim.invulnTimer=80;
   spawnPart(bx,by,victim.color,14,4);spawnWave(bx,by,victim.color);shakeFrames=6;
-  if(gameMode==='mp'&&attacker.id===myId) channel.publish('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:newHp,knick:attacker.nick,vnick:victim.nick});
+  if(gameMode==='mp'&&attacker.id===myId) broadcast('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:newHp,knick:attacker.nick,vnick:victim.nick});
   if(newHp<=0){
     victim.alive=false;victim.invulnTimer=0;
     victim.ghost=false;victim.invisible=false;victim.stunTimer=0;victim.speedBoost=false;victim.ricBounces=false;victim.shielded=false;
@@ -1208,8 +1452,16 @@ function applyHit(attacker, victim, dmg, bx, by, bid){
     addKF(attacker.nick,victim.nick);
     attacker.kills=(attacker.kills||0)+1;
     spawnCoins(victim.x,victim.y,victim.color,5);
-    if(attacker.id===myId){ awardXP('kill'); profile.totalKills++;saveProfile(); }
-    if(gameMode==='mp'&&attacker.id===myId) channel.publish('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:0,knick:attacker.nick,vnick:victim.nick});
+    if(attacker.id===myId){
+      profile.totalKills++; saveProfile();
+      myKillStreak = (myKillStreak||0) + 1;
+      if(myKillStreak>=3){
+        const bonus = myKillStreak*10;
+        awardXP('kill'); awardXP('kill'); // double XP on streaks
+        showStreakBanner(myKillStreak, bonus);
+      } else { awardXP('kill'); }
+    }
+    if(gameMode==='mp'&&attacker.id===myId) broadcast('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:0,knick:attacker.nick,vnick:victim.nick});
     updateHUD();
   }
   updateHUD();
@@ -1258,12 +1510,6 @@ function updateSingleBot(bot){
   const dx=target.x-bot.x, dy=target.y-bot.y;
   const dist=Math.hypot(dx,dy);
 
-  // ── MEDKIT HUNTING when low HP ──
-  const nearMedkit = bot.hp < 40 ? closestMedkit(bot) : null;
-  if(nearMedkit && Math.hypot(nearMedkit.x-bot.x,nearMedkit.y-bot.y)<650){
-    bot.huntingMedkit=true;
-  } else { bot.huntingMedkit=false; }
-
   // ── AIM: stable per-shot noise, re-rolled only on each shot ──
   if(bot.aimNoise===undefined) bot.aimNoise=0;
   const trueAimAngle = Math.atan2(dy,dx) + bot.aimNoise;
@@ -1282,6 +1528,10 @@ function updateSingleBot(bot){
   else { bot.aimSettleT=Math.max(0, bot.aimSettleT-2); }
   const aimReady = bot.aimSettleT >= prof.settleFrames;
 
+  // ── MEDKIT HUNTING when low HP ──
+  const nearMedkit = bot.hp < 40 ? closestMedkit(bot) : null;
+  bot.huntingMedkit = !!(nearMedkit && Math.hypot(nearMedkit.x-bot.x,nearMedkit.y-bot.y)<650);
+
   // ── MOVE ──
   const spd = T_SPD * prof.speed * (bot.speedBoost?2:1);
   if(bot.huntingMedkit){
@@ -1289,9 +1539,9 @@ function updateSingleBot(bot){
     if(mk){const ma=Math.atan2(mk.y-bot.y,mk.x-bot.x);bot.vx+=Math.cos(ma)*0.5;bot.vy+=Math.sin(ma)*0.5;}
   } else if(dist>idealDist+40){
     bot.vx+=Math.cos(bot.angle)*0.48; bot.vy+=Math.sin(bot.angle)*0.48;
-  } else if(dist<idealDist-40){
+  } else if(!bot.huntingMedkit && dist<idealDist-40){
     bot.vx-=Math.cos(bot.angle)*0.28; bot.vy-=Math.sin(bot.angle)*0.28;
-  } else {
+  } else if(!bot.huntingMedkit){
     const strafeA=bot.angle+Math.PI/2*(bot.aiTimer%110<55?1:-1);
     bot.vx+=Math.cos(strafeA)*0.25; bot.vy+=Math.sin(strafeA)*0.25;
   }
@@ -1341,7 +1591,7 @@ function updateSingleBot(bot){
   }
 
   // ── TICK ACTIVE EFFECTS ──
-  if(bot.ghost)    {bot.ghostT   =(bot.ghostT   ||ABILITIES.ghost.duration);   bot.ghostT--;   if(bot.ghostT<=0)   {bot.ghost=false;   bot.ghostT=0;}}
+  if(bot.ghost)    {bot.ghostT   =(bot.ghostT   ||ABILITIES.ghost.duration);   bot.ghostT--;   if(bot.ghostT<=0)   {bot.ghost=false;bot.ghostT=0;pushOutOfWall(bot);}}
   if(bot.invisible){bot.invisT   =(bot.invisT   ||ABILITIES.invisible.duration);bot.invisT--;  if(bot.invisT<=0)   {bot.invisible=false;bot.invisT=0;}}
   if(bot.speedBoost){bot.speedT  =(bot.speedT   ||ABILITIES.speed.duration);   bot.speedT--;   if(bot.speedT<=0)   {bot.speedBoost=false;bot.speedT=0;}}
   if(bot.shielded) {bot.shieldT  =(bot.shieldT  ||ABILITIES.shield.duration);  bot.shieldT--;  if(bot.shieldT<=0)  {bot.shielded=false; bot.shieldT=0;}}
@@ -1353,12 +1603,18 @@ function updateAllNPCs(){
     if(bot.alive){ updateSingleBot(bot); }
     else {
       bot.respawnTimer=(bot.respawnTimer||0)+1;
+      // Check if ALL bots dead and no respawn pending for SP win
+      const allDead=npcs.every(b=>!b.alive);
+      if(allDead&&bot.respawnTimer===1&&gameMode==='sp'){
+        awardXP('game');
+        setTimeout(()=>showSummary(true),600);
+        return;
+      }
       if(bot.respawnTimer>=RESPAWN_SECS*60){
         const sp=SPAWNS[1+Math.floor(Math.random()*(SPAWNS.length-1))];
         Object.assign(bot,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,
           ghost:false,ghostT:0,invisible:false,invisT:0,shielded:false,shieldT:0,stunTimer:0,
-          speedBoost:false,speedT:0,ricBounces:false,ricT:0,huntingMedkit:false,
-          respawnTimer:0,aiShootCd:80,aimSettleT:0,aimNoise:0});
+          speedBoost:false,speedT:0,ricBounces:false,ricT:0,respawnTimer:0,aiShootCd:80,aimSettleT:0,aimNoise:0});
       }
     }
   });
@@ -1396,14 +1652,15 @@ function allPlayers(){const me={id:myId,nick:myNick,color:myColor,kills:players[
 // ═══════════════════════════════════════════════════════════
 let lastNonce='';
 function reqStart(){
-  const ids=[myId,...Object.keys(players)];
+  const ids=[myId,...Object.keys(players).filter(id=>id!==myId)];
   const spawnMap={};ids.forEach((id,i)=>{spawnMap[id]=SPAWNS[i%SPAWNS.length];});
   const nonce=Math.random().toString(36).slice(2);
-  channel.publish('evt',{e:'start',spawnMap,nonce});
+  broadcast('evt',{e:'start',spawnMap,nonce});
+  doStart(spawnMap,nonce); // host also starts themselves
 }
 function doStart(spawnMap,nonce){
   if(nonce&&nonce===lastNonce) return;if(nonce) lastNonce=nonce;
-  bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];roundTimer=0;shootTimer=0;gameActive=true;deathCountdown=0;
+  bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;roundTimer=0;shootTimer=0;gameActive=true;deathCountdown=0;
   document.getElementById('death-screen').style.display='none';
   const sp=spawnMap[myId]||SPAWNS[0];
   myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:players[myId]?.kills||0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false,skin:selectedSkin};
@@ -1414,7 +1671,8 @@ function doStart(spawnMap,nonce){
     if(players[id]) Object.assign(players[id],{x:s.x,y:s.y,angle:s.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:0,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false});
   });
   initAbilityState();
-  groundMedkits=[];medkitSpawnTimer=0;spawnGroundMedkit();spawnGroundMedkit(); // start with 2
+  groundMedkits=[];medkitSpawnTimer=0;
+  for(let _i=0;_i<10&&groundMedkits.length<2;_i++) spawnGroundMedkit();
   camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();hideOverlay();updateHUD();
 }
 function getRandomSpawn(){let best=SPAWNS[0],bestDist=0;SPAWNS.forEach(sp=>{let minDist=Infinity;Object.values(players).forEach(p=>{if(p.alive&&p.id!==myId) minDist=Math.min(minDist,Math.hypot(p.x-sp.x,p.y-sp.y));});if(minDist>bestDist){bestDist=minDist;best=sp;}});return best;}
@@ -1430,7 +1688,7 @@ function respawnMe(){
   myTank.abilities=selectedAbilities;
   camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();
   document.getElementById('death-screen').style.display='none';
-  if(channel) channel.publish('evt',{e:'respawn',id:myId,x:sp.x,y:sp.y,a:sp.a});
+  if(connected) broadcast('evt',{e:'respawn',id:myId,x:sp.x,y:sp.y,a:sp.a});
   updateHUD();updateAbilityHUD();
 }
 
@@ -1473,6 +1731,26 @@ function lerp(a,b,t){return a+(b-a)*t;}
 function lerpAngle(a,b,t){let d=b-a;while(d>Math.PI)d-=Math.PI*2;while(d<-Math.PI)d+=Math.PI*2;return a+d*t;}
 function rectsOverlap(ax,ay,aw,ah,bx,by,bw,bh){return ax<bx+bw&&ax+aw>bx&&ay<by+bh&&ay+ah>by;}
 function tankInWall(t){for(const w of walls)if(rectsOverlap(t.x-14,t.y-12,28,24,w.x,w.y,w.w,w.h))return w;return null;}
+
+// Push tank out of any wall it's overlapping — used when ghost expires mid-wall
+function pushOutOfWall(t){
+  const w=tankInWall(t);
+  if(!w) return; // not stuck, nothing to do
+  // Find which edge of the wall is closest and eject to just outside it
+  const overlapLeft  = (t.x+14) - w.x;
+  const overlapRight = (w.x+w.w) - (t.x-14);
+  const overlapTop   = (t.y+12) - w.y;
+  const overlapBot   = (w.y+w.h) - (t.y-12);
+  const min = Math.min(overlapLeft, overlapRight, overlapTop, overlapBot);
+  if(min===overlapLeft)  t.x = w.x - 14 - 2;
+  else if(min===overlapRight) t.x = w.x + w.w + 14 + 2;
+  else if(min===overlapTop)   t.y = w.y - 12 - 2;
+  else                        t.y = w.y + w.h + 12 + 2;
+  t.vx=0; t.vy=0;
+  // Clamp to map bounds just in case
+  t.x=Math.max(16,Math.min(MAP_W-16,t.x));
+  t.y=Math.max(14,Math.min(MAP_H-14,t.y));
+}
 function bulletHitsWall(b){for(const w of walls)if(b.x>w.x&&b.x<w.x+w.w&&b.y>w.y&&b.y<w.y+w.h)return w;return null;}
 function clampCam(){camX=Math.max(0,Math.min(MAP_W-VP_W,camX));camY=Math.max(0,Math.min(MAP_H-VP_H,camY));}
 
@@ -1498,7 +1776,14 @@ function spawnWave(x,y,color){shockwaves.push({x,y,r:4,maxR:70,life:1,color});}
 let coinSeq=0;
 function spawnCoins(x,y,color,n){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,r=20+Math.random()*40;coins.push({id:myId+'_c'+(coinSeq++),x:x+Math.cos(a)*r,y:y+Math.sin(a)*r,color,life:1,age:0,vx:Math.cos(a)*2,vy:Math.sin(a)*2});}}
 function updateCoins(){
-  coins.forEach(c=>{c.x+=c.vx;c.y+=c.vy;c.vx*=0.88;c.vy*=0.88;c.age++;});
+  coins.forEach(c=>{
+    // Magnet: coins within 80px get pulled toward the player
+    if(myTank&&myTank.alive&&c.age>15){
+      const mdx=myTank.x-c.x, mdy=myTank.y-c.y, md=Math.hypot(mdx,mdy);
+      if(md<80&&md>0){ const pull=0.4*(1-md/80); c.vx+=mdx/md*pull; c.vy+=mdy/md*pull; }
+    }
+    c.x+=c.vx;c.y+=c.vy;c.vx*=0.88;c.vy*=0.88;c.age++;
+  });
   if(myTank&&myTank.alive){
     coins=coins.filter(c=>{
       if(c.age<20) return true;
@@ -1508,7 +1793,7 @@ function updateCoins(){
         sessionCoins++;
         const hc=document.getElementById('hud-coins');
         if(hc) hc.textContent='🪙 '+sessionCoins;
-        if(channel) channel.publish('evt',{e:'coin_collect',cid:c.id});
+        if(connected) broadcast('evt',{e:'coin_collect',cid:c.id});
         return false;
       }
       return true;
@@ -1521,7 +1806,7 @@ function updateCoins(){
 // MOVE / SHOOT
 // ═══════════════════════════════════════════════════════════
 let lastSend=0;
-function trySendMove(){if(!channel||!myTank) return;const now=Date.now();if(now-lastSend<50) return;lastSend=now;channel.publish('mv',{id:myId,x:Math.round(myTank.x*10)/10,y:Math.round(myTank.y*10)/10,angle:Math.round(myTank.angle*100)/100});}
+function trySendMove(){if(!connected||!myTank) return;const now=Date.now();if(now-lastSend<50) return;lastSend=now;broadcast('mv',{id:myId,x:Math.round(myTank.x*10)/10,y:Math.round(myTank.y*10)/10,angle:Math.round(myTank.angle*100)/100});}
 function tryShoot(){
   if(!myTank||!myTank.alive||shootTimer>0) return;
   shootTimer=F_CD;
@@ -1530,7 +1815,7 @@ function tryShoot(){
   const maxBounce=myTank.ricBounces?6:2;
   bullets.push({id:bid,x:bx,y:by,vx:Math.cos(myTank.angle)*B_SPD,vy:Math.sin(myTank.angle)*B_SPD,owner:myId,color:myTank.color,bounces:0,maxBounce});
   myTank.vx-=Math.cos(myTank.angle)*1.5;myTank.vy-=Math.sin(myTank.angle)*1.5;
-  if(channel) channel.publish('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});
+  if(connected) broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});
 }
 
 // ═══════════════════════════════════════════════════════════
@@ -1600,6 +1885,7 @@ function update(){
   if(myTank&&!myTank.alive&&deathCountdown===0){
     deathCountdown=RESPAWN_SECS*60;
     profile.totalDeaths++;saveProfile();
+    myKillStreak=0;
     document.getElementById('death-screen').style.display='flex';
     document.getElementById('death-timer').textContent='Respawning in '+RESPAWN_SECS+'...';
     document.getElementById('death-xp').textContent='LV '+profile.level+' '+getRank(profile.level)+' — '+xpSessionGained+' XP this game';
@@ -1609,8 +1895,8 @@ function update(){
   }
 
   tickAbilities();
-  updateCoins(); // runs in both mp and sp
-  updateGroundMedkits();
+  updateCoins();
+  updateGroundMedkits(); // runs in both mp and sp
   for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.91;p.vy*=.91;p.life-=p.decay;if(p.life<=0)particles.splice(i,1);}
   for(let i=shockwaves.length-1;i>=0;i--){const s=shockwaves[i];s.r+=(s.maxR-s.r)*.18;s.life-=.055;if(s.life<=0)shockwaves.splice(i,1);}
 }
@@ -1639,7 +1925,7 @@ function addChatLine(nick,msg,color){
   log.appendChild(d);log.scrollTop=log.scrollHeight;
   while(log.children.length>16) log.removeChild(log.firstChild);
 }
-function sendChat(){const ci=document.getElementById('ci'),msg=ci.value.trim();if(!msg||!channel) return;channel.publish('chat',{nick:myNick,msg,color:myColor});addChatLine('YOU',msg,myColor);ci.value='';}
+function sendChat(){const ci=document.getElementById('ci'),msg=ci.value.trim();if(!msg||!connected) return;broadcast('chat',{nick:myNick,msg,color:myColor});addChatLine('YOU',msg,myColor);ci.value='';}
 function addKF(k,v){const kf=document.getElementById('kf');const d=document.createElement('div');d.className='kfe';d.textContent=k+' ⚡ '+v;kf.appendChild(d);setTimeout(()=>d.remove(),4000);}
 function showScreen(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
@@ -1656,55 +1942,54 @@ function doSurrender(){
   gameActive=false;
   if(channel){
     addChatLine('SYSTEM',myNick+' surrendered!','#ff4040');
-    channel.publish('chat',{nick:'SYSTEM',msg:myNick+' surrendered!',color:'#ff4040'});
-    channel.presence.leave();
+    broadcast('chat',{nick:'SYSTEM',msg:myNick+' surrendered!',color:'#ff4040'});
+    broadcast('_bye',{});
+    closeWS();
   }
   // Clean up
-  bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];
+  bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;
   if(xpSessionGained>0) awardXP('game'); xpSessionGained=0;
-  players={};myTank=null;npc=null;npcs=[];channel=null;npcRespawnTimer=0;deathCountdown=0;
+  players={};myTank=null;npc=null;npcs=[];npcRespawnTimer=0;deathCountdown=0;
   document.getElementById('surrender-confirm').style.display='none';
   document.getElementById('death-screen').style.display='none';
   document.getElementById('go').classList.remove('hide');
   document.getElementById('chat').style.display='';
   document.body.classList.remove('in-game');showScreen('lobby-screen');
+  renderServers();
   stat('Select a server and join.','ok');
-  document.getElementById('join-btn').disabled=false;
   document.getElementById('sp-btn').style.display=(gameMode==='sp'?'inline-block':'none');
-  document.getElementById('join-btn').style.display=(gameMode==='mp'?'inline-block':'none');
+  if(gameMode==='mp') refreshBtn();
 }
+
+// ═══════════════════════════════════════════════════════════
 
 // ═══════════════════════════════════════════════════════════
 // GROUND MEDKITS
 // ═══════════════════════════════════════════════════════════
-let groundMedkits=[];
-let medkitSeq=0;
-let medkitSpawnTimer=0;
-const MEDKIT_SPAWN_INTERVAL=1200; // 20 seconds between spawns
-const MEDKIT_MAX=3;               // max 3 on map at once
-const MEDKIT_HEAL=25;
-const MEDKIT_MIN_DIST=200;        // min distance from walls and other medkits
+let groundMedkits = [];
+let medkitSeq = 0;
+let medkitSpawnTimer = 0;
+const MEDKIT_SPAWN_INTERVAL = 900;
+const MEDKIT_MAX = 2;
+const MEDKIT_HEAL = 30;
+const MEDKIT_MIN_DIST = 140;
 
 function randomMedkitPos(){
-  // Try up to 30 times to find a valid random position
-  for(let attempt=0;attempt<30;attempt++){
-    const x=100+Math.random()*(MAP_W-200);
-    const y=100+Math.random()*(MAP_H-200);
-    // Not inside a wall
-    let inWall=false;
-    for(const w of walls){
-      if(x>w.x-20&&x<w.x+w.w+20&&y>w.y-20&&y<w.y+w.h+20){inWall=true;break;}
-    }
-    if(inWall) continue;
-    // Not too close to existing medkits
+  for(let attempt=0;attempt<80;attempt++){
+    const x=120+Math.random()*(MAP_W-240);
+    const y=120+Math.random()*(MAP_H-240);
+    let blocked=false;
+    for(const w of walls){ if(x>w.x-30&&x<w.x+w.w+30&&y>w.y-30&&y<w.y+w.h+30){blocked=true;break;} }
+    if(blocked) continue;
     let tooClose=false;
-    for(const m of groundMedkits){
-      if(Math.hypot(m.x-x,m.y-y)<MEDKIT_MIN_DIST){tooClose=true;break;}
-    }
+    for(const m of groundMedkits){ if(Math.hypot(m.x-x,m.y-y)<MEDKIT_MIN_DIST){tooClose=true;break;} }
     if(tooClose) continue;
+    let nearSpawn=false;
+    for(const s of SPAWNS){ if(Math.hypot(s.x-x,s.y-y)<120){nearSpawn=true;break;} }
+    if(nearSpawn) continue;
     return {x,y};
   }
-  return null;
+  return {x:MAP_W/2+(Math.random()-0.5)*300, y:MAP_H/2+(Math.random()-0.5)*200};
 }
 
 function spawnGroundMedkit(){
@@ -1719,7 +2004,6 @@ function updateGroundMedkits(){
   medkitSpawnTimer++;
   if(medkitSpawnTimer>=MEDKIT_SPAWN_INTERVAL){medkitSpawnTimer=0;spawnGroundMedkit();}
   groundMedkits.forEach(m=>m.pulse=(m.pulse+0.06)%(Math.PI*2));
-  // check pickup for all tanks
   for(const pid in players){
     const t=players[pid];if(!t.alive) continue;
     for(let i=groundMedkits.length-1;i>=0;i--){
@@ -1742,14 +2026,11 @@ function drawGroundMedkits(){
     const glow=0.5+Math.sin(m.pulse)*0.35;
     ctx.save();
     ctx.shadowColor='#40ff80';ctx.shadowBlur=18*glow;
-    // cross body
     ctx.fillStyle='#1a3320';ctx.strokeStyle='#40ff80';ctx.lineWidth=1.5;ctx.globalAlpha=0.9;
     ctx.fillRect(m.x-12,m.y-12,24,24);ctx.strokeRect(m.x-12,m.y-12,24,24);
-    // red cross
     ctx.fillStyle='#40ff80';ctx.globalAlpha=glow;
     ctx.fillRect(m.x-3,m.y-9,6,18);
     ctx.fillRect(m.x-9,m.y-3,18,6);
-    // pulse ring
     ctx.globalAlpha=0.25*glow;ctx.strokeStyle='#40ff80';ctx.lineWidth=2;
     ctx.beginPath();ctx.arc(m.x,m.y,16+Math.sin(m.pulse)*4,0,Math.PI*2);ctx.stroke();
     ctx.restore();
@@ -1769,6 +2050,13 @@ function draw(){
   if(shakeFrames>0){ctx.translate((Math.random()-.5)*shakeFrames*.8,(Math.random()-.5)*shakeFrames*.8);shakeFrames--;}
   ctx.translate(-Math.round(camX),-Math.round(camY));
   ctx.fillStyle='#0c0c18';ctx.fillRect(camX,camY,VP_W,VP_H);
+  // Low HP vignette — red pulse on screen edge
+  if(myTank&&myTank.alive&&myTank.hp<30){
+    const pulse=0.4+0.35*Math.sin(roundTimer*0.12);
+    const vig=ctx.createRadialGradient(camX+VP_W/2,camY+VP_H/2,VP_H*0.25,camX+VP_W/2,camY+VP_H/2,VP_W*0.75);
+    vig.addColorStop(0,'transparent');vig.addColorStop(1,'rgba(255,0,0,'+pulse+')');
+    ctx.fillStyle=vig;ctx.fillRect(camX,camY,VP_W,VP_H);
+  }
   // hex grid bg
   ctx.save();ctx.globalAlpha=.02;ctx.strokeStyle='#fff';ctx.lineWidth=.5;
   const hs=40,r0=Math.floor(camY/(hs*1.5))-1,r1=r0+Math.ceil(VP_H/(hs*1.5))+3;
@@ -1808,6 +2096,18 @@ function draw(){
   }
   // tanks
   for(const id in players){const t=players[id];if(t.alive) drawTank(t,id===myId);}
+  // Floating damage numbers
+  for(let i=floatDmgNums.length-1;i>=0;i--){
+    const d=floatDmgNums[i];d.y+=d.vy;d.life-=0.025;
+    if(d.life<=0){floatDmgNums.splice(i,1);continue;}
+    ctx.save();ctx.globalAlpha=d.life;
+    ctx.font='bold 16px Arial';ctx.textAlign='center';
+    ctx.strokeStyle='rgba(0,0,0,0.9)';ctx.lineWidth=3;
+    ctx.strokeText('-'+d.dmg,d.x,d.y);
+    ctx.fillStyle=d.color;ctx.shadowColor=d.color;ctx.shadowBlur=8;
+    ctx.fillText('-'+d.dmg,d.x,d.y);
+    ctx.restore();
+  }
   ctx.restore();
   drawMinimap();
 }
@@ -1896,7 +2196,16 @@ function drawMinimap(){
   mctx.strokeRect(camX/MAP_W*mw,camY/MAP_H*mh,VP_W/MAP_W*mw,VP_H/MAP_H*mh);
   for(const id in players){const t=players[id];if(!t.alive) continue;if(t.invisible&&id!==myId) continue;mctx.fillStyle=t.color;mctx.shadowColor=t.color;mctx.shadowBlur=id===myId?6:3;mctx.beginPath();mctx.arc(t.x/MAP_W*mw,t.y/MAP_H*mh,id===myId?4:3,0,Math.PI*2);mctx.fill();}
   // medkits on minimap
-  groundMedkits.forEach(m=>{mctx.fillStyle='#40ff80';mctx.shadowColor='#40ff80';mctx.shadowBlur=4;mctx.beginPath();mctx.arc(m.x/MAP_W*mw,m.y/MAP_H*mh,3,0,Math.PI*2);mctx.fill();});
+  groundMedkits.forEach(m=>{
+    const pulse=0.5+0.5*Math.sin(roundTimer*0.08+m.pulse);
+    const mx=m.x/MAP_W*mw, my=m.y/MAP_H*mh;
+    mctx.strokeStyle='#40ff80';mctx.lineWidth=1.5;
+    mctx.shadowColor='#40ff80';mctx.shadowBlur=4+pulse*6;
+    mctx.globalAlpha=0.7+pulse*0.3;
+    mctx.beginPath();mctx.moveTo(mx-4,my);mctx.lineTo(mx+4,my);
+    mctx.moveTo(mx,my-4);mctx.lineTo(mx,my+4);
+    mctx.stroke();mctx.globalAlpha=1;mctx.shadowBlur=0;
+  });
   mctx.shadowBlur=0;
 }
 
