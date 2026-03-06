@@ -212,6 +212,58 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
 .nt-name{color:#ff4040;font-family:'Black Ops One',cursive;}
 .nt-btn{background:transparent;border:2px solid #ff4040;color:#ff4040;font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:4px;padding:12px 32px;cursor:pointer;transition:all .2s;}
 .nt-btn:hover{background:rgba(255,64,64,0.12);box-shadow:0 0 24px rgba(255,64,64,0.5);}
+
+/* Ability combo flash */
+#combo-flash{position:fixed;top:28%;left:50%;transform:translateX(-50%);z-index:99997;pointer-events:none;text-align:center;display:none;}
+#combo-flash.show{display:block;animation:combopop .9s ease forwards;}
+@keyframes combopop{0%{opacity:0;transform:translateX(-50%) scale(0.4);}25%{opacity:1;transform:translateX(-50%) scale(1.15);}70%{opacity:1;transform:translateX(-50%) scale(1);}100%{opacity:0;transform:translateX(-50%) scale(0.9);}}
+.combo-title{font-family:'Black Ops One',cursive;font-size:32px;letter-spacing:6px;text-shadow:0 0 40px currentColor;}
+.combo-sub{font-size:13px;letter-spacing:4px;color:#aaa;margin-top:4px;}
+
+/* Daily challenges panel */
+#challenge-panel{position:fixed;bottom:12px;left:12px;z-index:99998;width:230px;background:rgba(0,0,0,0.92);border:1px solid rgba(255,215,0,0.2);padding:10px 12px;font-family:'VT323',monospace;transition:opacity 0.3s;}
+body.in-game #challenge-panel{opacity:0;pointer-events:none;}
+#challenge-panel-title{font-family:'Black Ops One',cursive;font-size:9px;letter-spacing:3px;color:#2a2a38;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
+.ch-item{margin-bottom:8px;}
+.ch-name{font-size:12px;letter-spacing:1px;color:#888;margin-bottom:3px;}
+.ch-name.done{color:var(--gold);text-decoration:line-through;}
+.ch-bar-wrap{height:4px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden;}
+.ch-bar-fill{height:100%;background:var(--gold);border-radius:2px;transition:width 0.4s;}
+.ch-prog{font-size:10px;color:#333;letter-spacing:1px;margin-top:2px;}
+.ch-item.done .ch-bar-fill{background:#40ff80;}
+.ch-item.done .ch-prog{color:#40ff80;}
+
+/* Kill cam */
+#killcam-overlay{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;display:none;flex-direction:column;align-items:center;justify-content:flex-start;background:rgba(0,0,0,0.7);z-index:9;pointer-events:none;}
+#killcam-overlay.show{display:flex;}
+#killcam-label{font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:5px;color:#ff4040;text-shadow:0 0 16px #ff4040;margin-top:12px;padding:4px 16px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,64,64,0.4);}
+#killcam-timer{font-size:12px;letter-spacing:3px;color:#555;margin-top:4px;}
+canvas#killcam-canvas{display:none;border:none;position:absolute;top:0;left:0;width:820px;height:560px;opacity:0.92;}
+
+/* Tank upgrade shop */
+#shop-btn{position:fixed;top:12px;left:12px;z-index:99999;background:rgba(0,0,0,0.9);border:1px solid rgba(255,215,0,0.4);color:var(--gold);font-family:'Black Ops One',cursive;font-size:10px;letter-spacing:2px;padding:8px 14px;cursor:pointer;transition:all .2s;}
+#shop-btn:hover{box-shadow:0 0 20px rgba(255,215,0,0.4);background:rgba(255,215,0,0.08);}
+body.in-game #shop-btn{display:none;}
+#shop-overlay{display:none;position:fixed;inset:0;z-index:999995;background:rgba(0,0,0,0.94);backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;}
+#shop-overlay.show{display:flex;}
+.shop-card{width:580px;background:rgba(10,10,20,0.98);border:1px solid rgba(255,215,0,0.2);padding:28px 32px;}
+.shop-header{font-family:'Black Ops One',cursive;font-size:22px;letter-spacing:5px;color:var(--gold);text-shadow:0 0 20px var(--gold);margin-bottom:6px;text-align:center;}
+.shop-xp{font-size:16px;letter-spacing:3px;color:#888;text-align:center;margin-bottom:22px;}
+.shop-xp span{color:var(--gold);font-family:'Black Ops One',cursive;}
+.shop-parts{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;}
+.shop-part{padding:14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);cursor:pointer;transition:all .2s;position:relative;}
+.shop-part:hover{border-color:rgba(255,215,0,0.4);background:rgba(255,215,0,0.04);}
+.shop-part-icon{font-size:28px;margin-bottom:6px;}
+.shop-part-name{font-family:'Black Ops One',cursive;font-size:12px;letter-spacing:2px;color:var(--gold);margin-bottom:4px;}
+.shop-part-desc{font-size:11px;color:#555;letter-spacing:1px;margin-bottom:8px;}
+.shop-part-levels{display:flex;gap:4px;margin-bottom:8px;}
+.shop-part-pip{width:18px;height:6px;border-radius:2px;background:rgba(255,255,255,0.08);}
+.shop-part-pip.filled{background:var(--gold);box-shadow:0 0 6px var(--gold);}
+.shop-part-cost{font-size:10px;color:#444;letter-spacing:1px;}
+.shop-part-cost span{color:var(--gold);}
+.shop-part-maxed{position:absolute;top:8px;right:8px;font-size:9px;letter-spacing:2px;color:#40ff80;}
+.shop-close{background:transparent;border:1px solid rgba(255,255,255,0.15);color:#555;font-family:'Black Ops One',cursive;font-size:11px;letter-spacing:3px;padding:10px 32px;cursor:pointer;transition:all .2s;display:block;margin:0 auto;}
+.shop-close:hover{border-color:#fff;color:#fff;}
 </style>
 </head>
 <body>
@@ -267,6 +319,7 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
   </div>
 </div>
 
+<div id="combo-flash"><div class="combo-title" id="combo-title"></div><div class="combo-sub" id="combo-sub"></div></div>
 <!-- DUPLICATE NAME WARNING -->
 <div id="name-taken-overlay">
   <div class="nt-box">
@@ -305,6 +358,19 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
   <div style="margin-top:6px;text-align:right;">
     <span onclick="resetProfile()" style="font-size:9px;color:#1a1a1a;letter-spacing:1px;cursor:pointer;" title="Reset all progress">RESET</span>
   </div>
+</div>
+<button id="shop-btn" onclick="openShop()">🔧 UPGRADES</button>
+<div id="shop-overlay">
+  <div class="shop-card">
+    <div class="shop-header">🔧 TANK WORKSHOP</div>
+    <div class="shop-xp">Available XP: <span id="shop-xp-display">0</span></div>
+    <div class="shop-parts" id="shop-parts-grid"></div>
+    <button class="shop-close" onclick="closeShop()">✖ CLOSE</button>
+  </div>
+</div>
+<div id="challenge-panel">
+  <div id="challenge-panel-title">📋 DAILY CHALLENGES <span id="ch-timer" style="font-size:9px;color:#222;letter-spacing:1px;"></span></div>
+  <div id="challenge-list"></div>
 </div>
 <div id="app">
   <!-- LOBBY -->
@@ -401,6 +467,11 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
           <div id="plist"></div>
           <button class="btn" id="start-btn" style="display:none" onclick="reqStart()">▶ START GAME</button>
         </div>
+      </div>
+      <div id="killcam-overlay">
+        <div id="killcam-label">📽 KILL CAM</div>
+        <div id="killcam-timer"></div>
+        <canvas id="killcam-canvas" width="820" height="560"></canvas>
       </div>
       <div id="death-screen">
         <div id="death-msg">YOU WERE DESTROYED</div>
@@ -512,6 +583,7 @@ let profile = loadProfile();
 let xpSessionGained = 0;
 let sessionCoins = 0;
 let myKillStreak = 0;
+let lastAbilityUsed = '';
 let floatDmgNums = [];
 
 function loadProfile(){
@@ -524,11 +596,12 @@ function loadProfile(){
       p.totalGames  = p.totalGames  || 0;
       p.totalDeaths = p.totalDeaths || 0;
       p.abUpgrades  = p.abUpgrades  || {};
+      p.tankParts   = p.tankParts   || {};
       p.skin        = p.skin        || 'default';
       return p;
     }
   } catch(e){}
-  return {xp:0,level:1,totalKills:0,totalGames:0,totalDeaths:0,skin:'default',abUpgrades:{}};
+  return {xp:0,level:1,totalKills:0,totalGames:0,totalDeaths:0,skin:'default',abUpgrades:{},tankParts:{}};
 }
 function saveProfile(){
   try { localStorage.setItem('tankclash_profile', JSON.stringify(profile)); } catch(e){}
@@ -633,6 +706,7 @@ function resetProfile(){
   selectedSkin = 'default';
 }
 
+let selectedSkin = 'default';
 function buildSkinRow(){
   const row = document.getElementById('skin-row');
   if(!row) return;
@@ -647,7 +721,6 @@ function buildSkinRow(){
   });
 }
 
-let selectedSkin = 'default';
 const botCount = 1;
 
 function toggleXPInfo(){
@@ -666,6 +739,280 @@ window.addEventListener('load', ()=>{
   setMode('mp'); // init correct display state
   refreshBtn();
 });
+
+
+
+// ═══════════════════════════════════════════════════════════
+// KILL CAM — record snapshot frames, replay on death
+// ═══════════════════════════════════════════════════════════
+const KILLCAM_FRAMES = [];
+const KILLCAM_MAX = 120; // 2 seconds at 60fps
+let killCamActive = false;
+let killCamFrame = 0;
+let killCamInterval = null;
+let killCamKillerNick = '';
+
+function recordKillCamFrame(){
+  if(killCamActive || !gameActive) return;
+  // Store snapshot of all player positions
+  const frame = {
+    players: Object.values(players).filter(p=>p.alive).map(p=>({
+      x:p.x, y:p.y, angle:p.angle, color:p.color, nick:p.nick, hp:p.hp,
+      ghost:p.ghost, shielded:p.shielded, id:p.id
+    })),
+    bullets: bullets.map(b=>({x:b.x,y:b.y,color:b.color,vx:b.vx,vy:b.vy})),
+    camX, camY
+  };
+  KILLCAM_FRAMES.push(frame);
+  if(KILLCAM_FRAMES.length > KILLCAM_MAX) KILLCAM_FRAMES.shift();
+}
+
+function playKillCam(killerNick){
+  if(KILLCAM_FRAMES.length < 10) return;
+  killCamActive = true;
+  killCamFrame = 0;
+  killCamKillerNick = killerNick;
+  const overlay = document.getElementById('killcam-overlay');
+  const kcCanvas = document.getElementById('killcam-canvas');
+  const label = document.getElementById('killcam-label');
+  label.textContent = '📽 KILL CAM — killed by ' + killerNick;
+  overlay.classList.add('show');
+  kcCanvas.style.display = 'block';
+  const kctx = kcCanvas.getContext('2d');
+  const frames = [...KILLCAM_FRAMES];
+  
+  clearInterval(killCamInterval);
+  killCamInterval = setInterval(()=>{
+    if(killCamFrame >= frames.length){
+      clearInterval(killCamInterval);
+      killCamActive = false;
+      overlay.classList.remove('show');
+      kcCanvas.style.display='none';
+      return;
+    }
+    const f = frames[killCamFrame];
+    const timerEl = document.getElementById('killcam-timer');
+    const remaining = Math.ceil((frames.length - killCamFrame) / 60 * 1);
+    if(timerEl) timerEl.textContent = killCamFrame < frames.length ? Math.ceil((frames.length-killCamFrame)/frames.length*2)+'s remaining' : '';
+    // Draw frame
+    kctx.save();
+    kctx.fillStyle = '#0c0c18';
+    kctx.fillRect(0,0,820,560);
+    kctx.translate(-Math.round(f.camX), -Math.round(f.camY));
+    // Draw walls
+    for(const w of walls){
+      const g=kctx.createLinearGradient(w.x,w.y,w.x,w.y+w.h);
+      g.addColorStop(0,'#252538');g.addColorStop(1,'#111120');
+      kctx.fillStyle=g;kctx.fillRect(w.x,w.y,w.w,w.h);
+    }
+    // Draw bullets
+    f.bullets.forEach(b=>{
+      kctx.fillStyle=b.color;kctx.shadowColor=b.color;kctx.shadowBlur=10;
+      kctx.beginPath();kctx.arc(b.x,b.y,4,0,Math.PI*2);kctx.fill();
+    });
+    // Draw tanks
+    f.players.forEach(p=>{
+      kctx.save();
+      kctx.translate(p.x,p.y);kctx.rotate(p.angle);
+      kctx.shadowColor=p.color;kctx.shadowBlur=16;
+      kctx.fillStyle=p.color;
+      kctx.beginPath();kctx.roundRect(-15,-12,30,24,4);kctx.fill();
+      kctx.fillStyle=p.color;kctx.fillRect(7,-3.5,20,7);
+      kctx.restore();
+      // Name label
+      kctx.save();kctx.textAlign='center';kctx.font='bold 12px Arial';
+      kctx.fillStyle=p.color;kctx.shadowColor=p.color;kctx.shadowBlur=8;
+      kctx.fillText(p.nick,p.x,p.y-28);kctx.restore();
+    });
+    kctx.restore();
+    // Red vignette border
+    const vg=kctx.createRadialGradient(410,280,200,410,280,430);
+    vg.addColorStop(0,'transparent');vg.addColorStop(1,'rgba(255,0,0,0.18)');
+    kctx.fillStyle=vg;kctx.fillRect(0,0,820,560);
+    killCamFrame += 2; // play at 2x speed
+  }, 1000/60);
+}
+
+
+// ═══════════════════════════════════════════════════════════
+// TANK UPGRADE SHOP
+// ═══════════════════════════════════════════════════════════
+const TANK_PARTS = [
+  {id:'wheels',  icon:'⚙️',  name:'WHEELS',    desc:'Movement speed',        stat:'speed',    maxLv:4, costs:[60,200,500,1200],  vals:[0.15,0.30,0.50,0.75]},
+  {id:'turret',  icon:'🎯',  name:'TURRET',    desc:'Bullet damage',          stat:'damage',   maxLv:4, costs:[80,250,600,1500],  vals:[3,7,13,22]},
+  {id:'armor',   icon:'🛡',  name:'ARMOR',     desc:'Max HP bonus',           stat:'maxhp',    maxLv:4, costs:[70,220,550,1300],  vals:[15,30,50,80]},
+  {id:'engine',  icon:'⚡',  name:'ENGINE',    desc:'Faster fire rate',        stat:'firerate', maxLv:4, costs:[50,180,450,1100],  vals:[3,6,10,16]},
+  {id:'optics',  icon:'🔭',  name:'OPTICS',    desc:'Bullet speed',           stat:'bspeed',   maxLv:4, costs:[50,160,400,1000],  vals:[1,2,3.5,5]},
+  {id:'cooling', icon:'❄️',  name:'COOLING',   desc:'Ability cooldown -10%',  stat:'cdreduce', maxLv:3, costs:[100,350,900],      vals:[0.10,0.20,0.30]},
+];
+
+function getPartLevel(partId){ return profile.tankParts ? (profile.tankParts[partId]||0) : 0; }
+function getPartBonus(partId){
+  const part = TANK_PARTS.find(p=>p.id===partId);
+  const lv = getPartLevel(partId);
+  return lv>0 ? part.vals[lv-1] : 0;
+}
+
+// Apply upgrades to game values
+function getUpgradedSpeed()    { return T_SPD + getPartBonus('wheels'); }
+function getUpgradedDamage()   { return 20 + getPartBonus('turret'); }
+function getUpgradedMaxHP()    { return 100 + getPartBonus('armor'); }
+function getUpgradedFireCD()   { return Math.max(12, F_CD - getPartBonus('engine')); }
+function getUpgradedBulletSpd(){ return B_SPD + getPartBonus('optics'); }
+function getUpgradedCDMult()   { return 1 - getPartBonus('cooling'); }
+
+function openShop(){
+  if(!profile.tankParts) profile.tankParts={};
+  document.getElementById('shop-xp-display').textContent = profile.xp + ' XP';
+  renderShopParts();
+  document.getElementById('shop-overlay').classList.add('show');
+}
+function closeShop(){ document.getElementById('shop-overlay').classList.remove('show'); }
+
+function renderShopParts(){
+  const grid = document.getElementById('shop-parts-grid'); if(!grid) return;
+  grid.innerHTML='';
+  TANK_PARTS.forEach(part=>{
+    const lv = getPartLevel(part.id);
+    const maxed = lv >= part.maxLv;
+    const cost = maxed ? 0 : part.costs[lv];
+    const canAfford = profile.xp >= cost;
+    const d = document.createElement('div');
+    d.className = 'shop-part';
+    d.style.opacity = (!maxed && !canAfford) ? '0.5' : '1';
+    let pips = '';
+    for(let i=0;i<part.maxLv;i++) pips+='<div class="shop-part-pip'+(i<lv?' filled':'')+'"></div>';
+    const nextVal = !maxed ? '+'+part.vals[lv]+(part.stat==='cdreduce'?'×CD':'') : '';
+    d.innerHTML = '<div class="shop-part-icon">'+part.icon+'</div>'
+      +'<div class="shop-part-name">'+part.name+'</div>'
+      +'<div class="shop-part-desc">'+part.desc+'</div>'
+      +'<div class="shop-part-levels">'+pips+'</div>'
+      +'<div class="shop-part-cost">'+(maxed?'<span style="color:#40ff80">MAXED ✓</span>':'Cost: <span>'+cost+' XP</span> → '+nextVal)+'</div>'
+      +(maxed?'<div class="shop-part-maxed">MAX</div>':'');
+    if(!maxed && canAfford){
+      d.onclick = ()=>{ buyPart(part.id); };
+      d.style.cursor='pointer';
+    } else {
+      d.style.cursor='default';
+    }
+    grid.appendChild(d);
+  });
+}
+
+function buyPart(partId){
+  if(!profile.tankParts) profile.tankParts={};
+  const part = TANK_PARTS.find(p=>p.id===partId);
+  const lv = getPartLevel(partId);
+  if(lv >= part.maxLv) return;
+  const cost = part.costs[lv];
+  if(profile.xp < cost){ return; }
+  profile.xp -= cost;
+  profile.tankParts[partId] = lv+1;
+  saveProfile();
+  updateXPUI();
+  document.getElementById('shop-xp-display').textContent = profile.xp + ' XP';
+  renderShopParts();
+  // flash
+  const b = document.createElement('div');
+  b.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999999;'
+    +'font-family:Black Ops One,cursive;font-size:20px;letter-spacing:4px;color:var(--gold);'
+    +'text-shadow:0 0 20px var(--gold);pointer-events:none;animation:xpfloat 1.4s ease forwards;';
+  b.textContent='✓ '+part.name+' LV'+(lv+1)+' UNLOCKED';
+  document.body.appendChild(b);setTimeout(()=>b.remove(),1500);
+}
+
+// ═══════════════════════════════════════════════════════════
+// DAILY CHALLENGES
+// ═══════════════════════════════════════════════════════════
+const CHALLENGE_POOL = [
+  {id:'kills_laser',   name:'Laser Killer',       desc:'Kill 3 enemies with Laser',    type:'kill_with',  ability:'laser',     goal:3,  reward:80},
+  {id:'kills_emp',     name:'EMP Brawler',         desc:'Stun 5 enemies with EMP',      type:'use_ability',ability:'emp',       goal:5,  reward:60},
+  {id:'kills_total',   name:'Hunter',              desc:'Get 5 kills in one session',   type:'kills',                           goal:5,  reward:100},
+  {id:'medkits',       name:'Field Medic',         desc:'Collect 4 medkits',            type:'medkits',                         goal:4,  reward:50},
+  {id:'streak',        name:'On Fire',             desc:'Get a 3-kill streak',          type:'streak',                          goal:3,  reward:90},
+  {id:'abilities_use', name:'Ability Spammer',     desc:'Use abilities 10 times',       type:'abilities',                       goal:10, reward:60},
+  {id:'ghost_kills',   name:'Ghost Hunter',        desc:'Kill while ghosted',           type:'kill_while', state:'ghost',        goal:2,  reward:70},
+  {id:'survive',       name:'Survivor',            desc:'Survive 5 lives',              type:'survive',                         goal:5,  reward:55},
+  {id:'combo_use',     name:'Combo Master',        desc:'Trigger an ability combo',     type:'combo',                           goal:1,  reward:120},
+  {id:'coins',         name:'Coin Collector',      desc:'Collect 20 coins',             type:'coins',                           goal:20, reward:65},
+];
+
+function todayKey(){ return 'tc_challenges_'+new Date().toISOString().slice(0,10); }
+
+function loadChallenges(){
+  const key = todayKey();
+  try{
+    const raw = localStorage.getItem(key);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  // Pick 3 random challenges for today (seeded by date)
+  const seed = parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));
+  const rng = (n)=>{ let x=Math.sin(seed+n)*10000; return x-Math.floor(x); };
+  const shuffled = [...CHALLENGE_POOL].sort((_,__,i=0)=>rng(i++)-0.5);
+  const picks = shuffled.slice(0,3).map(c=>({...c, progress:0, done:false}));
+  localStorage.setItem(key, JSON.stringify(picks));
+  return picks;
+}
+
+let dailyChallenges = loadChallenges();
+
+function saveChallenges(){ try{localStorage.setItem(todayKey(), JSON.stringify(dailyChallenges));}catch(e){} }
+
+function progressChallenge(type, extra={}){
+  let changed = false;
+  dailyChallenges.forEach(ch=>{
+    if(ch.done) return;
+    let hit = false;
+    if(ch.type===type) hit=true;
+    if(ch.type==='kill_with' && type==='kill_with' && extra.ability===ch.ability) hit=true;
+    if(ch.type==='kill_while' && type==='kill_while' && extra.state===ch.state) hit=true;
+    if(ch.type==='use_ability' && type==='use_ability' && extra.ability===ch.ability) hit=true;
+    if(hit){
+      ch.progress = Math.min(ch.goal, (ch.progress||0)+1);
+      if(ch.progress>=ch.goal && !ch.done){
+        ch.done=true;
+        awardXP('kill', ch.reward); // award reward XP
+        showChallengeComplete(ch);
+      }
+      changed=true;
+    }
+  });
+  if(changed){ saveChallenges(); renderChallenges(); }
+}
+
+function showChallengeComplete(ch){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;top:15%;left:50%;transform:translateX(-50%);z-index:999999;'
+    +'background:rgba(0,0,0,0.96);border:2px solid var(--gold);padding:16px 28px;text-align:center;'
+    +'animation:xptoast 3s ease forwards;font-family:VT323,monospace;';
+  t.innerHTML='<div style="font-family:Black Ops One,cursive;font-size:16px;letter-spacing:4px;color:var(--gold)">✅ CHALLENGE COMPLETE</div>'
+    +'<div style="font-size:20px;letter-spacing:2px;color:#fff;margin:4px 0">'+ch.name+'</div>'
+    +'<div style="font-size:14px;color:var(--gold)">+'+ch.reward+' XP BONUS</div>';
+  document.body.appendChild(t);setTimeout(()=>t.remove(),3200);
+}
+
+function renderChallenges(){
+  const list = document.getElementById('challenge-list'); if(!list) return;
+  list.innerHTML='';
+  dailyChallenges.forEach(ch=>{
+    const pct = Math.min(100,(ch.progress/ch.goal)*100);
+    const d=document.createElement('div');
+    d.className='ch-item'+(ch.done?' done':'');
+    d.innerHTML='<div class="ch-name'+(ch.done?' done':'')+'">'+ch.name+' <span style="font-size:9px;color:var(--gold)">+'+ch.reward+'XP</span></div>'
+      +'<div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:'+pct+'%"></div></div>'
+      +'<div class="ch-prog">'+ch.progress+' / '+ch.goal+(ch.done?' ✓':'')+'</div>';
+    list.appendChild(d);
+  });
+  // Timer until reset
+  const now=new Date(), midnight=new Date(now); midnight.setHours(24,0,0,0);
+  const diff=midnight-now;
+  const h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000);
+  const timer=document.getElementById('ch-timer');
+  if(timer) timer.textContent='resets in '+h+'h '+m+'m';
+}
+
+renderChallenges();
+setInterval(renderChallenges, 60000); // update timer every minute
 
 // ═══════════════════════════════════════════════════════════
 // ABILITY DEFINITIONS
@@ -837,7 +1184,8 @@ function setMode(m) {
   document.getElementById('sv-section').style.display = m==='mp' ? 'block' : 'none';
   document.getElementById('diff-section').style.display = m==='sp' ? 'block' : 'none';
   document.getElementById('sp-btn').style.display = m==='sp' ? 'inline-block' : 'none';
-  refreshBtn();
+  document.getElementById('join-btn').style.display = m==='mp' ? 'inline-block' : 'none';
+  if(m==='mp') refreshBtn();
   if(m==='mp'){ renderServers(); stat('Pick a server to join',''); }
   else stat('','');
   
@@ -1085,8 +1433,12 @@ function connectMQTT(){
 // Cheat code — defined first so it's always available
 function activateCheatCode(){
   Object.values(AB_UPGRADES).forEach(u=>{ profile.abUpgrades[u.ability]=true; });
-  if(profile.level < 25){ profile.level=25; profile.xp=0; }
-  saveProfile(); updateXPUI(); 
+  if(!profile.tankParts) profile.tankParts={};
+  TANK_PARTS.forEach(p=>{ profile.tankParts[p.id]=p.maxLv; });
+  if(profile.level < 25){ profile.level=25; profile.xp=9999; }
+  saveProfile();
+  updateXPUI();
+  buildSkinRow(); // <-- was missing, skins never refreshed
   // Flash nick field
   const el=document.getElementById('nick');
   el.style.borderColor='#ff4040'; el.style.color='#ff4040'; el.style.textShadow='0 0 8px #ff4040';
@@ -1098,6 +1450,7 @@ function activateCheatCode(){
   t.innerHTML='<div class="xp-toast-title" style="color:#ff4040;font-size:24px">⚠ HACKER67 ⚠</div>'
     +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin:6px 0 4px">ALL ABILITIES UPGRADED</div>'
     +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL SKINS UNLOCKED — LV 25</div>'
+    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL TANK PARTS MAXED</div>'
     +'<div class="xp-toast-sub" style="color:#ff4040;opacity:0.6">use wisely, soldier</div>';
   document.body.appendChild(t);
   setTimeout(()=>t.remove(), 5000);
@@ -1139,11 +1492,11 @@ function hideSummary(){
   doSurrender();
 }
 
-function showStreakBanner(streak, bonus){
-  const msgs=['','','','TRIPLE KILL!','QUAD KILL!','PENTA KILL!','RAMPAGE!!','UNSTOPPABLE!!!'];
-  const msg = msgs[Math.min(streak, msgs.length-1)] || (streak+'× KILLSTREAK!');
-  const colors = ['','','','#ff9900','#ff4040','#ff00ff','#ff0000','#ffffff'];
-  const col = colors[Math.min(streak, colors.length-1)] || '#ff4040';
+function showStreakBanner(streak, customMsg, customCol){
+  const msgs=['','','DOUBLE KILL!','TRIPLE KILL!','QUAD KILL!','PENTA KILL!','RAMPAGE!!','UNSTOPPABLE!!!'];
+  const msg = customMsg || msgs[Math.min(streak, msgs.length-1)] || (streak+'× KILLSTREAK!');
+  const cols = ['','','#ff9900','#ff9900','#ff4040','#ff00ff','#ff0000','#ffffff'];
+  const col = customCol || cols[Math.min(streak, cols.length-1)] || '#ff4040';
   const b = document.createElement('div');
   b.style.cssText='position:fixed;top:35%;left:50%;transform:translateX(-50%);z-index:99999;'
     +'font-family:"Black Ops One",cursive;font-size:28px;letter-spacing:6px;color:'+col+';'
@@ -1191,7 +1544,7 @@ function startSinglePlayer(){
   myNick=document.getElementById('nick').value.trim()||'Player';
   if(selectedAbilities.length<2){alert('Choose 2 abilities first!');return;}
   gameMode='sp';showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);buildWalls();initAbilityState();
-  document.getElementById('hud-room').textContent='VS '+botCount+' BOT'+(botCount>1?'S':'')+' — '+botDifficulty.toUpperCase();
+  document.getElementById('hud-room').textContent='FIRST TO 5 KILLS — '+botDifficulty.toUpperCase();
   document.getElementById('chat').style.display='none';
   // Spawn player
   const sp=SPAWNS[0];
@@ -1270,17 +1623,87 @@ function updateAbilityHUD(){
   }
 }
 
+
+// ── ABILITY COMBO DETECTION ──
+const COMBOS = [
+  {ids:['ghost','speed'],   name:'PHANTOM DASH',  sub:'Ghost + Overdrive activated!', color:'#a0ffee',
+   fn:(tank,states)=>{
+     tank.ghost=true; tank.speedBoost=true;
+     states.forEach(s=>{s.active=true;s.activeTimer=480;});
+     spawnPart(tank.x,tank.y,'#a0ffee',40,8);shakeFrames=6;
+   }},
+  {ids:['shield','emp'],    name:'SHOCKWAVE BURST',sub:'Shield + EMP fused!',          color:'#ffaa00',
+   fn:(tank,states)=>{
+     tank.shielded=true;
+     doEMP(tank,true);
+     spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',50,9);shakeFrames=14;
+   }},
+  {ids:['laser','triple'],  name:'HYPERBEAM',      sub:'Triple laser barrage!',        color:'#ff4040',
+   fn:(tank,states)=>{
+     [-0.3,0,0.3].forEach(offset=>{
+       const a=tank.angle+offset;const reach=2000;
+       laserBeams.push({x1:tank.x,y1:tank.y,x2:tank.x+Math.cos(a)*reach,y2:tank.y+Math.sin(a)*reach,color:'#ff4040',life:30,owner:tank.id});
+       for(const pid in players){
+         const t=players[pid];if(pid===tank.id||!t.alive) continue;
+         const steps=200;for(let s=1;s<=steps;s++){
+           const tx=tank.x+Math.cos(a)*(reach*s/steps),ty=tank.y+Math.sin(a)*(reach*s/steps);
+           if(Math.hypot(tx-t.x,ty-t.y)<20){applyHit(tank,t,50,tx,ty,'hyperbeam');break;}
+         }
+       }
+     });
+     shakeFrames=18;spawnPart(tank.x,tank.y,'#ff4040',50,10);
+     states.forEach(s=>{s.cooldownTimer=ABILITIES[s.id].cd*60;});
+   }},
+];
+
+function checkCombos(slot){
+  if(!myTank||!myTank.alive) return false;
+  const ids = myAbilityState.map(s=>s.id);
+  for(const combo of COMBOS){
+    if(combo.ids.every(id=>ids.includes(id))){
+      // Both must be ready (not on cooldown)
+      const states = combo.ids.map(id=>myAbilityState.find(s=>s.id===id));
+      if(states.every(s=>s&&s.cooldownTimer===0&&!s.active)){
+        // Only trigger if the SECOND ability is being pressed (both ready)
+        const otherSlot = slot===0?1:0;
+        if(myAbilityState[otherSlot] && combo.ids.includes(myAbilityState[otherSlot].id) &&
+           myAbilityState[slot] && combo.ids.includes(myAbilityState[slot].id)){
+          showComboFlash(combo.name, combo.sub, combo.color);
+          combo.fn(myTank, states);
+          awardXP('ability'); awardXP('ability');
+          updateAbilityHUD();
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+function showComboFlash(name, sub, color){
+  const el=document.getElementById('combo-flash');
+  const t=document.getElementById('combo-title');
+  const s=document.getElementById('combo-sub');
+  t.textContent='⚡ '+name;t.style.color=color;
+  s.textContent=sub;
+  el.classList.remove('show');
+  void el.offsetWidth; // force reflow
+  el.classList.add('show');
+  setTimeout(()=>el.classList.remove('show'),950);
+}
+
 function useAbility(slot){
   if(!myTank||!myTank.alive) return;
   const st=myAbilityState[slot];
   if(st.cooldownTimer>0||st.active) return;
   const ab=ABILITIES[st.id];
   if(!ab) return;
+  if(checkCombos(slot)) return; // combo triggered instead
   activateAbility(myTank, st, ab, slot, true);
 }
 
 function activateAbility(tank, st, ab, slot, isMe){
-  if(isMe) awardXP('ability');
+  if(isMe){ awardXP('ability'); progressChallenge('abilities'); progressChallenge('use_ability',{ability:ab.id}); lastAbilityUsed=ab.id; }
   const cdFrames=ab.cd*60;
   // Apply ability upgrades from player profile
   let abDuration = ab.duration;
@@ -1452,14 +1875,32 @@ function applyHit(attacker, victim, dmg, bx, by, bid){
     addKF(attacker.nick,victim.nick);
     attacker.kills=(attacker.kills||0)+1;
     spawnCoins(victim.x,victim.y,victim.color,5);
+    if(victim.id===myId){ setTimeout(()=>playKillCam(attacker.nick), 200); }
     if(attacker.id===myId){
       profile.totalKills++; saveProfile();
       myKillStreak = (myKillStreak||0) + 1;
-      if(myKillStreak>=3){
-        const bonus = myKillStreak*10;
-        awardXP('kill'); awardXP('kill'); // double XP on streaks
-        showStreakBanner(myKillStreak, bonus);
-      } else { awardXP('kill'); }
+      awardXP('kill');
+      // Killstreak rewards
+      progressChallenge('streak',{val:myKillStreak});
+      if(myKillStreak===3){
+        // Speed burst
+        if(myTank){ myTank.speedBoost=true; setTimeout(()=>{if(myTank)myTank.speedBoost=false;},4000); }
+        showStreakBanner(3,'💨 SPEED BURST — 4 SECONDS!','#40ff80');
+        spawnPart(myTank.x,myTank.y,'#40ff80',30,6);
+        awardXP('kill'); // bonus XP
+      } else if(myKillStreak===5){
+        // Full heal
+        if(myTank){ myTank.hp=100; }
+        showStreakBanner(5,'❤ FULL HEAL!','#ff4040');
+        spawnPart(myTank.x,myTank.y,'#ff4040',40,7);
+        awardXP('kill'); awardXP('kill'); // big bonus XP
+        updateHUD();
+      } else if(myKillStreak>5){
+        showStreakBanner(myKillStreak,'🔥 GODLIKE!','#ff00ff');
+        awardXP('kill');
+      } else if(myKillStreak>=2){
+        showStreakBanner(myKillStreak,'','#ff9900');
+      }
     }
     if(gameMode==='mp'&&attacker.id===myId) broadcast('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:0,knick:attacker.nick,vnick:victim.nick});
     updateHUD();
@@ -1603,13 +2044,7 @@ function updateAllNPCs(){
     if(bot.alive){ updateSingleBot(bot); }
     else {
       bot.respawnTimer=(bot.respawnTimer||0)+1;
-      // Check if ALL bots dead and no respawn pending for SP win
-      const allDead=npcs.every(b=>!b.alive);
-      if(allDead&&bot.respawnTimer===1&&gameMode==='sp'){
-        awardXP('game');
-        setTimeout(()=>showSummary(true),600);
-        return;
-      }
+      // Game ends when someone reaches kill goal (checked in update)
       if(bot.respawnTimer>=RESPAWN_SECS*60){
         const sp=SPAWNS[1+Math.floor(Math.random()*(SPAWNS.length-1))];
         Object.assign(bot,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,
@@ -1678,10 +2113,13 @@ function doStart(spawnMap,nonce){
 function getRandomSpawn(){let best=SPAWNS[0],bestDist=0;SPAWNS.forEach(sp=>{let minDist=Infinity;Object.values(players).forEach(p=>{if(p.alive&&p.id!==myId) minDist=Math.min(minDist,Math.hypot(p.x-sp.x,p.y-sp.y));});if(minDist>bestDist){bestDist=minDist;best=sp;}});return best;}
 
 function respawnMe(){
+  clearInterval(killCamInterval);killCamActive=false;
+  const kcEl=document.getElementById('killcam-overlay');if(kcEl)kcEl.classList.remove('show');
   const sp=getRandomSpawn();
   myTank.x=sp.x;myTank.y=sp.y;myTank.angle=sp.a;myTank.hp=100;myTank.alive=true;myTank.vx=0;myTank.vy=0;myTank.trail=[];
-  myTank.invulnTimer=180;myTank.ghost=false;myTank.invisible=false;myTank.shielded=false;myTank.stunTimer=0;myTank.speedBoost=false;myTank.ricBounces=false;
+  myTank.hp=getUpgradedMaxHP();myTank.invulnTimer=180;myTank.ghost=false;myTank.invisible=false;myTank.shielded=false;myTank.stunTimer=0;myTank.speedBoost=false;myTank.ricBounces=false;
   awardXP('survived');
+  progressChallenge('survive');
   // re-sync selected abilities
   selectedAbilities=[myAbilityState[0].id,myAbilityState[1].id];
   // reset ability timers for newly switched abilities
@@ -1791,6 +2229,7 @@ function updateCoins(){
         spawnPart(c.x,c.y,'#ffd700',8,3);
         awardXP('coin');
         sessionCoins++;
+        progressChallenge('coins');
         const hc=document.getElementById('hud-coins');
         if(hc) hc.textContent='🪙 '+sessionCoins;
         if(connected) broadcast('evt',{e:'coin_collect',cid:c.id});
@@ -1809,11 +2248,12 @@ let lastSend=0;
 function trySendMove(){if(!connected||!myTank) return;const now=Date.now();if(now-lastSend<50) return;lastSend=now;broadcast('mv',{id:myId,x:Math.round(myTank.x*10)/10,y:Math.round(myTank.y*10)/10,angle:Math.round(myTank.angle*100)/100});}
 function tryShoot(){
   if(!myTank||!myTank.alive||shootTimer>0) return;
-  shootTimer=F_CD;
+  shootTimer=Math.round(getUpgradedFireCD());
   const bid=myId+'_'+(bulletSeq++);
   const bx=myTank.x+Math.cos(myTank.angle)*22,by=myTank.y+Math.sin(myTank.angle)*22;
   const maxBounce=myTank.ricBounces?6:2;
-  bullets.push({id:bid,x:bx,y:by,vx:Math.cos(myTank.angle)*B_SPD,vy:Math.sin(myTank.angle)*B_SPD,owner:myId,color:myTank.color,bounces:0,maxBounce});
+  const myBSpd=getUpgradedBulletSpd();
+  bullets.push({id:bid,x:bx,y:by,vx:Math.cos(myTank.angle)*myBSpd,vy:Math.sin(myTank.angle)*myBSpd,owner:myId,color:myTank.color,bounces:0,maxBounce});
   myTank.vx-=Math.cos(myTank.angle)*1.5;myTank.vy-=Math.sin(myTank.angle)*1.5;
   if(connected) broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});
 }
@@ -1839,12 +2279,28 @@ function update(){
   roundTimer++;if(shootTimer>0) shootTimer--;
 
   // NPC update
-  if(gameMode==='sp') updateAllNPCs();
+  if(gameMode==='sp'){
+    updateAllNPCs();
+    // Check 5-kill win condition
+    if(gameActive){
+      const KILL_GOAL=5;
+      const me=players[myId];
+      const botWinner=npcs.find(b=>(b.kills||0)>=KILL_GOAL);
+      if(me&&(me.kills||0)>=KILL_GOAL){
+        gameActive=false;
+        awardXP('game');
+        setTimeout(()=>showSummary(true),800);
+      } else if(botWinner){
+        gameActive=false;
+        setTimeout(()=>showSummary(false),800);
+      }
+    }
+  }
 
   if(myTank&&myTank.alive&&myTank.stunTimer===0){
     if(keys['ArrowLeft'])  myTank.angle-=T_TRN;
     if(keys['ArrowRight']) myTank.angle+=T_TRN;
-    const spd=myTank.speedBoost?T_SPD*2:T_SPD;
+    const spd=myTank.speedBoost?getUpgradedSpeed()*2:getUpgradedSpeed();
     if(keys['ArrowUp'])   {myTank.vx+=Math.cos(myTank.angle)*.55;myTank.vy+=Math.sin(myTank.angle)*.55;}
     if(keys['ArrowDown']) {myTank.vx-=Math.cos(myTank.angle)*.3;myTank.vy-=Math.sin(myTank.angle)*.3;}
     if(keys['Space']||keys['KeyL']) tryShoot();
@@ -1873,7 +2329,8 @@ function update(){
       if(t.invisible && b.owner!==t.id && Math.random()<0.65) continue;
       if(Math.hypot(b.x-t.x,b.y-t.y)<18){
         const attacker=players[b.owner]||myTank;
-        applyHit(attacker,t,20,b.x,b.y,b.id);
+        const dmg = (b.owner===myId) ? getUpgradedDamage() : 20;
+        applyHit(attacker,t,dmg,b.x,b.y,b.id);
         bullets.splice(i,1);hit=true;break;
       }
     }
@@ -1896,7 +2353,8 @@ function update(){
 
   tickAbilities();
   updateCoins();
-  updateGroundMedkits(); // runs in both mp and sp
+  updateGroundMedkits();
+  if(gameActive) recordKillCamFrame(); // runs in both mp and sp
   for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.91;p.vy*=.91;p.life-=p.decay;if(p.life<=0)particles.splice(i,1);}
   for(let i=shockwaves.length-1;i>=0;i--){const s=shockwaves[i];s.r+=(s.maxR-s.r)*.18;s.life-=.055;if(s.life<=0)shockwaves.splice(i,1);}
 }
@@ -1910,7 +2368,9 @@ function updateHUD(){
   if(me){document.getElementById('h-left').textContent='▶ '+me.nick;document.getElementById('h-left').style.color=me.color;document.getElementById('hp-left').style.cssText='width:'+Math.max(0,me.hp||0)+'%;background:'+me.color+';box-shadow:0 0 6px '+me.color;}
   if(opp){document.getElementById('h-right').textContent=opp.nick+' ◀';document.getElementById('h-right').style.color=opp.color;document.getElementById('hp-right').style.cssText='width:'+Math.max(0,opp.hp||0)+'%;background:'+opp.color+';box-shadow:0 0 6px '+opp.color+';float:right';}
   const sorted=Object.values(players).sort((a,b)=>(b.kills||0)-(a.kills||0));
-  document.getElementById('hud-score').textContent=sorted.slice(0,3).map(p=>(p.kills||0)+' '+p.nick).join('  ');
+  const KILL_GOAL=5;
+  document.getElementById('hud-score').textContent=sorted.slice(0,3).map(p=>
+    (p.kills||0)+'/'+KILL_GOAL+' '+p.nick).join('  ');
   const lead=document.getElementById('hud-lead');lead.innerHTML='';
   sorted.slice(0,4).forEach((p,i)=>{
     const r=document.createElement('div');r.className='lead-row';
@@ -2013,7 +2473,7 @@ function updateGroundMedkits(){
         spawnPart(m.x,m.y,'#40ff80',16,4);
         spawnWave(m.x,m.y,'#40ff80');
         groundMedkits.splice(i,1);
-        if(t.id===myId){ addChatLine('PICKUP','❤ +'+MEDKIT_HEAL+' HP from medkit!','#40ff80'); awardXP('medkit'); }
+        if(t.id===myId){ addChatLine('PICKUP','❤ +'+MEDKIT_HEAL+' HP from medkit!','#40ff80'); awardXP('medkit'); progressChallenge('medkits'); }
         updateHUD();
         break;
       }
