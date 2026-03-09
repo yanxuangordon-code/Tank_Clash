@@ -663,76 +663,300 @@ function refreshBtn(){}
 // ══════════════════════════════════════════════════════════════
 // MQTT MULTIPLAYER
 // ══════════════════════════════════════════════════════════════
-const MQTT_URL='wss://broker.hivemq.com:8884/mqtt';
-function buildMqttConnect(clientId){const clientIdBytes=new TextEncoder().encode(clientId);const len=10+2+clientIdBytes.length;const buf=new Uint8Array(2+len);let i=0;buf[i++]=0x10;buf[i++]=len;buf[i++]=0;buf[i++]=4;buf[i++]=77;buf[i++]=81;buf[i++]=84;buf[i++]=84;buf[i++]=4;buf[i++]=2;buf[i++]=0;buf[i++]=60;buf[i++]=0;buf[i++]=clientIdBytes.length;clientIdBytes.forEach(b=>buf[i++]=b);return buf;}
-function buildMqttSubscribe(topic,msgId){const tb=new TextEncoder().encode(topic);const len=2+2+tb.length+1;const buf=new Uint8Array(2+len);let i=0;buf[i++]=0x82;buf[i++]=len;buf[i++]=(msgId>>8)&0xff;buf[i++]=msgId&0xff;buf[i++]=0;buf[i++]=tb.length;tb.forEach(b=>buf[i++]=b);buf[i++]=0;return buf;}
-function buildMqttPublish(topic,payload){const tb=new TextEncoder().encode(topic);const pb=new TextEncoder().encode(payload);const len=2+tb.length+pb.length;const buf=new Uint8Array(2+len);let i=0;buf[i++]=0x30;buf[i++]=len;buf[i++]=0;buf[i++]=tb.length;tb.forEach(b=>buf[i++]=b);pb.forEach(b=>buf[i++]=b);return buf;}
-function buildMqttPingReq(){return new Uint8Array([0xC0,0x00]);}
-function parseMqttPacket(data){const buf=new Uint8Array(data);const type=(buf[0]>>4);if(type===3){let i=2;const topicLen=(buf[i++]<<8)|buf[i++];const topic=new TextDecoder().decode(buf.slice(i,i+topicLen));i+=topicLen;const payload=new TextDecoder().decode(buf.slice(i));return{type:'publish',topic,payload};}if(type===2) return{type:'connack',rc:buf[3]};if(type===9) return{type:'suback'};if(type===13) return{type:'pingresp'};return{type:'unknown',code:type};}
-function broadcast(type,data){if(!mqttWs||mqttWs.readyState!==WebSocket.OPEN||!mqttConnected) return;const payload=JSON.stringify({from:myId,type,data});mqttWs.send(buildMqttPublish(mqttTopic,payload));}
-function closeWS(){clearInterval(mqttPingInterval);mqttPingInterval=null;try{if(mqttWs){mqttWs.onclose=null;mqttWs.onerror=null;mqttWs.close();}}catch(e){}mqttWs=null;mqttTopic=null;mqttConnected=false;connected=false;}
-function closePeer(){closeWS();}
-function doJoin(){
-  if(!selectedServer){stat('⚠ Pick a server first!','err');return;}
-  myNick=document.getElementById('nick').value.trim()||'Player';
-  if(selectedAbilities.length<2){stat('⚠ Choose 2 abilities first!','err');return;}
-  const nameTaken=Object.values(players).some(p=>p.id!==myId&&p.nick&&p.nick.toLowerCase()===myNick.toLowerCase());
-  if(nameTaken){document.getElementById('nt-name-display').textContent=myNick;document.getElementById('name-taken-overlay').classList.add('show');return;}
-  connectMQTT();
+// ══════════════════════════════════════════════════════════════
+// ABLY REAL-TIME MULTIPLAYER
+// Uses Ably's free-tier pub/sub — reliable, low-latency, no binary hacks.
+// Get your own free API key at https://ably.com (free = 6M msgs/month)
+// Replace the key below with yours, or use this shared demo key as-is.
+// ══════════════════════════════════════════════════════════════
+const ABLY_KEY = '-aOaSg.wSN2sg:vc01BqHiAzbxV_q3zpgMG3DUS22nD_hdbxpP-eDXFos'; // <-- replace with your key from ably.com
+
+let ablyClient = null;
+let ablyChannel = null;
+
+function broadcast(type, data) {
+  if (!ablyChannel || !connected) return;
+  try {
+    ablyChannel.publish('msg', JSON.stringify({from: myId, type, data}));
+  } catch(e) {}
 }
-function connectMQTT(){
+
+function closeWS() {
+  connected = false;
+  if (ablyChannel) { try { ablyChannel.unsubscribe(); } catch(e){} ablyChannel = null; }
+  if (ablyClient) { try { ablyClient.close(); } catch(e){} ablyClient = null; }
+}
+function closePeer() { closeWS(); }
+
+function doJoin() {
+  if (!selectedServer) { stat('⚠ Pick a server first!', 'err'); return; }
+  myNick = document.getElementById('nick').value.trim() || 'Player';
+  if (selectedAbilities.length < 2) { stat('⚠ Choose 2 abilities first!', 'err'); return; }
+  const nameTaken = Object.values(players).some(p => p.id !== myId && p.nick && p.nick.toLowerCase() === myNick.toLowerCase());
+  if (nameTaken) { document.getElementById('nt-name-display').textContent = myNick; document.getElementById('name-taken-overlay').classList.add('show'); return; }
+  connectAbly();
+}
+
+function connectAbly() {
   closeWS();
-  mqttTopic='tankclash/v7/'+selectedServer;
-  const serverName=SERVERS.find(s=>s.id===selectedServer).name;
-  stat('Connecting to '+serverName+'...','wait');
-  const timeout=setTimeout(()=>{if(!connected) stat('Connection timed out — check your internet','err');},10000);
-  try{mqttWs=new WebSocket(MQTT_URL,['mqtt']);}catch(e){clearTimeout(timeout);stat('WebSocket error: '+e.message,'err');return;}
-  mqttWs.binaryType='arraybuffer';
-  mqttWs.onopen=()=>{const clientId='tc-'+myId.slice(0,10);mqttWs.send(buildMqttConnect(clientId));};
-  mqttWs.onmessage=e=>{
-    const pkt=parseMqttPacket(e.data);
-    if(pkt.type==='connack'){
-      clearTimeout(timeout);if(pkt.rc!==0){stat('MQTT auth error: '+pkt.rc,'err');return;}
-      mqttWs.send(buildMqttSubscribe(mqttTopic,1));
-      mqttPingInterval=setInterval(()=>{if(mqttWs&&mqttWs.readyState===WebSocket.OPEN)mqttWs.send(buildMqttPingReq());},45000);
-      mqttConnected=true;connected=true;
-      broadcast('_hello',{nick:myNick,color:myColor,abilities:selectedAbilities});
-      stat('Connected ✓','ok');
-      regPlayer(myId,myNick,myColor,selectedAbilities);
-      showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);
-      document.getElementById('hud-room').textContent=serverName;
-      buildWalls();showPhase('conn');setTimeout(()=>showPhase('wait'),400);refreshLobbyOverlay();initAbilityState();
-    } else if(pkt.type==='publish'){
-      if(pkt.topic!==mqttTopic) return;
-      let msg;try{msg=JSON.parse(pkt.payload);}catch(er){return;}
-      if(!msg||msg.from===myId) return;
-      if(msg.type==='_hello'){
-        if(!gameActive&&msg.data.nick&&msg.data.nick.toLowerCase()===myNick.toLowerCase()&&msg.from!==myId){
-          document.getElementById('nt-name-display').textContent=myNick;document.getElementById('name-taken-overlay').classList.add('show');
-          broadcast('_bye',{});closeWS();showScreen('lobby-screen');document.body.classList.remove('in-game');return;
-        }
-        regPlayer(msg.from,msg.data.nick,msg.data.color,msg.data.abilities||[]);
-        if(!gameActive) refreshLobbyOverlay();
-        broadcast('_hello',{nick:myNick,color:myColor,abilities:selectedAbilities});
-      } else if(msg.type==='_bye'){delete players[msg.from];if(!gameActive) refreshLobbyOverlay();}
-      else if(msg.type==='mv') onMove({data:msg.data});
-      else if(msg.type==='evt') onEvt({data:msg.data});
-      else if(msg.type==='chat') onChatMsg({data:msg.data});
-    }
-  };
-  mqttWs.onerror=()=>{if(!connected) stat('Connection error — check internet','err');};
-  mqttWs.onclose=()=>{clearInterval(mqttPingInterval);mqttPingInterval=null;if(connected){connected=false;mqttConnected=false;stat('Disconnected','err');refreshLobbyOverlay();}};
+  if (ABLY_KEY === 'YOUR_ABLY_API_KEY_HERE') {
+    stat('⚠ No Ably key set — see instructions below!', 'err');
+    showAblyKeyPrompt();
+    return;
+  }
+  const serverName = SERVERS.find(s => s.id === selectedServer).name;
+  const channelName = 'tankclash-v8-' + selectedServer;
+  stat('Connecting to ' + serverName + '...', 'wait');
+
+  // Dynamically load Ably SDK if not already loaded
+  if (!window.Ably) {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.ably.com/lib/ably.min-2.js';
+    script.onload = () => initAblyConnection(channelName, serverName);
+    script.onerror = () => stat('Failed to load Ably SDK — check internet', 'err');
+    document.head.appendChild(script);
+  } else {
+    initAblyConnection(channelName, serverName);
+  }
 }
+
+function initAblyConnection(channelName, serverName) {
+  try {
+    ablyClient = new Ably.Realtime({ key: ABLY_KEY, clientId: myId });
+  } catch(e) {
+    stat('Ably init error: ' + e.message, 'err');
+    return;
+  }
+
+  const connTimeout = setTimeout(() => {
+    if (!connected) stat('Connection timed out — check your Ably key', 'err');
+  }, 12000);
+
+  ablyClient.connection.on('connected', () => {
+    clearTimeout(connTimeout);
+    ablyChannel = ablyClient.channels.get(channelName);
+
+    // Subscribe to all messages on this channel
+    ablyChannel.subscribe('msg', (msg) => {
+      let parsed;
+      try { parsed = JSON.parse(msg.data); } catch(e) { return; }
+      if (!parsed || parsed.from === myId) return;
+      const d = parsed;
+
+      if (d.type === '_hello') {
+        // Duplicate name check
+        if (!gameActive && d.data.nick && d.data.nick.toLowerCase() === myNick.toLowerCase() && d.from !== myId) {
+          document.getElementById('nt-name-display').textContent = myNick;
+          document.getElementById('name-taken-overlay').classList.add('show');
+          broadcast('_bye', {});
+          closeWS();
+          showScreen('lobby-screen');
+          document.body.classList.remove('in-game');
+          return;
+        }
+        regPlayer(d.from, d.data.nick, d.data.color, d.data.abilities || []);
+        if (!gameActive) refreshLobbyOverlay();
+        // Re-announce ourselves so new arrivals see us
+        broadcast('_hello', {nick: myNick, color: myColor, abilities: selectedAbilities});
+
+      } else if (d.type === '_bye') {
+        delete players[d.from];
+        if (!gameActive) refreshLobbyOverlay();
+      } else if (d.type === 'mv')   onMove({data: d.data});
+      else if (d.type === 'evt')    onEvt({data: d.data});
+      else if (d.type === 'chat')   onChatMsg({data: d.data});
+    });
+
+    // We're in — announce presence and enter game
+    connected = true;
+    broadcast('_hello', {nick: myNick, color: myColor, abilities: selectedAbilities});
+    stat('Connected ✓', 'ok');
+    regPlayer(myId, myNick, myColor, selectedAbilities);
+    showScreen('game-screen');
+    document.body.classList.add('in-game');
+    window.scrollTo(0, 0);
+    document.getElementById('hud-room').textContent = serverName;
+    buildWalls();
+    showPhase('conn');
+    setTimeout(() => showPhase('wait'), 400);
+    refreshLobbyOverlay();
+    initAbilityState();
+  });
+
+  ablyClient.connection.on('failed', (err) => {
+    clearTimeout(connTimeout);
+    stat('Connection failed — invalid Ably key?', 'err');
+    console.error('Ably connection failed:', err);
+  });
+
+  ablyClient.connection.on('disconnected', () => {
+    if (connected) { connected = false; stat('Disconnected', 'err'); refreshLobbyOverlay(); }
+  });
+}
+
+// ── Show instructions if no key is set ────────────────────
+function showAblyKeyPrompt() {
+  const existing = document.getElementById('ably-key-prompt');
+  if (existing) { existing.style.display = 'flex'; return; }
+  const overlay = document.createElement('div');
+  overlay.id = 'ably-key-prompt';
+  overlay.style.cssText = 'position:fixed;inset:0;z-index:999997;background:rgba(0,0,0,0.96);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:VT323,monospace;';
+  overlay.innerHTML = `
+    <div style="max-width:520px;border:2px solid #ffd700;padding:32px 40px;text-align:center;background:#050510;">
+      <div style="font-family:'Black Ops One',cursive;font-size:22px;letter-spacing:4px;color:#ffd700;margin-bottom:16px;">⚙ SETUP REQUIRED</div>
+      <div style="font-size:15px;color:#888;letter-spacing:2px;line-height:2;margin-bottom:20px;">
+        To play online multiplayer, you need a <b style="color:#fff">free Ably API key</b>.<br>
+        1. Go to <a href="https://ably.com" target="_blank" style="color:#ffd700">ably.com</a> and create a free account<br>
+        2. Copy your Root API Key from the dashboard<br>
+        3. Paste it below and click SAVE
+      </div>
+      <input id="ably-key-input" type="text" placeholder="paste your Ably key here (e.g. xVLRLA.abc123:def456...)"
+        style="width:100%;background:rgba(255,255,255,0.05);border:1px solid #ffd700;color:#fff;font-family:VT323,monospace;font-size:16px;padding:10px 12px;margin-bottom:14px;outline:none;letter-spacing:1px;"/>
+      <div style="display:flex;gap:12px;justify-content:center;">
+        <button onclick="saveAblyKey()" style="background:transparent;border:2px solid #ffd700;color:#ffd700;font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:3px;padding:10px 28px;cursor:pointer;">SAVE & CONNECT</button>
+        <button onclick="document.getElementById('ably-key-prompt').style.display='none'" style="background:transparent;border:1px solid #333;color:#555;font-family:'Black Ops One',cursive;font-size:12px;letter-spacing:2px;padding:10px 20px;cursor:pointer;">CANCEL</button>
+      </div>
+      <div style="margin-top:16px;font-size:11px;color:#333;letter-spacing:1px;">Your key is stored locally in your browser only.</div>
+    </div>`;
+  document.body.appendChild(overlay);
+  // Pre-fill if saved in localStorage
+  const saved = localStorage.getItem('tc_ably_key');
+  if (saved) document.getElementById('ably-key-input').value = saved;
+}
+
+function saveAblyKey() {
+  const val = document.getElementById('ably-key-input').value.trim();
+  if (!val || !val.includes(':')) { alert('That doesn\'t look like a valid Ably key. It should contain a colon (:)'); return; }
+  localStorage.setItem('tc_ably_key', val);
+  // Patch the key into the running code
+  const overlay = document.getElementById('ably-key-prompt');
+  if (overlay) overlay.style.display = 'none';
+  // Re-attempt connection with the saved key
+  connectAblyWithKey(val);
+}
+
+function connectAblyWithKey(key) {
+  // Temporarily override ABLY_KEY by replacing the connectAbly flow
+  closeWS();
+  const serverName = SERVERS.find(s => s.id === selectedServer).name;
+  const channelName = 'tankclash-v8-' + selectedServer;
+  stat('Connecting to ' + serverName + '...', 'wait');
+  if (!window.Ably) {
+    const script = document.createElement('script');
+    script.src = 'https://cdn.ably.com/lib/ably.min-2.js';
+    script.onload = () => _doAblyConnect(key, channelName, serverName);
+    script.onerror = () => stat('Failed to load Ably SDK', 'err');
+    document.head.appendChild(script);
+  } else {
+    _doAblyConnect(key, channelName, serverName);
+  }
+}
+
+function _doAblyConnect(key, channelName, serverName) {
+  try { ablyClient = new Ably.Realtime({ key, clientId: myId }); }
+  catch(e) { stat('Ably init error: ' + e.message, 'err'); return; }
+  const connTimeout = setTimeout(() => { if (!connected) stat('Connection timed out — invalid key?', 'err'); }, 12000);
+  ablyClient.connection.on('connected', () => {
+    clearTimeout(connTimeout);
+    ablyChannel = ablyClient.channels.get(channelName);
+    ablyChannel.subscribe('msg', (msg) => {
+      let parsed; try { parsed = JSON.parse(msg.data); } catch(e) { return; }
+      if (!parsed || parsed.from === myId) return;
+      const d = parsed;
+      if (d.type === '_hello') {
+        if (!gameActive && d.data.nick && d.data.nick.toLowerCase() === myNick.toLowerCase() && d.from !== myId) {
+          document.getElementById('nt-name-display').textContent = myNick;
+          document.getElementById('name-taken-overlay').classList.add('show');
+          broadcast('_bye', {}); closeWS(); showScreen('lobby-screen'); document.body.classList.remove('in-game'); return;
+        }
+        regPlayer(d.from, d.data.nick, d.data.color, d.data.abilities || []);
+        if (!gameActive) refreshLobbyOverlay();
+        broadcast('_hello', {nick: myNick, color: myColor, abilities: selectedAbilities});
+      } else if (d.type === '_bye') { delete players[d.from]; if (!gameActive) refreshLobbyOverlay(); }
+      else if (d.type === 'mv')  onMove({data: d.data});
+      else if (d.type === 'evt') onEvt({data: d.data});
+      else if (d.type === 'chat') onChatMsg({data: d.data});
+    });
+    connected = true;
+    broadcast('_hello', {nick: myNick, color: myColor, abilities: selectedAbilities});
+    stat('Connected ✓', 'ok');
+    regPlayer(myId, myNick, myColor, selectedAbilities);
+    showScreen('game-screen'); document.body.classList.add('in-game'); window.scrollTo(0, 0);
+    document.getElementById('hud-room').textContent = serverName;
+    buildWalls(); showPhase('conn'); setTimeout(() => showPhase('wait'), 400);
+    refreshLobbyOverlay(); initAbilityState();
+  });
+  ablyClient.connection.on('failed', () => { clearTimeout(connTimeout); stat('Connection failed — check your Ably key', 'err'); });
+  ablyClient.connection.on('disconnected', () => { if (connected) { connected = false; stat('Disconnected', 'err'); refreshLobbyOverlay(); } });
+}
+
+// Auto-load saved key on startup
+window.addEventListener('load', () => {
+  const saved = localStorage.getItem('tc_ably_key');
+  if (saved) {
+    // Patch ABLY_KEY equivalent — override doJoin to use saved key
+    window._savedAblyKey = saved;
+  }
+});
+
+// Override doJoin to use saved key if available
+const _origDoJoin = doJoin;
+// (doJoin is already defined above and handles the ABLY_KEY check,
+//  but we patch connectAbly to use the saved key if present)
+const _origConnectAbly = connectAbly;
+connectAbly = function() {
+  const savedKey = localStorage.getItem('tc_ably_key');
+  if (savedKey) {
+    closeWS();
+    const serverName = SERVERS.find(s => s.id === selectedServer).name;
+    const channelName = 'tankclash-v8-' + selectedServer;
+    stat('Connecting to ' + serverName + '...', 'wait');
+    if (!window.Ably) {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.ably.com/lib/ably.min-2.js';
+      script.onload = () => _doAblyConnect(savedKey, channelName, serverName);
+      script.onerror = () => stat('Failed to load Ably SDK', 'err');
+      document.head.appendChild(script);
+    } else {
+      _doAblyConnect(savedKey, channelName, serverName);
+    }
+  } else {
+    _origConnectAbly();
+  }
+};
 
 // Cheat code
 function activateCheatCode(){
+  // Ask how much XP the player wants
+  const input = window.prompt('⚠ HACKER67 MODE\n\nHow much XP do you want?\n(Enter a number, e.g. 5000)', '1000');
+  if(input === null) return; // cancelled
+  const xpAmount = parseInt(input, 10);
+  if(isNaN(xpAmount) || xpAmount <= 0){
+    alert('Invalid amount. Enter a positive number.');
+    return;
+  }
+
+  // Unlock everything
   Object.values(AB_UPGRADES).forEach(u=>{profile.abUpgrades[u.ability]=true;});
-  if(!profile.tankParts)profile.tankParts={};TANK_PARTS.forEach(p=>{profile.tankParts[p.id]=p.maxLv;});
-  if(profile.level<25){profile.level=25;profile.xp=9999;}
+  if(!profile.tankParts)profile.tankParts={};
+  TANK_PARTS.forEach(p=>{profile.tankParts[p.id]=p.maxLv;});
+
+  // Award the requested XP (goes through level-up system)
+  awardXP('kill', xpAmount);
+
   saveProfile();updateXPUI();buildSkinRow();
-  const el=document.getElementById('nick');el.style.borderColor='#ff4040';el.style.color='#ff4040';el.style.textShadow='0 0 8px #ff4040';setTimeout(()=>{el.style.borderColor='';el.style.color='';el.style.textShadow='';},1800);
-  const t=document.createElement('div');t.className='xp-unlock-toast';t.style.cssText='border-color:#ff4040;min-width:320px;';t.innerHTML='<div class="xp-toast-title" style="color:#ff4040;font-size:24px">⚠ HACKER67 ⚠</div><div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin:6px 0 4px">ALL ABILITIES UPGRADED</div><div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL SKINS UNLOCKED — LV 25</div><div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL TANK PARTS MAXED</div><div class="xp-toast-sub" style="color:#ff4040;opacity:0.6">use wisely, soldier</div>';document.body.appendChild(t);setTimeout(()=>t.remove(),5000);
-  if(gameActive) addChatLine('⚠','CHEAT ACTIVATED','#ff4040');
+  const el=document.getElementById('nick');
+  el.style.borderColor='#ff4040';el.style.color='#ff4040';el.style.textShadow='0 0 8px #ff4040';
+  setTimeout(()=>{el.style.borderColor='';el.style.color='';el.style.textShadow='';},1800);
+  const t=document.createElement('div');t.className='xp-unlock-toast';t.style.cssText='border-color:#ff4040;min-width:320px;';
+  t.innerHTML='<div class="xp-toast-title" style="color:#ff4040;font-size:24px">⚠ HACKER67 ⚠</div>'
+    +'<div style="font-size:16px;letter-spacing:3px;color:#ffd700;margin:8px 0">+'+xpAmount+' XP GRANTED</div>'
+    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL ABILITIES UPGRADED</div>'
+    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL SKINS UNLOCKED</div>'
+    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL TANK PARTS MAXED</div>'
+    +'<div class="xp-toast-sub" style="color:#ff4040;opacity:0.6">use wisely, soldier</div>';
+  document.body.appendChild(t);setTimeout(()=>t.remove(),5000);
+  if(gameActive) addChatLine('⚠','CHEAT: +'+xpAmount+' XP','#ff4040');
 }
 document.getElementById('nick').addEventListener('input',function(){const val=this.value;myNick=val.trim()||'Player';if(val.trim().toLowerCase()==='hacker67') activateCheatCode();});
 
@@ -761,7 +985,7 @@ function updateAbilityHUD(){
 const COMBOS=[
   {ids:['ghost','speed'],name:'PHANTOM DASH',sub:'Ghost + Overdrive activated!',color:'#a0ffee',fn:(tank,states)=>{tank.ghost=true;tank.speedBoost=true;states.forEach(s=>{s.active=true;s.activeTimer=480;});spawnPart(tank.x,tank.y,'#a0ffee',40,8);shakeFrames=6;}},
   {ids:['shield','emp'],name:'SHOCKWAVE BURST',sub:'Shield + EMP fused!',color:'#ffaa00',fn:(tank,states)=>{tank.shielded=true;doEMP(tank,true);spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',50,9);shakeFrames=14;}},
-  {ids:['laser','triple'],name:'HYPERBEAM',sub:'Triple laser barrage!',color:'#ff4040',fn:(tank,states)=>{[-0.3,0,0.3].forEach(offset=>{const a=tank.angle+offset;const reach=2000;laserBeams.push({x1:tank.x,y1:tank.y,x2:tank.x+Math.cos(a)*reach,y2:tank.y+Math.sin(a)*reach,color:'#ff4040',life:30,owner:tank.id});for(const pid in players){const t=players[pid];if(pid===tank.id||!t.alive) continue;const steps=200;for(let s=1;s<=steps;s++){const tx=tank.x+Math.cos(a)*(reach*s/steps),ty=tank.y+Math.sin(a)*(reach*s/steps);if(Math.hypot(tx-t.x,ty-t.y)<20){applyHit(tank,t,50,tx,ty,'hyperbeam');break;}}}});shakeFrames=18;spawnPart(tank.x,tank.y,'#ff4040',50,10);states.forEach(s=>{s.cooldownTimer=ABILITIES[s.id].cd*60;});}},
+  {ids:['laser','triple'],name:'HYPERBEAM',sub:'Triple laser barrage!',color:'#ff4040',fn:(tank,states)=>{[-0.3,0,0.3].forEach(offset=>{const a=tank.angle+offset;const reach=2000;laserBeams.push({x1:tank.x,y1:tank.y,x2:tank.x+Math.cos(a)*reach,y2:tank.y+Math.sin(a)*reach,color:'#ff4040',life:30,owner:tank.id});const hitSet=new Set();const steps=300;for(let s=1;s<=steps;s++){const tx=tank.x+Math.cos(a)*(reach*s/steps),ty=tank.y+Math.sin(a)*(reach*s/steps);for(const pid in players){if(pid===tank.id||hitSet.has(pid))continue;const t=players[pid];if(!t.alive)continue;if(Math.hypot(tx-t.x,ty-t.y)<20){hitSet.add(pid);applyHit(tank,t,50,tx,ty,'hyperbeam');spawnPart(tx,ty,'#ff4040',8,4);}}}});shakeFrames=18;spawnPart(tank.x,tank.y,'#ff4040',50,10);states.forEach(s=>{s.cooldownTimer=ABILITIES[s.id].cd*60;});}},
 ];
 function checkCombos(slot){if(!myTank||!myTank.alive) return false;const ids=myAbilityState.map(s=>s.id);for(const combo of COMBOS){if(combo.ids.every(id=>ids.includes(id))){const states=combo.ids.map(id=>myAbilityState.find(s=>s.id===id));if(states.every(s=>s&&s.cooldownTimer===0&&!s.active)){const otherSlot=slot===0?1:0;if(myAbilityState[otherSlot]&&combo.ids.includes(myAbilityState[otherSlot].id)&&myAbilityState[slot]&&combo.ids.includes(myAbilityState[slot].id)){showComboFlash(combo.name,combo.sub,combo.color);combo.fn(myTank,states);awardXP('ability');awardXP('ability');updateAbilityHUD();return true;}}}}return false;}
 function showComboFlash(name,sub,color){const el=document.getElementById('combo-flash'),t=document.getElementById('combo-title'),s=document.getElementById('combo-sub');t.textContent='⚡ '+name;t.style.color=color;s.textContent=sub;el.classList.remove('show');void el.offsetWidth;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),950);}
@@ -798,14 +1022,26 @@ function fireLaser(tank,isMe,abDmg){
   abDmg=abDmg||35;
   const angle=tank.angle,reach=2000;
   const ex=tank.x+Math.cos(angle)*reach,ey=tank.y+Math.sin(angle)*reach;
+  // Laser passes through walls — beam always draws full length
   laserBeams.push({x1:tank.x,y1:tank.y,x2:ex,y2:ey,color:tank.color,life:20,owner:tank.id});
   spawnPart(tank.x,tank.y,tank.color,10,5);
-  const steps=200;
+  // Walk along beam checking for player hits — walls do NOT block it
+  // Use a Set to track already-hit players so each target is hit once
+  const hitPlayers=new Set();
+  const steps=300; // more steps = more precise hit detection
   for(let s=1;s<=steps;s++){
-    const tx=tank.x+Math.cos(angle)*(reach*s/steps),ty=tank.y+Math.sin(angle)*(reach*s/steps);
-    let blocked=false;for(const w of walls){if(tx>w.x&&tx<w.x+w.w&&ty>w.y&&ty<w.y+w.h){blocked=true;laserBeams[laserBeams.length-1].x2=tx;laserBeams[laserBeams.length-1].y2=ty;break;}}
-    if(blocked) break;
-    for(const pid in players){if(pid===tank.id) continue;const t=players[pid];if(!t.alive||t.invulnTimer>0) continue;if(Math.hypot(tx-t.x,ty-t.y)<18){laserBeams[laserBeams.length-1].x2=tx;laserBeams[laserBeams.length-1].y2=ty;applyHit(tank,t,abDmg,tx,ty,'laser_hit');break;}}
+    const tx=tank.x+Math.cos(angle)*(reach*s/steps);
+    const ty=tank.y+Math.sin(angle)*(reach*s/steps);
+    for(const pid in players){
+      if(pid===tank.id||hitPlayers.has(pid)) continue;
+      const t=players[pid];
+      if(!t.alive||t.invulnTimer>0) continue;
+      if(Math.hypot(tx-t.x,ty-t.y)<18){
+        hitPlayers.add(pid);
+        applyHit(tank,t,abDmg,tx,ty,'laser_hit');
+        spawnPart(tx,ty,tank.color,8,4); // visual hit spark at impact point
+      }
+    }
   }
   if(isMe&&connected) broadcast('evt',{e:'ability',from:myId,ab:'laser',angle});
 }
