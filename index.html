@@ -27,14 +27,10 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .colors{display:flex;gap:10px;flex-wrap:wrap;padding-top:4px;}
 .cdot{width:30px;height:30px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .18s;}
 .cdot.on{border-color:#fff;transform:scale(1.25);}
-
-/* Mode selector */
 .mode-row{display:flex;gap:12px;width:100%;}
 .mode-btn{flex:1;padding:14px 10px;background:rgba(255,255,255,0.03);border:1px solid var(--border);cursor:pointer;text-align:center;transition:all .2s;font-family:'Black Ops One',cursive;font-size:12px;letter-spacing:2px;color:#555;}
 .mode-btn:hover,.mode-btn.on{border-color:var(--gold);box-shadow:0 0 20px rgba(255,215,0,0.18);background:rgba(255,215,0,0.04);color:var(--gold);}
 .mode-icon{font-size:24px;margin-bottom:6px;}
-
-/* Ability picker */
 .ability-section{width:100%;}
 .ability-section-title{font-size:10px;letter-spacing:4px;color:#2a2a38;margin-bottom:8px;}
 .ability-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;width:100%;}
@@ -46,7 +42,6 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 .ab-name{font-family:'Black Ops One',cursive;font-size:9px;letter-spacing:1px;color:var(--gold);margin-bottom:3px;}
 .ab-desc{font-size:10px;color:#333;letter-spacing:0.5px;line-height:1.2;}
 .ab-badge{position:absolute;top:4px;right:4px;width:14px;height:14px;border-radius:50%;background:var(--gold);color:#000;font-size:9px;font-weight:bold;display:flex;align-items:center;justify-content:center;font-family:Arial;}
-
 .sv-row{display:flex;gap:12px;width:100%;}
 .sv{flex:1;padding:14px 10px;background:rgba(255,255,255,0.03);border:1px solid var(--border);cursor:pointer;text-align:center;transition:all .2s;position:relative;}
 .sv:hover,.sv.on{border-color:var(--gold);box-shadow:0 0 20px rgba(255,215,0,0.18);transform:translateY(-2px);background:rgba(255,215,0,0.04);}
@@ -109,8 +104,6 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
 #death-screen{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:8;}
 #death-msg{font-family:'Black Ops One',cursive;font-size:28px;letter-spacing:4px;color:var(--red);text-shadow:0 0 20px var(--red);}
 #death-timer{font-size:22px;letter-spacing:4px;color:#555;margin-top:8px;}
-
-/* Ability HUD bar */
 #ability-bar{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:6;}
 .ab-slot{width:60px;height:60px;background:rgba(0,0,0,0.85);border:2px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:all .15s;}
 .ab-slot:hover{border-color:rgba(255,215,0,0.5);}
@@ -123,8 +116,6 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
 .ab-slot-name{font-size:8px;letter-spacing:1px;color:#555;font-family:'Black Ops One',cursive;}
 .ab-cd-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;font-family:'Black Ops One',cursive;font-size:14px;color:#aaa;}
 .ab-active-bar{position:absolute;bottom:0;left:0;height:3px;background:var(--gold);transition:width .1s linear;}
-
-/* Death ability switch */
 #death-ability-switch{margin-top:16px;width:460px;}
 #death-ability-switch h3{font-family:'Black Ops One',cursive;font-size:12px;letter-spacing:3px;color:#555;margin-bottom:8px;text-align:center;}
 .das-slots{display:flex;gap:12px;justify-content:center;margin-bottom:10px;}
@@ -145,21 +136,15 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
 .dab-icon{font-size:18px;}
 .dab-name{font-family:'Black Ops One',cursive;font-size:8px;color:var(--gold);}
 .das-hint{font-size:10px;color:#2a2a38;letter-spacing:2px;text-align:center;margin-top:6px;}
-
-/* Surrender button */
 #surrender-btn{position:absolute;top:8px;left:8px;z-index:6;background:rgba(0,0,0,0.85);border:1px solid rgba(255,64,64,0.35);color:rgba(255,64,64,0.55);font-family:'Black Ops One',cursive;font-size:9px;letter-spacing:2px;padding:5px 10px;cursor:pointer;transition:all .2s;}
 #surrender-btn:hover{border-color:#ff4040;color:#ff4040;box-shadow:0 0 12px rgba(255,64,64,0.3);}
 #surrender-confirm{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.93);z-index:20;backdrop-filter:blur(6px);}
 #surrender-confirm h2{font-family:'Black Ops One',cursive;font-size:28px;letter-spacing:4px;color:var(--red);text-shadow:0 0 20px var(--red);margin-bottom:10px;}
 #surrender-confirm p{font-size:14px;letter-spacing:3px;color:#444;margin-bottom:24px;}
 .surrender-btns{display:flex;gap:16px;}
-
-/* NPC difficulty */
 .diff-row{display:flex;gap:8px;width:100%;}
 .diff-btn{flex:1;padding:10px 6px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);cursor:pointer;text-align:center;font-family:'Black Ops One',cursive;font-size:11px;letter-spacing:2px;color:#444;transition:all .2s;}
 .diff-btn.on{border-color:var(--gold);color:var(--gold);background:rgba(255,215,0,0.05);}
-
-/* XP / Level Panel */
 #xp-panel{position:fixed;top:12px;right:12px;z-index:99998;width:210px;background:rgba(0,0,0,0.92);border:1px solid rgba(255,215,0,0.28);padding:12px 14px;font-family:'VT323',monospace;transition:opacity 0.3s;}
 body.in-game #xp-panel{opacity:0;pointer-events:none;}
 #xp-level-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
@@ -175,52 +160,17 @@ body.in-game #xp-panel{opacity:0;pointer-events:none;}
 .xp-toast-sub{font-size:14px;letter-spacing:2px;color:#888;margin-top:4px;}
 .xp-gain-float{position:fixed;font-family:'Black Ops One',cursive;font-size:13px;color:var(--gold);text-shadow:0 0 8px var(--gold);pointer-events:none;z-index:99999;animation:xpfloat 1.8s ease forwards;white-space:nowrap;background:rgba(0,0,0,0.7);padding:2px 8px;border-left:2px solid var(--gold);}
 @keyframes xpfloat{0%{opacity:0;transform:translateY(6px);}12%{opacity:1;}80%{opacity:1;transform:translateY(-22px);}100%{opacity:0;transform:translateY(-36px);}}
-
-/* Skin selector in lobby */
 #skin-section{width:100%;}
 .skin-row{display:flex;gap:8px;flex-wrap:wrap;}
 .skin-btn{padding:8px 12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);cursor:pointer;font-family:'Black Ops One',cursive;font-size:10px;letter-spacing:1px;color:#444;transition:all .2s;display:flex;align-items:center;gap:6px;}
 .skin-btn.on{border-color:var(--gold);color:var(--gold);background:rgba(255,215,0,0.06);}
 .skin-btn.locked{opacity:0.35;cursor:not-allowed;}
 .skin-btn .skin-lv{font-size:9px;color:#ff4040;letter-spacing:1px;}
-
-/* Laser beam */
-.laser-fx{position:absolute;pointer-events:none;}
-
-/* Ability effects overlay */
-#fx-overlay{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;pointer-events:none;z-index:7;}
-
-/* Duplicate name warning */
-#name-taken-overlay{
-  display:none;position:fixed;inset:0;z-index:999990;
-  background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);
-  flex-direction:column;align-items:center;justify-content:center;
-  animation:ntfadein .2s ease;
-}
-@keyframes ntfadein{from{opacity:0}to{opacity:1}}
-#name-taken-overlay.show{display:flex;}
-.nt-box{
-  border:2px solid #ff4040;padding:32px 48px;text-align:center;
-  background:rgba(0,0,0,0.95);box-shadow:0 0 60px rgba(255,64,64,0.4);
-  animation:ntshake .4s cubic-bezier(.36,.07,.19,.97);
-}
-@keyframes ntshake{10%,90%{transform:translateX(-5px);}20%,80%{transform:translateX(7px);}30%,50%,70%{transform:translateX(-7px);}40%,60%{transform:translateX(7px);}}
-.nt-icon{font-size:48px;margin-bottom:12px;animation:ntspin .6s ease;}
-@keyframes ntspin{from{transform:rotate(-20deg) scale(0.5)}to{transform:none}}
-.nt-title{font-family:'Black Ops One',cursive;font-size:26px;letter-spacing:5px;color:#ff4040;text-shadow:0 0 30px #ff4040;margin-bottom:8px;}
-.nt-sub{font-size:15px;letter-spacing:3px;color:#888;margin-bottom:24px;}
-.nt-name{color:#ff4040;font-family:'Black Ops One',cursive;}
-.nt-btn{background:transparent;border:2px solid #ff4040;color:#ff4040;font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:4px;padding:12px 32px;cursor:pointer;transition:all .2s;}
-.nt-btn:hover{background:rgba(255,64,64,0.12);box-shadow:0 0 24px rgba(255,64,64,0.5);}
-
-/* Ability combo flash */
 #combo-flash{position:fixed;top:28%;left:50%;transform:translateX(-50%);z-index:99997;pointer-events:none;text-align:center;display:none;}
 #combo-flash.show{display:block;animation:combopop .9s ease forwards;}
 @keyframes combopop{0%{opacity:0;transform:translateX(-50%) scale(0.4);}25%{opacity:1;transform:translateX(-50%) scale(1.15);}70%{opacity:1;transform:translateX(-50%) scale(1);}100%{opacity:0;transform:translateX(-50%) scale(0.9);}}
 .combo-title{font-family:'Black Ops One',cursive;font-size:32px;letter-spacing:6px;text-shadow:0 0 40px currentColor;}
 .combo-sub{font-size:13px;letter-spacing:4px;color:#aaa;margin-top:4px;}
-
-/* Daily challenges panel */
 #challenge-panel{position:fixed;bottom:12px;left:12px;z-index:99998;width:230px;background:rgba(0,0,0,0.92);border:1px solid rgba(255,215,0,0.2);padding:10px 12px;font-family:'VT323',monospace;transition:opacity 0.3s;}
 body.in-game #challenge-panel{opacity:0;pointer-events:none;}
 #challenge-panel-title{font-family:'Black Ops One',cursive;font-size:9px;letter-spacing:3px;color:#2a2a38;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;}
@@ -232,15 +182,6 @@ body.in-game #challenge-panel{opacity:0;pointer-events:none;}
 .ch-prog{font-size:10px;color:#333;letter-spacing:1px;margin-top:2px;}
 .ch-item.done .ch-bar-fill{background:#40ff80;}
 .ch-item.done .ch-prog{color:#40ff80;}
-
-/* Kill cam */
-#killcam-overlay{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;display:none;flex-direction:column;align-items:center;justify-content:flex-start;background:rgba(0,0,0,0.7);z-index:9;pointer-events:none;}
-#killcam-overlay.show{display:flex;}
-#killcam-label{font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:5px;color:#ff4040;text-shadow:0 0 16px #ff4040;margin-top:12px;padding:4px 16px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,64,64,0.4);}
-#killcam-timer{font-size:12px;letter-spacing:3px;color:#555;margin-top:4px;}
-canvas#killcam-canvas{display:none;border:none;position:absolute;top:0;left:0;width:820px;height:560px;opacity:0.92;}
-
-/* Tank upgrade shop */
 #shop-btn{position:fixed;top:12px;left:12px;z-index:99999;background:rgba(0,0,0,0.9);border:1px solid rgba(255,215,0,0.4);color:var(--gold);font-family:'Black Ops One',cursive;font-size:10px;letter-spacing:2px;padding:8px 14px;cursor:pointer;transition:all .2s;}
 #shop-btn:hover{box-shadow:0 0 20px rgba(255,215,0,0.4);background:rgba(255,215,0,0.08);}
 body.in-game #shop-btn{display:none;}
@@ -264,6 +205,18 @@ body.in-game #shop-btn{display:none;}
 .shop-part-maxed{position:absolute;top:8px;right:8px;font-size:9px;letter-spacing:2px;color:#40ff80;}
 .shop-close{background:transparent;border:1px solid rgba(255,255,255,0.15);color:#555;font-family:'Black Ops One',cursive;font-size:11px;letter-spacing:3px;padding:10px 32px;cursor:pointer;transition:all .2s;display:block;margin:0 auto;}
 .shop-close:hover{border-color:#fff;color:#fff;}
+#name-taken-overlay{display:none;position:fixed;inset:0;z-index:999990;background:rgba(0,0,0,0.85);backdrop-filter:blur(6px);flex-direction:column;align-items:center;justify-content:center;animation:ntfadein .2s ease;}
+@keyframes ntfadein{from{opacity:0}to{opacity:1}}
+#name-taken-overlay.show{display:flex;}
+.nt-box{border:2px solid #ff4040;padding:32px 48px;text-align:center;background:rgba(0,0,0,0.95);box-shadow:0 0 60px rgba(255,64,64,0.4);animation:ntshake .4s cubic-bezier(.36,.07,.19,.97);}
+@keyframes ntshake{10%,90%{transform:translateX(-5px);}20%,80%{transform:translateX(7px);}30%,50%,70%{transform:translateX(-7px);}40%,60%{transform:translateX(7px);}}
+.nt-icon{font-size:48px;margin-bottom:12px;animation:ntspin .6s ease;}
+@keyframes ntspin{from{transform:rotate(-20deg) scale(0.5)}to{transform:none}}
+.nt-title{font-family:'Black Ops One',cursive;font-size:26px;letter-spacing:5px;color:#ff4040;text-shadow:0 0 30px #ff4040;margin-bottom:8px;}
+.nt-sub{font-size:15px;letter-spacing:3px;color:#888;margin-bottom:24px;}
+.nt-name{color:#ff4040;font-family:'Black Ops One',cursive;}
+.nt-btn{background:transparent;border:2px solid #ff4040;color:#ff4040;font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:4px;padding:12px 32px;cursor:pointer;transition:all .2s;}
+.nt-btn:hover{background:rgba(255,64,64,0.12);box-shadow:0 0 24px rgba(255,64,64,0.5);}
 </style>
 </head>
 <body>
@@ -320,7 +273,6 @@ body.in-game #shop-btn{display:none;}
 </div>
 
 <div id="combo-flash"><div class="combo-title" id="combo-title"></div><div class="combo-sub" id="combo-sub"></div></div>
-<!-- DUPLICATE NAME WARNING -->
 <div id="name-taken-overlay">
   <div class="nt-box">
     <div class="nt-icon">⚠️</div>
@@ -330,7 +282,6 @@ body.in-game #shop-btn{display:none;}
   </div>
 </div>
 
-<!-- XP / LEVEL PANEL -->
 <div id="xp-panel">
   <div id="xp-level-row">
     <div id="xp-level-badge">1</div>
@@ -341,23 +292,12 @@ body.in-game #shop-btn{display:none;}
     </div>
   </div>
   <div id="xp-stats-row" style="margin-top:8px;border-top:1px solid rgba(255,255,255,0.06);padding-top:7px;display:flex;justify-content:space-between;">
-    <div style="text-align:center;">
-      <div id="xp-stat-kills" style="font-family:'Black Ops One',cursive;font-size:14px;color:var(--red);">0</div>
-      <div style="font-size:9px;color:#333;letter-spacing:2px;">KILLS</div>
-    </div>
-    <div style="text-align:center;">
-      <div id="xp-stat-games" style="font-family:'Black Ops One',cursive;font-size:14px;color:var(--blue);">0</div>
-      <div style="font-size:9px;color:#333;letter-spacing:2px;">GAMES</div>
-    </div>
-    <div style="text-align:center;">
-      <div id="xp-stat-kd" style="font-family:'Black Ops One',cursive;font-size:14px;color:var(--gold);">—</div>
-      <div style="font-size:9px;color:#333;letter-spacing:2px;">K/D</div>
-    </div>
+    <div style="text-align:center;"><div id="xp-stat-kills" style="font-family:'Black Ops One',cursive;font-size:14px;color:var(--red);">0</div><div style="font-size:9px;color:#333;letter-spacing:2px;">KILLS</div></div>
+    <div style="text-align:center;"><div id="xp-stat-games" style="font-family:'Black Ops One',cursive;font-size:14px;color:var(--blue);">0</div><div style="font-size:9px;color:#333;letter-spacing:2px;">GAMES</div></div>
+    <div style="text-align:center;"><div id="xp-stat-kd" style="font-family:'Black Ops One',cursive;font-size:14px;color:var(--gold);">—</div><div style="font-size:9px;color:#333;letter-spacing:2px;">K/D</div></div>
   </div>
   <div id="xp-next-unlock" style="margin-top:7px;font-size:10px;color:#2a2a38;letter-spacing:1px;text-align:center;min-height:14px;"></div>
-  <div style="margin-top:6px;text-align:right;">
-    <span onclick="resetProfile()" style="font-size:9px;color:#1a1a1a;letter-spacing:1px;cursor:pointer;" title="Reset all progress">RESET</span>
-  </div>
+  <div style="margin-top:6px;text-align:right;"><span onclick="resetProfile()" style="font-size:9px;color:#1a1a1a;letter-spacing:1px;cursor:pointer;">RESET</span></div>
 </div>
 <button id="shop-btn" onclick="openShop()">🔧 UPGRADES</button>
 <div id="shop-overlay">
@@ -372,8 +312,8 @@ body.in-game #shop-btn{display:none;}
   <div id="challenge-panel-title">📋 DAILY CHALLENGES <span id="ch-timer" style="font-size:9px;color:#222;letter-spacing:1px;"></span></div>
   <div id="challenge-list"></div>
 </div>
+
 <div id="app">
-  <!-- LOBBY -->
   <div id="lobby-screen" class="screen active">
     <div class="game-title">TANK CLASH</div>
     <div class="tagline">ONLINE PvP — UP TO 8 PLAYERS — NOW WITH ABILITIES</div>
@@ -386,15 +326,11 @@ body.in-game #shop-btn{display:none;}
         </div>
         <div class="field"><label>TANK COLOR</label><div class="colors" id="colors"></div></div>
       </div>
-
-      <!-- Game Mode -->
       <div style="font-size:10px;letter-spacing:4px;color:#2a2a38;width:100%;text-align:left;">GAME MODE</div>
       <div class="mode-row">
         <div class="mode-btn on" id="mode-mp" onclick="setMode('mp')"><div class="mode-icon">🌐</div>MULTIPLAYER<br><span style="font-size:9px;color:#444;letter-spacing:1px;">ONLINE PvP</span></div>
         <div class="mode-btn" id="mode-sp" onclick="setMode('sp')"><div class="mode-icon">🤖</div>VS BOT<br><span style="font-size:9px;color:#444;letter-spacing:1px;">SINGLE PLAYER</span></div>
       </div>
-
-      <!-- Bot difficulty (hidden by default) -->
       <div id="diff-section" style="display:none;width:100%;">
         <div style="font-size:10px;letter-spacing:4px;color:#2a2a38;margin-bottom:6px;">BOT DIFFICULTY</div>
         <div class="diff-row">
@@ -402,22 +338,15 @@ body.in-game #shop-btn{display:none;}
           <div class="diff-btn" id="diff-med" onclick="setDiff('medium')">🟡 MEDIUM</div>
           <div class="diff-btn" id="diff-hard" onclick="setDiff('hard')">🔴 HARD</div>
         </div>
-
       </div>
-
-      <!-- Ability Picker -->
       <div class="ability-section">
         <div class="ability-section-title">CHOOSE 2 ABILITIES (Q = slot 1 &nbsp;|&nbsp; E = slot 2)</div>
         <div class="ability-grid" id="ability-grid"></div>
       </div>
-
-      <!-- Skin / Unlock Preview -->
       <div id="skin-section" style="width:100%;">
         <div style="font-size:10px;letter-spacing:4px;color:#2a2a38;margin-bottom:6px;">TANK SKIN</div>
         <div class="skin-row" id="skin-row"></div>
       </div>
-
-      <!-- XP How It Works info (collapsed) -->
       <div id="xp-info-toggle" onclick="toggleXPInfo()" style="width:100%;padding:6px 10px;background:rgba(255,215,0,0.03);border:1px solid rgba(255,215,0,0.1);cursor:pointer;display:flex;justify-content:space-between;align-items:center;">
         <span style="font-family:'Black Ops One',cursive;font-size:10px;letter-spacing:3px;color:#2a2a38;">HOW XP WORKS</span>
         <span id="xp-info-arrow" style="font-size:12px;color:#2a2a38;">▼</span>
@@ -431,8 +360,6 @@ body.in-game #shop-btn{display:none;}
         <div style="margin-top:6px;color:#2a2a38;">Level up to unlock skins &amp; ability upgrades.</div>
         <div style="color:#2a2a38;">Progress is saved automatically in your browser.</div>
       </div>
-
-      <!-- Server selection (mp only) -->
       <div id="sv-section" style="width:100%;">
         <div style="font-size:10px;letter-spacing:4px;color:#2a2a38;margin-bottom:6px;">PICK A SERVER</div>
         <div class="sv-row" id="svgrid"></div>
@@ -446,7 +373,6 @@ body.in-game #shop-btn{display:none;}
     </div>
   </div>
 
-  <!-- GAME -->
   <div id="game-screen" class="screen">
     <div id="game-wrap">
       <div id="hud">
@@ -467,11 +393,6 @@ body.in-game #shop-btn{display:none;}
           <div id="plist"></div>
           <button class="btn" id="start-btn" style="display:none" onclick="reqStart()">▶ START GAME</button>
         </div>
-      </div>
-      <div id="killcam-overlay">
-        <div id="killcam-label">📽 KILL CAM</div>
-        <div id="killcam-timer"></div>
-        <canvas id="killcam-canvas" width="820" height="560"></canvas>
       </div>
       <div id="death-screen">
         <div id="death-msg">YOU WERE DESTROYED</div>
@@ -537,511 +458,141 @@ body.in-game #shop-btn{display:none;}
   </div>
 </div>
 
-<!-- multiplayer via WebSocket relay, no external SDK needed -->
 <script>
-
 // ═══════════════════════════════════════════════════════════
 // XP / LEVEL / PERSISTENCE SYSTEM
 // ═══════════════════════════════════════════════════════════
-const RANK_NAMES = [
-  'RECRUIT','PRIVATE','CORPORAL','SERGEANT','LIEUTENANT',
-  'CAPTAIN','MAJOR','COLONEL','GENERAL','COMMANDER'
+const RANK_NAMES=['RECRUIT','PRIVATE','CORPORAL','SERGEANT','LIEUTENANT','CAPTAIN','MAJOR','COLONEL','GENERAL','COMMANDER'];
+const TANK_SKINS=[
+  {id:'default',name:'STANDARD',unlockLv:1,emoji:'🟩',desc:'Default hull'},
+  {id:'stealth',name:'STEALTH',unlockLv:3,emoji:'⬛',desc:'Dark matte hull'},
+  {id:'camo',name:'CAMO',unlockLv:5,emoji:'🟫',desc:'Camouflage pattern'},
+  {id:'chrome',name:'CHROME',unlockLv:8,emoji:'⬜',desc:'Reflective hull'},
+  {id:'neon',name:'NEON',unlockLv:12,emoji:'🟦',desc:'Glowing neon trim'},
+  {id:'inferno',name:'INFERNO',unlockLv:16,emoji:'🟥',desc:'Fire pattern'},
+  {id:'gold',name:'GOLDEN',unlockLv:20,emoji:'🟨',desc:'Full gold hull'},
+  {id:'void',name:'VOID',unlockLv:25,emoji:'🟣',desc:'Dark energy'},
 ];
-const TANK_SKINS = [
-  {id:'default', name:'STANDARD', unlockLv:1,  emoji:'🟩', desc:'Default hull'},
-  {id:'stealth', name:'STEALTH',  unlockLv:3,  emoji:'⬛', desc:'Dark matte hull'},
-  {id:'camo',    name:'CAMO',     unlockLv:5,  emoji:'🟫', desc:'Camouflage pattern'},
-  {id:'chrome',  name:'CHROME',   unlockLv:8,  emoji:'⬜', desc:'Reflective hull'},
-  {id:'neon',    name:'NEON',     unlockLv:12, emoji:'🟦', desc:'Glowing neon trim'},
-  {id:'inferno', name:'INFERNO',  unlockLv:16, emoji:'🟥', desc:'Fire pattern'},
-  {id:'gold',    name:'GOLDEN',   unlockLv:20, emoji:'🟨', desc:'Full gold hull'},
-  {id:'void',    name:'VOID',     unlockLv:25, emoji:'🟣', desc:'Dark energy'},
-];
-const AB_UPGRADES = {
-  laser_range:   {name:'LASER+',    desc:'Beam dmg +50%',       unlockLv:7,  ability:'laser',   icon:'⚡'},
-  shield_double: {name:'2× SHIELD', desc:'Blocks 2 hits',        unlockLv:10, ability:'shield',  icon:'🛡️'},
-  heal_boost:    {name:'MEDKIT+',   desc:'Heals 60 HP',          unlockLv:13, ability:'heal',    icon:'❤️'},
-  speed_longer:  {name:'TURBO+',    desc:'Speed lasts 6s',       unlockLv:17, ability:'speed',   icon:'💨'},
-  emp_bigger:    {name:'EMP+',      desc:'Blast radius ×1.5',    unlockLv:22, ability:'emp',     icon:'💥'},
+const AB_UPGRADES={
+  laser_range:{name:'LASER+',desc:'Beam dmg +50%',unlockLv:7,ability:'laser',icon:'⚡'},
+  shield_double:{name:'2× SHIELD',desc:'Blocks 2 hits',unlockLv:10,ability:'shield',icon:'🛡️'},
+  heal_boost:{name:'MEDKIT+',desc:'Heals 60 HP',unlockLv:13,ability:'heal',icon:'❤️'},
+  speed_longer:{name:'TURBO+',desc:'Speed lasts 6s',unlockLv:17,ability:'speed',icon:'💨'},
+  emp_bigger:{name:'EMP+',desc:'Blast radius ×1.5',unlockLv:22,ability:'emp',icon:'💥'},
 };
-
-// XP required to reach NEXT level (scales gradually)
-function xpForLevel(lv) { return Math.floor(120 * Math.pow(lv, 1.28)); }
-
-// XP sources with amounts
-const XP_SOURCES = {
-  kill:     {amt:60, label:'Enemy destroyed'},
-  assist:   {amt:20, label:'Assist'},
-  survived: {amt:15, label:'Survived a life'},
-  ability:  {amt:3,  label:'Ability used'},
-  coin:     {amt:4,  label:'Coin collected'},
-  medkit:   {amt:8,  label:'Medkit collected'},
-  game:     {amt:25, label:'Game completed'},
-};
-
-let profile = loadProfile();
-let xpSessionGained = 0;
-let sessionCoins = 0;
-let myKillStreak = 0;
-let lastAbilityUsed = '';
-let floatDmgNums = [];
-
+function xpForLevel(lv){return Math.floor(120*Math.pow(lv,1.28));}
+const XP_SOURCES={kill:{amt:60,label:'Enemy destroyed'},assist:{amt:20,label:'Assist'},survived:{amt:15,label:'Survived a life'},ability:{amt:3,label:'Ability used'},coin:{amt:4,label:'Coin collected'},medkit:{amt:8,label:'Medkit collected'},game:{amt:25,label:'Game completed'}};
+let profile=loadProfile();
+let xpSessionGained=0,sessionCoins=0,myKillStreak=0,lastAbilityUsed='',floatDmgNums=[];
 function loadProfile(){
-  try {
-    const raw = localStorage.getItem('tankclash_profile');
-    if(raw){
-      const p = JSON.parse(raw);
-      // Migrate old profile if missing fields
-      p.totalKills  = p.totalKills  || 0;
-      p.totalGames  = p.totalGames  || 0;
-      p.totalDeaths = p.totalDeaths || 0;
-      p.abUpgrades  = p.abUpgrades  || {};
-      p.tankParts   = p.tankParts   || {};
-      p.skin        = p.skin        || 'default';
-      return p;
-    }
-  } catch(e){}
-  return {xp:0,level:1,totalKills:0,totalGames:0,totalDeaths:0,skin:'default',abUpgrades:{},tankParts:{}};
+  try{const raw=localStorage.getItem('tankclash_profile');if(raw){const p=JSON.parse(raw);p.totalKills=p.totalKills||0;p.totalGames=p.totalGames||0;p.totalDeaths=p.totalDeaths||0;p.abUpgrades=p.abUpgrades||{};p.tankParts=p.tankParts||{};p.skin=p.skin||'default';return p;}}catch(e){}
+  return{xp:0,level:1,totalKills:0,totalGames:0,totalDeaths:0,skin:'default',abUpgrades:{},tankParts:{}};
 }
-function saveProfile(){
-  try { localStorage.setItem('tankclash_profile', JSON.stringify(profile)); } catch(e){}
+function saveProfile(){try{localStorage.setItem('tankclash_profile',JSON.stringify(profile));}catch(e){}}
+function getRank(lv){return RANK_NAMES[Math.min(lv-1,RANK_NAMES.length-1)];}
+function awardXP(sourceKey,overrideAmt){
+  const src=XP_SOURCES[sourceKey];const amount=overrideAmt!==undefined?overrideAmt:(src?src.amt:0);if(amount<=0) return;
+  xpSessionGained+=amount;profile.xp+=amount;
+  while(profile.xp>=xpForLevel(profile.level)){profile.xp-=xpForLevel(profile.level);profile.level++;onLevelUp(profile.level);}
+  saveProfile();updateXPUI();showXPFloat('+'+amount,src?src.label:'');
 }
-function getRank(lv){ return RANK_NAMES[Math.min(lv-1, RANK_NAMES.length-1)]; }
-
-// Main XP award function — called from game events
-function awardXP(sourceKey, overrideAmt){
-  const src = XP_SOURCES[sourceKey];
-  const amount = overrideAmt !== undefined ? overrideAmt : (src ? src.amt : 0);
-  if(amount <= 0) return;
-  xpSessionGained += amount;
-  profile.xp += amount;
-  // Level-up loop — handle multiple level-ups at once
-  while(profile.xp >= xpForLevel(profile.level)){
-    profile.xp -= xpForLevel(profile.level);
-    profile.level++;
-    onLevelUp(profile.level);
-  }
-  saveProfile();
-  updateXPUI();
-  showXPFloat('+'+amount, src ? src.label : '');
-}
-
 function onLevelUp(newLv){
-  const skinUnlock = TANK_SKINS.find(s=>s.unlockLv===newLv);
-  const abUnlock   = Object.values(AB_UPGRADES).find(u=>u.unlockLv===newLv);
-  let subMsg = 'Keep pushing, soldier.';
-  if(skinUnlock){ subMsg = skinUnlock.emoji+' New skin: '+skinUnlock.name; }
-  if(abUnlock){ 
-    subMsg = abUnlock.icon+' Upgrade unlocked: '+abUnlock.name+' — '+abUnlock.desc;
-    profile.abUpgrades[abUnlock.ability] = true;
-  }
-  saveProfile();
-  showLevelUpToast('LEVEL UP  ▲  '+newLv, getRank(newLv), subMsg);
-  
-  updateXPUI();
+  const skinUnlock=TANK_SKINS.find(s=>s.unlockLv===newLv);const abUnlock=Object.values(AB_UPGRADES).find(u=>u.unlockLv===newLv);let subMsg='Keep pushing, soldier.';
+  if(skinUnlock){subMsg=skinUnlock.emoji+' New skin: '+skinUnlock.name;}
+  if(abUnlock){subMsg=abUnlock.icon+' Upgrade unlocked: '+abUnlock.name+' — '+abUnlock.desc;profile.abUpgrades[abUnlock.ability]=true;}
+  saveProfile();showLevelUpToast('LEVEL UP  ▲  '+newLv,getRank(newLv),subMsg);updateXPUI();
 }
-
-function showLevelUpToast(title, rank, sub){
-  const t = document.createElement('div');
-  t.className = 'xp-unlock-toast';
-  t.innerHTML = '<div class="xp-toast-title">'+title+'</div>'
-    +'<div style="font-size:11px;letter-spacing:4px;color:var(--gold);opacity:0.7;margin:3px 0 6px">'+rank+'</div>'
-    +'<div class="xp-toast-sub">'+sub+'</div>';
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(), 3600);
-}
-
-let _xpFloatY = 60; // stagger floats so they don't overlap
-let _xpFloatTimer = null;
-function showXPFloat(amount, label){
-  // Only show during gameplay on canvas
-  const el = document.createElement('div');
-  el.className = 'xp-gain-float';
-  el.innerHTML = '<span style="color:var(--gold)">' + amount + ' XP</span>'
-    + (label ? '<span style="font-size:11px;color:#666;margin-left:6px">'+label+'</span>' : '');
-  // Position: bottom-right of HUD bar, staggered vertically
-  el.style.cssText = 'right:16px;top:'+_xpFloatY+'px;';
-  _xpFloatY += 22; if(_xpFloatY > 130) _xpFloatY = 60;
-  clearTimeout(_xpFloatTimer);
-  _xpFloatTimer = setTimeout(()=>{ _xpFloatY=60; }, 2000);
-  document.body.appendChild(el);
-  setTimeout(()=>el.remove(), 1800);
-}
-
+function showLevelUpToast(title,rank,sub){const t=document.createElement('div');t.className='xp-unlock-toast';t.innerHTML='<div class="xp-toast-title">'+title+'</div><div style="font-size:11px;letter-spacing:4px;color:var(--gold);opacity:0.7;margin:3px 0 6px">'+rank+'</div><div class="xp-toast-sub">'+sub+'</div>';document.body.appendChild(t);setTimeout(()=>t.remove(),3600);}
+let _xpFloatY=60,_xpFloatTimer=null;
+function showXPFloat(amount,label){const el=document.createElement('div');el.className='xp-gain-float';el.innerHTML='<span style="color:var(--gold)">'+amount+' XP</span>'+(label?'<span style="font-size:11px;color:#666;margin-left:6px">'+label+'</span>':'');el.style.cssText='right:16px;top:'+_xpFloatY+'px;';_xpFloatY+=22;if(_xpFloatY>130)_xpFloatY=60;clearTimeout(_xpFloatTimer);_xpFloatTimer=setTimeout(()=>{_xpFloatY=60;},2000);document.body.appendChild(el);setTimeout(()=>el.remove(),1800);}
 function updateXPUI(){
-  const lv = profile.level;
-  const needed = xpForLevel(lv);
-  const pct = Math.min(100, (profile.xp / needed)*100);
-  document.getElementById('xp-level-badge').textContent = lv;
-  document.getElementById('xp-rank-name').textContent = getRank(lv);
-  document.getElementById('xp-bar-fill').style.width = pct+'%';
-  document.getElementById('xp-bar-label').textContent = profile.xp+' / '+needed+' XP to next level';
-  // Stats
-  document.getElementById('xp-stat-kills').textContent = profile.totalKills;
-  document.getElementById('xp-stat-games').textContent = profile.totalGames;
-  const kd = profile.totalDeaths > 0 ? (profile.totalKills/profile.totalDeaths).toFixed(1) : profile.totalKills > 0 ? profile.totalKills+'—' : '—';
-  document.getElementById('xp-stat-kd').textContent = kd;
-  // Next unlock hint
-  const nextSkin = TANK_SKINS.find(s=>s.unlockLv>lv);
-  const nextAb   = Object.values(AB_UPGRADES).find(u=>u.unlockLv>lv);
-  const nextUnlock = [nextSkin, nextAb].filter(Boolean).sort((a,b)=>a.unlockLv-b.unlockLv)[0];
-  const el = document.getElementById('xp-next-unlock');
-  if(el){
-    if(nextUnlock){
-      el.textContent = 'Lv'+nextUnlock.unlockLv+' → '+('emoji' in nextUnlock ? nextUnlock.emoji+' '+nextUnlock.name : nextUnlock.icon+' '+nextUnlock.name);
-    } else {
-      el.textContent = '★ MAX RANK ACHIEVED';
-      el.style.color = 'var(--gold)';
-    }
-  }
+  const lv=profile.level,needed=xpForLevel(lv),pct=Math.min(100,(profile.xp/needed)*100);
+  document.getElementById('xp-level-badge').textContent=lv;document.getElementById('xp-rank-name').textContent=getRank(lv);document.getElementById('xp-bar-fill').style.width=pct+'%';document.getElementById('xp-bar-label').textContent=profile.xp+' / '+needed+' XP to next level';
+  document.getElementById('xp-stat-kills').textContent=profile.totalKills;document.getElementById('xp-stat-games').textContent=profile.totalGames;
+  const kd=profile.totalDeaths>0?(profile.totalKills/profile.totalDeaths).toFixed(1):profile.totalKills>0?profile.totalKills+'—':'—';document.getElementById('xp-stat-kd').textContent=kd;
+  const nextSkin=TANK_SKINS.find(s=>s.unlockLv>lv),nextAb=Object.values(AB_UPGRADES).find(u=>u.unlockLv>lv);const nextUnlock=[nextSkin,nextAb].filter(Boolean).sort((a,b)=>a.unlockLv-b.unlockLv)[0];const el=document.getElementById('xp-next-unlock');if(el){if(nextUnlock){el.textContent='Lv'+nextUnlock.unlockLv+' → '+('emoji' in nextUnlock?nextUnlock.emoji+' '+nextUnlock.name:nextUnlock.icon+' '+nextUnlock.name);}else{el.textContent='★ MAX RANK ACHIEVED';el.style.color='var(--gold)';}}
 }
-
-function resetProfile(){
-  if(!confirm('Reset ALL progress? This cannot be undone.')) return;
-  localStorage.removeItem('tankclash_profile');
-  profile = loadProfile();
-  xpSessionGained = 0;
-  updateXPUI();
-  
-  selectedSkin = 'default';
-}
-
-let selectedSkin = 'default';
-function buildSkinRow(){
-  const row = document.getElementById('skin-row');
-  if(!row) return;
-  row.innerHTML = '';
-  TANK_SKINS.forEach(sk => {
-    const locked = profile.level < sk.unlockLv;
-    const d = document.createElement('div');
-    d.className = 'skin-btn' + (selectedSkin===sk.id?' on':'') + (locked?' locked':'');
-    d.innerHTML = sk.emoji+' <span>' + sk.name + '</span>' + (locked?'<span class="skin-lv">LV'+sk.unlockLv+'</span>':'');
-    if(!locked) d.onclick = () => { selectedSkin = sk.id; buildSkinRow(); };
-    row.appendChild(d);
-  });
-}
-
-const botCount = 1;
-
-function toggleXPInfo(){
-  const box = document.getElementById('xp-info-box');
-  const arrow = document.getElementById('xp-info-arrow');
-  const open = box.style.display==='none';
-  box.style.display = open ? 'block' : 'none';
-  arrow.textContent = open ? '▲' : '▼';
-}
-
-// Init on load
-window.addEventListener('load', ()=>{
-  updateXPUI();
-  
-  buildSkinRow();
-  setMode('mp'); // init correct display state
-  refreshBtn();
-});
-
-
-
-// ═══════════════════════════════════════════════════════════
-// KILL CAM — record snapshot frames, replay on death
-// ═══════════════════════════════════════════════════════════
-const KILLCAM_FRAMES = [];
-const KILLCAM_MAX = 120; // 2 seconds at 60fps
-let killCamActive = false;
-let killCamFrame = 0;
-let killCamInterval = null;
-let killCamKillerNick = '';
-
-function recordKillCamFrame(){
-  if(killCamActive || !gameActive) return;
-  // Store snapshot of all player positions
-  const frame = {
-    players: Object.values(players).filter(p=>p.alive).map(p=>({
-      x:p.x, y:p.y, angle:p.angle, color:p.color, nick:p.nick, hp:p.hp,
-      ghost:p.ghost, shielded:p.shielded, id:p.id
-    })),
-    bullets: bullets.map(b=>({x:b.x,y:b.y,color:b.color,vx:b.vx,vy:b.vy})),
-    camX, camY
-  };
-  KILLCAM_FRAMES.push(frame);
-  if(KILLCAM_FRAMES.length > KILLCAM_MAX) KILLCAM_FRAMES.shift();
-}
-
-function playKillCam(killerNick){
-  if(KILLCAM_FRAMES.length < 10) return;
-  killCamActive = true;
-  killCamFrame = 0;
-  killCamKillerNick = killerNick;
-  const overlay = document.getElementById('killcam-overlay');
-  const kcCanvas = document.getElementById('killcam-canvas');
-  const label = document.getElementById('killcam-label');
-  label.textContent = '📽 KILL CAM — killed by ' + killerNick;
-  overlay.classList.add('show');
-  kcCanvas.style.display = 'block';
-  const kctx = kcCanvas.getContext('2d');
-  const frames = [...KILLCAM_FRAMES];
-  
-  clearInterval(killCamInterval);
-  killCamInterval = setInterval(()=>{
-    if(killCamFrame >= frames.length){
-      clearInterval(killCamInterval);
-      killCamActive = false;
-      overlay.classList.remove('show');
-      kcCanvas.style.display='none';
-      return;
-    }
-    const f = frames[killCamFrame];
-    const timerEl = document.getElementById('killcam-timer');
-    const remaining = Math.ceil((frames.length - killCamFrame) / 60 * 1);
-    if(timerEl) timerEl.textContent = killCamFrame < frames.length ? Math.ceil((frames.length-killCamFrame)/frames.length*2)+'s remaining' : '';
-    // Draw frame
-    kctx.save();
-    kctx.fillStyle = '#0c0c18';
-    kctx.fillRect(0,0,820,560);
-    kctx.translate(-Math.round(f.camX), -Math.round(f.camY));
-    // Draw walls
-    for(const w of walls){
-      const g=kctx.createLinearGradient(w.x,w.y,w.x,w.y+w.h);
-      g.addColorStop(0,'#252538');g.addColorStop(1,'#111120');
-      kctx.fillStyle=g;kctx.fillRect(w.x,w.y,w.w,w.h);
-    }
-    // Draw bullets
-    f.bullets.forEach(b=>{
-      kctx.fillStyle=b.color;kctx.shadowColor=b.color;kctx.shadowBlur=10;
-      kctx.beginPath();kctx.arc(b.x,b.y,4,0,Math.PI*2);kctx.fill();
-    });
-    // Draw tanks
-    f.players.forEach(p=>{
-      kctx.save();
-      kctx.translate(p.x,p.y);kctx.rotate(p.angle);
-      kctx.shadowColor=p.color;kctx.shadowBlur=16;
-      kctx.fillStyle=p.color;
-      kctx.beginPath();kctx.roundRect(-15,-12,30,24,4);kctx.fill();
-      kctx.fillStyle=p.color;kctx.fillRect(7,-3.5,20,7);
-      kctx.restore();
-      // Name label
-      kctx.save();kctx.textAlign='center';kctx.font='bold 12px Arial';
-      kctx.fillStyle=p.color;kctx.shadowColor=p.color;kctx.shadowBlur=8;
-      kctx.fillText(p.nick,p.x,p.y-28);kctx.restore();
-    });
-    kctx.restore();
-    // Red vignette border
-    const vg=kctx.createRadialGradient(410,280,200,410,280,430);
-    vg.addColorStop(0,'transparent');vg.addColorStop(1,'rgba(255,0,0,0.18)');
-    kctx.fillStyle=vg;kctx.fillRect(0,0,820,560);
-    killCamFrame += 2; // play at 2x speed
-  }, 1000/60);
-}
-
+function resetProfile(){if(!confirm('Reset ALL progress? This cannot be undone.')) return;localStorage.removeItem('tankclash_profile');profile=loadProfile();xpSessionGained=0;updateXPUI();selectedSkin='default';}
+let selectedSkin='default';
+function buildSkinRow(){const row=document.getElementById('skin-row');if(!row) return;row.innerHTML='';TANK_SKINS.forEach(sk=>{const locked=profile.level<sk.unlockLv;const d=document.createElement('div');d.className='skin-btn'+(selectedSkin===sk.id?' on':'')+(locked?' locked':'');d.innerHTML=sk.emoji+' <span>'+sk.name+'</span>'+(locked?'<span class="skin-lv">LV'+sk.unlockLv+'</span>':'');if(!locked) d.onclick=()=>{selectedSkin=sk.id;buildSkinRow();};row.appendChild(d);});}
+const botCount=1;
+function toggleXPInfo(){const box=document.getElementById('xp-info-box'),arrow=document.getElementById('xp-info-arrow'),open=box.style.display==='none';box.style.display=open?'block':'none';arrow.textContent=open?'▲':'▼';}
+window.addEventListener('load',()=>{updateXPUI();buildSkinRow();setMode('mp');refreshBtn();});
 
 // ═══════════════════════════════════════════════════════════
 // TANK UPGRADE SHOP
 // ═══════════════════════════════════════════════════════════
-const TANK_PARTS = [
-  {id:'wheels',  icon:'⚙️',  name:'WHEELS',    desc:'Movement speed',        stat:'speed',    maxLv:4, costs:[60,200,500,1200],  vals:[0.15,0.30,0.50,0.75]},
-  {id:'turret',  icon:'🎯',  name:'TURRET',    desc:'Bullet damage',          stat:'damage',   maxLv:4, costs:[80,250,600,1500],  vals:[3,7,13,22]},
-  {id:'armor',   icon:'🛡',  name:'ARMOR',     desc:'Max HP bonus',           stat:'maxhp',    maxLv:4, costs:[70,220,550,1300],  vals:[15,30,50,80]},
-  {id:'engine',  icon:'⚡',  name:'ENGINE',    desc:'Faster fire rate',        stat:'firerate', maxLv:4, costs:[50,180,450,1100],  vals:[3,6,10,16]},
-  {id:'optics',  icon:'🔭',  name:'OPTICS',    desc:'Bullet speed',           stat:'bspeed',   maxLv:4, costs:[50,160,400,1000],  vals:[1,2,3.5,5]},
-  {id:'cooling', icon:'❄️',  name:'COOLING',   desc:'Ability cooldown -10%',  stat:'cdreduce', maxLv:3, costs:[100,350,900],      vals:[0.10,0.20,0.30]},
+const TANK_PARTS=[
+  {id:'wheels',icon:'⚙️',name:'WHEELS',desc:'Movement speed',stat:'speed',maxLv:4,costs:[60,200,500,1200],vals:[0.15,0.30,0.50,0.75]},
+  {id:'turret',icon:'🎯',name:'TURRET',desc:'Bullet damage',stat:'damage',maxLv:4,costs:[80,250,600,1500],vals:[3,7,13,22]},
+  {id:'armor',icon:'🛡',name:'ARMOR',desc:'Max HP bonus',stat:'maxhp',maxLv:4,costs:[70,220,550,1300],vals:[15,30,50,80]},
+  {id:'engine',icon:'⚡',name:'ENGINE',desc:'Faster fire rate',stat:'firerate',maxLv:4,costs:[50,180,450,1100],vals:[3,6,10,16]},
+  {id:'optics',icon:'🔭',name:'OPTICS',desc:'Bullet speed',stat:'bspeed',maxLv:4,costs:[50,160,400,1000],vals:[1,2,3.5,5]},
+  {id:'cooling',icon:'❄️',name:'COOLING',desc:'Ability cooldown -10%',stat:'cdreduce',maxLv:3,costs:[100,350,900],vals:[0.10,0.20,0.30]},
 ];
-
-function getPartLevel(partId){ return profile.tankParts ? (profile.tankParts[partId]||0) : 0; }
-function getPartBonus(partId){
-  const part = TANK_PARTS.find(p=>p.id===partId);
-  const lv = getPartLevel(partId);
-  return lv>0 ? part.vals[lv-1] : 0;
-}
-
-// Apply upgrades to game values
-function getUpgradedSpeed()    { return T_SPD + getPartBonus('wheels'); }
-function getUpgradedDamage()   { return 20 + getPartBonus('turret'); }
-function getUpgradedMaxHP()    { return 100 + getPartBonus('armor'); }
-function getUpgradedFireCD()   { return Math.max(12, F_CD - getPartBonus('engine')); }
-function getUpgradedBulletSpd(){ return B_SPD + getPartBonus('optics'); }
-function getUpgradedCDMult()   { return 1 - getPartBonus('cooling'); }
-
-function openShop(){
-  if(!profile.tankParts) profile.tankParts={};
-  document.getElementById('shop-xp-display').textContent = profile.xp + ' XP';
-  renderShopParts();
-  document.getElementById('shop-overlay').classList.add('show');
-}
-function closeShop(){ document.getElementById('shop-overlay').classList.remove('show'); }
-
+function getPartLevel(partId){return profile.tankParts?(profile.tankParts[partId]||0):0;}
+function getPartBonus(partId){const part=TANK_PARTS.find(p=>p.id===partId);const lv=getPartLevel(partId);return lv>0?part.vals[lv-1]:0;}
+function getUpgradedSpeed(){return T_SPD+getPartBonus('wheels');}
+function getUpgradedDamage(){return 20+getPartBonus('turret');}
+function getUpgradedMaxHP(){return 100+getPartBonus('armor');}
+function getUpgradedFireCD(){return Math.max(12,F_CD-getPartBonus('engine'));}
+function getUpgradedBulletSpd(){return B_SPD+getPartBonus('optics');}
+function getUpgradedCDMult(){return 1-getPartBonus('cooling');}
+function openShop(){if(!profile.tankParts)profile.tankParts={};document.getElementById('shop-xp-display').textContent=profile.xp+' XP';renderShopParts();document.getElementById('shop-overlay').classList.add('show');}
+function closeShop(){document.getElementById('shop-overlay').classList.remove('show');}
 function renderShopParts(){
-  const grid = document.getElementById('shop-parts-grid'); if(!grid) return;
-  grid.innerHTML='';
-  TANK_PARTS.forEach(part=>{
-    const lv = getPartLevel(part.id);
-    const maxed = lv >= part.maxLv;
-    const cost = maxed ? 0 : part.costs[lv];
-    const canAfford = profile.xp >= cost;
-    const d = document.createElement('div');
-    d.className = 'shop-part';
-    d.style.opacity = (!maxed && !canAfford) ? '0.5' : '1';
-    let pips = '';
-    for(let i=0;i<part.maxLv;i++) pips+='<div class="shop-part-pip'+(i<lv?' filled':'')+'"></div>';
-    const nextVal = !maxed ? '+'+part.vals[lv]+(part.stat==='cdreduce'?'×CD':'') : '';
-    d.innerHTML = '<div class="shop-part-icon">'+part.icon+'</div>'
-      +'<div class="shop-part-name">'+part.name+'</div>'
-      +'<div class="shop-part-desc">'+part.desc+'</div>'
-      +'<div class="shop-part-levels">'+pips+'</div>'
-      +'<div class="shop-part-cost">'+(maxed?'<span style="color:#40ff80">MAXED ✓</span>':'Cost: <span>'+cost+' XP</span> → '+nextVal)+'</div>'
-      +(maxed?'<div class="shop-part-maxed">MAX</div>':'');
-    if(!maxed && canAfford){
-      d.onclick = ()=>{ buyPart(part.id); };
-      d.style.cursor='pointer';
-    } else {
-      d.style.cursor='default';
-    }
-    grid.appendChild(d);
-  });
+  const grid=document.getElementById('shop-parts-grid');if(!grid) return;grid.innerHTML='';
+  TANK_PARTS.forEach(part=>{const lv=getPartLevel(part.id),maxed=lv>=part.maxLv,cost=maxed?0:part.costs[lv],canAfford=profile.xp>=cost;const d=document.createElement('div');d.className='shop-part';d.style.opacity=(!maxed&&!canAfford)?'0.5':'1';let pips='';for(let i=0;i<part.maxLv;i++)pips+='<div class="shop-part-pip'+(i<lv?' filled':'')+'"></div>';const nextVal=!maxed?'+'+part.vals[lv]+(part.stat==='cdreduce'?'×CD':''):'';d.innerHTML='<div class="shop-part-icon">'+part.icon+'</div><div class="shop-part-name">'+part.name+'</div><div class="shop-part-desc">'+part.desc+'</div><div class="shop-part-levels">'+pips+'</div><div class="shop-part-cost">'+(maxed?'<span style="color:#40ff80">MAXED ✓</span>':'Cost: <span>'+cost+' XP</span> → '+nextVal)+'</div>'+(maxed?'<div class="shop-part-maxed">MAX</div>':'');if(!maxed&&canAfford){d.onclick=()=>{buyPart(part.id);};d.style.cursor='pointer';}else{d.style.cursor='default';}grid.appendChild(d);});
 }
-
-function buyPart(partId){
-  if(!profile.tankParts) profile.tankParts={};
-  const part = TANK_PARTS.find(p=>p.id===partId);
-  const lv = getPartLevel(partId);
-  if(lv >= part.maxLv) return;
-  const cost = part.costs[lv];
-  if(profile.xp < cost){ return; }
-  profile.xp -= cost;
-  profile.tankParts[partId] = lv+1;
-  saveProfile();
-  updateXPUI();
-  document.getElementById('shop-xp-display').textContent = profile.xp + ' XP';
-  renderShopParts();
-  // flash
-  const b = document.createElement('div');
-  b.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999999;'
-    +'font-family:Black Ops One,cursive;font-size:20px;letter-spacing:4px;color:var(--gold);'
-    +'text-shadow:0 0 20px var(--gold);pointer-events:none;animation:xpfloat 1.4s ease forwards;';
-  b.textContent='✓ '+part.name+' LV'+(lv+1)+' UNLOCKED';
-  document.body.appendChild(b);setTimeout(()=>b.remove(),1500);
-}
+function buyPart(partId){if(!profile.tankParts)profile.tankParts={};const part=TANK_PARTS.find(p=>p.id===partId);const lv=getPartLevel(partId);if(lv>=part.maxLv) return;const cost=part.costs[lv];if(profile.xp<cost){return;}profile.xp-=cost;profile.tankParts[partId]=lv+1;saveProfile();updateXPUI();document.getElementById('shop-xp-display').textContent=profile.xp+' XP';renderShopParts();const b=document.createElement('div');b.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999999;font-family:Black Ops One,cursive;font-size:20px;letter-spacing:4px;color:var(--gold);text-shadow:0 0 20px var(--gold);pointer-events:none;animation:xpfloat 1.4s ease forwards;';b.textContent='✓ '+part.name+' LV'+(lv+1)+' UNLOCKED';document.body.appendChild(b);setTimeout(()=>b.remove(),1500);}
 
 // ═══════════════════════════════════════════════════════════
 // DAILY CHALLENGES
 // ═══════════════════════════════════════════════════════════
-const CHALLENGE_POOL = [
-  {id:'kills_laser',   name:'Laser Killer',       desc:'Kill 3 enemies with Laser',    type:'kill_with',  ability:'laser',     goal:3,  reward:80},
-  {id:'kills_emp',     name:'EMP Brawler',         desc:'Stun 5 enemies with EMP',      type:'use_ability',ability:'emp',       goal:5,  reward:60},
-  {id:'kills_total',   name:'Hunter',              desc:'Get 5 kills in one session',   type:'kills',                           goal:5,  reward:100},
-  {id:'medkits',       name:'Field Medic',         desc:'Collect 4 medkits',            type:'medkits',                         goal:4,  reward:50},
-  {id:'streak',        name:'On Fire',             desc:'Get a 3-kill streak',          type:'streak',                          goal:3,  reward:90},
-  {id:'abilities_use', name:'Ability Spammer',     desc:'Use abilities 10 times',       type:'abilities',                       goal:10, reward:60},
-  {id:'ghost_kills',   name:'Ghost Hunter',        desc:'Kill while ghosted',           type:'kill_while', state:'ghost',        goal:2,  reward:70},
-  {id:'survive',       name:'Survivor',            desc:'Survive 5 lives',              type:'survive',                         goal:5,  reward:55},
-  {id:'combo_use',     name:'Combo Master',        desc:'Trigger an ability combo',     type:'combo',                           goal:1,  reward:120},
-  {id:'coins',         name:'Coin Collector',      desc:'Collect 20 coins',             type:'coins',                           goal:20, reward:65},
+const CHALLENGE_POOL=[
+  {id:'kills_laser',name:'Laser Killer',desc:'Kill 3 enemies with Laser',type:'kill_with',ability:'laser',goal:3,reward:80},
+  {id:'kills_emp',name:'EMP Brawler',desc:'Stun 5 enemies with EMP',type:'use_ability',ability:'emp',goal:5,reward:60},
+  {id:'kills_total',name:'Hunter',desc:'Get 5 kills in one session',type:'kills',goal:5,reward:100},
+  {id:'medkits',name:'Field Medic',desc:'Collect 4 medkits',type:'medkits',goal:4,reward:50},
+  {id:'streak',name:'On Fire',desc:'Get a 3-kill streak',type:'streak',goal:3,reward:90},
+  {id:'abilities_use',name:'Ability Spammer',desc:'Use abilities 10 times',type:'abilities',goal:10,reward:60},
+  {id:'ghost_kills',name:'Ghost Hunter',desc:'Kill while ghosted',type:'kill_while',state:'ghost',goal:2,reward:70},
+  {id:'survive',name:'Survivor',desc:'Survive 5 lives',type:'survive',goal:5,reward:55},
+  {id:'combo_use',name:'Combo Master',desc:'Trigger an ability combo',type:'combo',goal:1,reward:120},
+  {id:'coins',name:'Coin Collector',desc:'Collect 20 coins',type:'coins',goal:20,reward:65},
 ];
-
-function todayKey(){ return 'tc_challenges_'+new Date().toISOString().slice(0,10); }
-
-function loadChallenges(){
-  const key = todayKey();
-  try{
-    const raw = localStorage.getItem(key);
-    if(raw) return JSON.parse(raw);
-  }catch(e){}
-  // Pick 3 random challenges for today (seeded by date)
-  const seed = parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));
-  const rng = (n)=>{ let x=Math.sin(seed+n)*10000; return x-Math.floor(x); };
-  const shuffled = [...CHALLENGE_POOL].sort((_,__,i=0)=>rng(i++)-0.5);
-  const picks = shuffled.slice(0,3).map(c=>({...c, progress:0, done:false}));
-  localStorage.setItem(key, JSON.stringify(picks));
-  return picks;
-}
-
-let dailyChallenges = loadChallenges();
-
-function saveChallenges(){ try{localStorage.setItem(todayKey(), JSON.stringify(dailyChallenges));}catch(e){} }
-
-function progressChallenge(type, extra={}){
-  let changed = false;
-  dailyChallenges.forEach(ch=>{
-    if(ch.done) return;
-    let hit = false;
-    if(ch.type===type) hit=true;
-    if(ch.type==='kill_with' && type==='kill_with' && extra.ability===ch.ability) hit=true;
-    if(ch.type==='kill_while' && type==='kill_while' && extra.state===ch.state) hit=true;
-    if(ch.type==='use_ability' && type==='use_ability' && extra.ability===ch.ability) hit=true;
-    if(hit){
-      ch.progress = Math.min(ch.goal, (ch.progress||0)+1);
-      if(ch.progress>=ch.goal && !ch.done){
-        ch.done=true;
-        awardXP('kill', ch.reward); // award reward XP
-        showChallengeComplete(ch);
-      }
-      changed=true;
-    }
-  });
-  if(changed){ saveChallenges(); renderChallenges(); }
-}
-
-function showChallengeComplete(ch){
-  const t=document.createElement('div');
-  t.style.cssText='position:fixed;top:15%;left:50%;transform:translateX(-50%);z-index:999999;'
-    +'background:rgba(0,0,0,0.96);border:2px solid var(--gold);padding:16px 28px;text-align:center;'
-    +'animation:xptoast 3s ease forwards;font-family:VT323,monospace;';
-  t.innerHTML='<div style="font-family:Black Ops One,cursive;font-size:16px;letter-spacing:4px;color:var(--gold)">✅ CHALLENGE COMPLETE</div>'
-    +'<div style="font-size:20px;letter-spacing:2px;color:#fff;margin:4px 0">'+ch.name+'</div>'
-    +'<div style="font-size:14px;color:var(--gold)">+'+ch.reward+' XP BONUS</div>';
-  document.body.appendChild(t);setTimeout(()=>t.remove(),3200);
-}
-
-function renderChallenges(){
-  const list = document.getElementById('challenge-list'); if(!list) return;
-  list.innerHTML='';
-  dailyChallenges.forEach(ch=>{
-    const pct = Math.min(100,(ch.progress/ch.goal)*100);
-    const d=document.createElement('div');
-    d.className='ch-item'+(ch.done?' done':'');
-    d.innerHTML='<div class="ch-name'+(ch.done?' done':'')+'">'+ch.name+' <span style="font-size:9px;color:var(--gold)">+'+ch.reward+'XP</span></div>'
-      +'<div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:'+pct+'%"></div></div>'
-      +'<div class="ch-prog">'+ch.progress+' / '+ch.goal+(ch.done?' ✓':'')+'</div>';
-    list.appendChild(d);
-  });
-  // Timer until reset
-  const now=new Date(), midnight=new Date(now); midnight.setHours(24,0,0,0);
-  const diff=midnight-now;
-  const h=Math.floor(diff/3600000), m=Math.floor((diff%3600000)/60000);
-  const timer=document.getElementById('ch-timer');
-  if(timer) timer.textContent='resets in '+h+'h '+m+'m';
-}
-
-renderChallenges();
-setInterval(renderChallenges, 60000); // update timer every minute
+function todayKey(){return 'tc_challenges_'+new Date().toISOString().slice(0,10);}
+function loadChallenges(){const key=todayKey();try{const raw=localStorage.getItem(key);if(raw) return JSON.parse(raw);}catch(e){}const seed=parseInt(new Date().toISOString().slice(0,10).replace(/-/g,''));const rng=(n)=>{let x=Math.sin(seed+n)*10000;return x-Math.floor(x);};const shuffled=[...CHALLENGE_POOL].sort((_,__,i=0)=>rng(i++)-0.5);const picks=shuffled.slice(0,3).map(c=>({...c,progress:0,done:false}));localStorage.setItem(key,JSON.stringify(picks));return picks;}
+let dailyChallenges=loadChallenges();
+function saveChallenges(){try{localStorage.setItem(todayKey(),JSON.stringify(dailyChallenges));}catch(e){}}
+function progressChallenge(type,extra={}){let changed=false;dailyChallenges.forEach(ch=>{if(ch.done) return;let hit=false;if(ch.type===type) hit=true;if(ch.type==='kill_with'&&type==='kill_with'&&extra.ability===ch.ability) hit=true;if(ch.type==='kill_while'&&type==='kill_while'&&extra.state===ch.state) hit=true;if(ch.type==='use_ability'&&type==='use_ability'&&extra.ability===ch.ability) hit=true;if(hit){ch.progress=Math.min(ch.goal,(ch.progress||0)+1);if(ch.progress>=ch.goal&&!ch.done){ch.done=true;awardXP('kill',ch.reward);showChallengeComplete(ch);}changed=true;}});if(changed){saveChallenges();renderChallenges();}}
+function showChallengeComplete(ch){const t=document.createElement('div');t.style.cssText='position:fixed;top:15%;left:50%;transform:translateX(-50%);z-index:999999;background:rgba(0,0,0,0.96);border:2px solid var(--gold);padding:16px 28px;text-align:center;animation:xptoast 3s ease forwards;font-family:VT323,monospace;';t.innerHTML='<div style="font-family:Black Ops One,cursive;font-size:16px;letter-spacing:4px;color:var(--gold)">✅ CHALLENGE COMPLETE</div><div style="font-size:20px;letter-spacing:2px;color:#fff;margin:4px 0">'+ch.name+'</div><div style="font-size:14px;color:var(--gold)">+'+ch.reward+' XP BONUS</div>';document.body.appendChild(t);setTimeout(()=>t.remove(),3200);}
+function renderChallenges(){const list=document.getElementById('challenge-list');if(!list) return;list.innerHTML='';dailyChallenges.forEach(ch=>{const pct=Math.min(100,(ch.progress/ch.goal)*100);const d=document.createElement('div');d.className='ch-item'+(ch.done?' done':'');d.innerHTML='<div class="ch-name'+(ch.done?' done':'')+'">'+ch.name+' <span style="font-size:9px;color:var(--gold)">+'+ch.reward+'XP</span></div><div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:'+pct+'%"></div></div><div class="ch-prog">'+ch.progress+' / '+ch.goal+(ch.done?' ✓':'')+'</div>';list.appendChild(d);});const now=new Date(),midnight=new Date(now);midnight.setHours(24,0,0,0);const diff=midnight-now,h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000);const timer=document.getElementById('ch-timer');if(timer) timer.textContent='resets in '+h+'h '+m+'m';}
+renderChallenges();setInterval(renderChallenges,60000);
 
 // ═══════════════════════════════════════════════════════════
 // ABILITY DEFINITIONS
 // ═══════════════════════════════════════════════════════════
-const ABILITIES = {
-  ghost:      {id:'ghost',      name:'GHOST',      icon:'👻', desc:'Pass through walls 5s',    cd:15, duration:300, color:'#a0a0ff'},
-  invisible:  {id:'invisible',  name:'CLOAK',      icon:'🌀', desc:'Invisible 4s',              cd:18, duration:240, color:'#00ffee'},
-  laser:      {id:'laser',      name:'LASER',      icon:'⚡', desc:'Instant-hit beam shot',     cd:8,  duration:0,   color:'#ff4040'},
-  shield:     {id:'shield',     name:'SHIELD',     icon:'🛡️', desc:'Block next hit',            cd:20, duration:600, color:'#40c8ff'},
-  speed:      {id:'speed',      name:'OVERDRIVE',  icon:'💨', desc:'2× speed 4s',               cd:14, duration:240, color:'#40ff80'},
-  triple:     {id:'triple',     name:'TRISHOT',    icon:'🔱', desc:'Fire 3 spread bullets',     cd:6,  duration:0,   color:'#ffd700'},
-  teleport:   {id:'teleport',   name:'BLINK',      icon:'🌟', desc:'Teleport to safe spot',     cd:16, duration:0,   color:'#ff40ff'},
-  emp:        {id:'emp',        name:'E.M.P.',      icon:'💥', desc:'Stun nearby enemies 2.5s', cd:22, duration:0,   color:'#ffaa00'},
-  ricochet:   {id:'ricochet',   name:'RICOCHET',   icon:'↩️', desc:'Bullets bounce 6× for 8s', cd:12, duration:480, color:'#ff9900'},
-  heal:       {id:'heal',       name:'MEDKIT',     icon:'❤️', desc:'Restore 40 HP',             cd:25, duration:0,   color:'#40ff80'},
+const ABILITIES={
+  ghost:{id:'ghost',name:'GHOST',icon:'👻',desc:'Pass through walls 5s',cd:15,duration:300,color:'#a0a0ff'},
+  invisible:{id:'invisible',name:'CLOAK',icon:'🌀',desc:'Invisible 4s',cd:18,duration:240,color:'#00ffee'},
+  laser:{id:'laser',name:'LASER',icon:'⚡',desc:'Instant-hit beam shot',cd:8,duration:0,color:'#ff4040'},
+  shield:{id:'shield',name:'SHIELD',icon:'🛡️',desc:'Block next hit',cd:20,duration:600,color:'#40c8ff'},
+  speed:{id:'speed',name:'OVERDRIVE',icon:'💨',desc:'2× speed 4s',cd:14,duration:240,color:'#40ff80'},
+  triple:{id:'triple',name:'TRISHOT',icon:'🔱',desc:'Fire 3 spread bullets',cd:6,duration:0,color:'#ffd700'},
+  teleport:{id:'teleport',name:'BLINK',icon:'🌟',desc:'Teleport to safe spot',cd:16,duration:0,color:'#ff40ff'},
+  emp:{id:'emp',name:'E.M.P.',icon:'💥',desc:'Stun nearby enemies 2.5s',cd:22,duration:0,color:'#ffaa00'},
+  ricochet:{id:'ricochet',name:'RICOCHET',icon:'↩️',desc:'Bullets bounce 6× for 8s',cd:12,duration:480,color:'#ff9900'},
+  heal:{id:'heal',name:'MEDKIT',icon:'❤️',desc:'Restore 40 HP',cd:25,duration:0,color:'#40ff80'},
 };
-const ABILITY_LIST = Object.values(ABILITIES);
+const ABILITY_LIST=Object.values(ABILITIES);
 
 // ═══════════════════════════════════════════════════════════
 // GAME CONFIG
 // ═══════════════════════════════════════════════════════════
 const MAX_P=8,COLORS=['#ff4040','#40c8ff','#ffd700','#40ff80','#ff40ff','#ff9900','#00ffee','#a0ff40'];
 const MAP_W=2000,MAP_H=1500,VP_W=820,VP_H=560;
-const SPAWNS=[
-  {x:130,y:750,a:0},{x:1870,y:750,a:Math.PI},
-  {x:1000,y:130,a:Math.PI/2},{x:1000,y:1370,a:-Math.PI/2},
-  {x:220,y:220,a:Math.PI/4},{x:1780,y:220,a:Math.PI*3/4},
-  {x:220,y:1280,a:-Math.PI/4},{x:1780,y:1280,a:-Math.PI*3/4}
-];
+const SPAWNS=[{x:130,y:750,a:0},{x:1870,y:750,a:Math.PI},{x:1000,y:130,a:Math.PI/2},{x:1000,y:1370,a:-Math.PI/2},{x:220,y:220,a:Math.PI/4},{x:1780,y:220,a:Math.PI*3/4},{x:220,y:1280,a:-Math.PI/4},{x:1780,y:1280,a:-Math.PI*3/4}];
 const T_SPD=3.2,T_TRN=0.046,B_SPD=8,F_CD=28,RESPAWN_SECS=4;
 
 // ═══════════════════════════════════════════════════════════
@@ -1049,1117 +600,329 @@ const T_SPD=3.2,T_TRN=0.046,B_SPD=8,F_CD=28,RESPAWN_SECS=4;
 // ═══════════════════════════════════════════════════════════
 let myId='p'+Math.random().toString(36).slice(2,9);
 let myNick='Player',myColor=COLORS[0];
-// Multiplayer state
-let ws=null, wsRoom=null, mqttWs=null, mqttConnected=false, mqttPingInterval=null, mqttTopic=null;
-let hostConn=null, guestConns=[];  // unused stubs for compat
-let isHost=false, connected=false;
-let channel={publish:(type,data)=>broadcast(type,data)};  // shim
+let ws=null,wsRoom=null,mqttWs=null,mqttConnected=false,mqttPingInterval=null,mqttTopic=null;
+let hostConn=null,guestConns=[];
+let isHost=false,connected=false;
+let channel={publish:(type,data)=>broadcast(type,data)};
 let players={},myTank=null,gameActive=false;
 let camX=MAP_W/2-VP_W/2,camY=MAP_H/2-VP_H/2;
 let bullets=[],particles=[],shockwaves=[],walls=[],coins=[];
 let roundTimer=0,shakeFrames=0,shootTimer=0,bulletSeq=0;
 let deathCountdown=0;
 const keys={};
-let gameMode='mp'; // 'mp' or 'sp'
+let gameMode='mp';
 let botDifficulty='easy';
 let selectedAbilities=['ghost','laser'];
 let myAbilityState=[
-  {id:'ghost', cooldownTimer:0, activeTimer:0, active:false},
-  {id:'laser', cooldownTimer:0, activeTimer:0, active:false}
+  {id:'ghost',cooldownTimer:0,activeTimer:0,active:false},
+  {id:'laser',cooldownTimer:0,activeTimer:0,active:false}
 ];
 let laserBeams=[];
-let npc=null; // legacy ref to first bot
-let npcs=[]; // all active bots
+let npc=null;
+let npcs=[];
 
 // ═══════════════════════════════════════════════════════════
 // ABILITY UI / LOBBY
 // ═══════════════════════════════════════════════════════════
-function buildAbilityGrid(containerId, clickFn) {
-  const grid = document.getElementById(containerId);
-  if (!grid) return;
-  grid.innerHTML = '';
-  ABILITY_LIST.forEach(ab => {
-    const d = document.createElement('div');
-    d.className = 'ab-card' + (selectedAbilities.includes(ab.id) ? ' selected' : '');
-    d.dataset.id = ab.id;
-    const idx = selectedAbilities.indexOf(ab.id);
-    d.innerHTML = `<div class="ab-icon">${ab.icon}</div><div class="ab-name">${ab.name}</div><div class="ab-desc">${ab.desc}</div>${idx>=0?`<div class="ab-badge">${idx+1}</div>`:''}`;
-    d.onclick = () => clickFn(ab.id);
-    grid.appendChild(d);
-  });
+function buildAbilityGrid(containerId,clickFn){
+  const grid=document.getElementById(containerId);if(!grid) return;grid.innerHTML='';
+  ABILITY_LIST.forEach(ab=>{const d=document.createElement('div');d.className='ab-card'+(selectedAbilities.includes(ab.id)?' selected':'');d.dataset.id=ab.id;const idx=selectedAbilities.indexOf(ab.id);d.innerHTML=`<div class="ab-icon">${ab.icon}</div><div class="ab-name">${ab.name}</div><div class="ab-desc">${ab.desc}</div>${idx>=0?`<div class="ab-badge">${idx+1}</div>`:''}`;d.onclick=()=>clickFn(ab.id);grid.appendChild(d);});
 }
-
-function toggleAbility(id) {
-  const idx = selectedAbilities.indexOf(id);
-  if (idx >= 0) {
-    selectedAbilities.splice(idx, 1);
-  } else {
-    if (selectedAbilities.length >= 2) selectedAbilities.shift();
-    selectedAbilities.push(id);
-  }
-  buildAbilityGrid('ability-grid', toggleAbility);
-}
-
-buildAbilityGrid('ability-grid', toggleAbility);
+function toggleAbility(id){const idx=selectedAbilities.indexOf(id);if(idx>=0){selectedAbilities.splice(idx,1);}else{if(selectedAbilities.length>=2)selectedAbilities.shift();selectedAbilities.push(id);}buildAbilityGrid('ability-grid',toggleAbility);}
+buildAbilityGrid('ability-grid',toggleAbility);
 
 // ─── Death screen ability switch ───────────────────────────
-let deathSelectedSlot = 0; // which slot is currently being edited
-
-function selectDeathSlot(slot) {
-  deathSelectedSlot = slot;
-  // update slot UI
-  for (let i = 0; i < 2; i++) {
-    const el = document.getElementById('das-slot-' + i);
-    if (!el) continue;
-    el.classList.toggle('active-slot', i === slot);
-    el.querySelector('.das-slot-label').textContent = 'SLOT ' + (i+1) + (i === slot ? ' ✓' : '');
-  }
-  document.getElementById('das-hint').textContent = 'Now click an ability below to assign it to Slot ' + (slot+1);
-  buildDeathAbilityGrid();
-}
-
-function buildDeathAbilityGrid() {
-  // Update slot display icons/names
-  for (let i = 0; i < 2; i++) {
-    const abId = myAbilityState[i] ? myAbilityState[i].id : selectedAbilities[i];
-    const ab = ABILITIES[abId];
-    if (ab) {
-      const iconEl = document.getElementById('das-icon-' + i);
-      const nameEl = document.getElementById('das-name-' + i);
-      if (iconEl) iconEl.textContent = ab.icon;
-      if (nameEl) nameEl.textContent = ab.name;
-    }
-  }
-
-  const grid = document.getElementById('death-ab-grid');
-  if (!grid) return;
-  grid.innerHTML = '';
-
-  ABILITY_LIST.forEach(ab => {
-    const d = document.createElement('div');
-    const inSlot0 = (myAbilityState[0] && myAbilityState[0].id === ab.id) || (!myAbilityState[0] && selectedAbilities[0] === ab.id);
-    const inSlot1 = (myAbilityState[1] && myAbilityState[1].id === ab.id) || (!myAbilityState[1] && selectedAbilities[1] === ab.id);
-    let cls = 'dab-card';
-    if (inSlot0 && inSlot1) cls += ' in-both';
-    else if (inSlot0) cls += ' in-slot-0';
-    else if (inSlot1) cls += ' in-slot-1';
-    d.className = cls;
-
-    let badge = '';
-    if (inSlot0) badge += '<div class="dab-slot-badge" style="background:#ffd700;color:#000">1</div>';
-    if (inSlot1) badge += '<div class="dab-slot-badge" style="background:#40c8ff;color:#000;left:auto;right:3px">2</div>';
-
-    d.innerHTML = badge + `<div class="dab-icon">${ab.icon}</div><div class="dab-name">${ab.name}</div>`;
-    d.onclick = () => {
-      const slot = deathSelectedSlot;
-      const otherSlot = slot === 0 ? 1 : 0;
-      // Can't put same ability in both slots
-      if (myAbilityState[otherSlot] && myAbilityState[otherSlot].id === ab.id) {
-        document.getElementById('das-hint').textContent = '⚠ That ability is already in Slot ' + (otherSlot+1);
-        return;
-      }
-      // Assign to selected slot
-      selectedAbilities[slot] = ab.id;
-      myAbilityState[slot] = {id: ab.id, cooldownTimer: 0, activeTimer: 0, active: false};
-      // Deactivate any tank effect from old ability
-      if (myTank) {
-        myTank.ghost = false; myTank.invisible = false;
-        myTank.shielded = false; myTank.speedBoost = false; myTank.ricBounces = false;
-      }
-      document.getElementById('das-hint').textContent = '✓ Slot ' + (slot+1) + ' → ' + ab.name + '  (takes effect on respawn)';
-      buildDeathAbilityGrid();
-      updateAbilityHUD();
-    };
-    grid.appendChild(d);
-  });
+let deathSelectedSlot=0;
+function selectDeathSlot(slot){deathSelectedSlot=slot;for(let i=0;i<2;i++){const el=document.getElementById('das-slot-'+i);if(!el) continue;el.classList.toggle('active-slot',i===slot);el.querySelector('.das-slot-label').textContent='SLOT '+(i+1)+(i===slot?' ✓':'');}document.getElementById('das-hint').textContent='Now click an ability below to assign it to Slot '+(slot+1);buildDeathAbilityGrid();}
+function buildDeathAbilityGrid(){
+  for(let i=0;i<2;i++){const abId=myAbilityState[i]?myAbilityState[i].id:selectedAbilities[i];const ab=ABILITIES[abId];if(ab){const iconEl=document.getElementById('das-icon-'+i),nameEl=document.getElementById('das-name-'+i);if(iconEl)iconEl.textContent=ab.icon;if(nameEl)nameEl.textContent=ab.name;}}
+  const grid=document.getElementById('death-ab-grid');if(!grid) return;grid.innerHTML='';
+  ABILITY_LIST.forEach(ab=>{const d=document.createElement('div');const inSlot0=(myAbilityState[0]&&myAbilityState[0].id===ab.id)||(!myAbilityState[0]&&selectedAbilities[0]===ab.id);const inSlot1=(myAbilityState[1]&&myAbilityState[1].id===ab.id)||(!myAbilityState[1]&&selectedAbilities[1]===ab.id);let cls='dab-card';if(inSlot0&&inSlot1)cls+=' in-both';else if(inSlot0)cls+=' in-slot-0';else if(inSlot1)cls+=' in-slot-1';d.className=cls;let badge='';if(inSlot0)badge+='<div class="dab-slot-badge" style="background:#ffd700;color:#000">1</div>';if(inSlot1)badge+='<div class="dab-slot-badge" style="background:#40c8ff;color:#000;left:auto;right:3px">2</div>';d.innerHTML=badge+`<div class="dab-icon">${ab.icon}</div><div class="dab-name">${ab.name}</div>`;d.onclick=()=>{const slot=deathSelectedSlot,otherSlot=slot===0?1:0;if(myAbilityState[otherSlot]&&myAbilityState[otherSlot].id===ab.id){document.getElementById('das-hint').textContent='⚠ That ability is already in Slot '+(otherSlot+1);return;}selectedAbilities[slot]=ab.id;myAbilityState[slot]={id:ab.id,cooldownTimer:0,activeTimer:0,active:false};if(myTank){myTank.ghost=false;myTank.invisible=false;myTank.shielded=false;myTank.speedBoost=false;myTank.ricBounces=false;}document.getElementById('das-hint').textContent='✓ Slot '+(slot+1)+' → '+ab.name+'  (takes effect on respawn)';buildDeathAbilityGrid();updateAbilityHUD();};grid.appendChild(d);});
 }
 
 // ═══════════════════════════════════════════════════════════
 // MODE / DIFFICULTY
 // ═══════════════════════════════════════════════════════════
-function setMode(m) {
-  gameMode = m;
-  document.getElementById('mode-mp').classList.toggle('on', m==='mp');
-  document.getElementById('mode-sp').classList.toggle('on', m==='sp');
-  document.getElementById('sv-section').style.display = m==='mp' ? 'block' : 'none';
-  document.getElementById('diff-section').style.display = m==='sp' ? 'block' : 'none';
-  document.getElementById('sp-btn').style.display = m==='sp' ? 'inline-block' : 'none';
-  document.getElementById('join-btn').style.display = m==='mp' ? 'inline-block' : 'none';
-  if(m==='mp') refreshBtn();
-  if(m==='mp'){ renderServers(); stat('Pick a server to join',''); }
-  else stat('','');
-  
-}
-function setDiff(d) {
-  botDifficulty = d;
-  // Element IDs: diff-easy, diff-med, diff-hard
-  // d values:    'easy',    'medium',  'hard'
-  const idMap = {easy:'easy', medium:'med', hard:'hard'};
-  ['easy','med','hard'].forEach(x => document.getElementById('diff-'+x).classList.remove('on'));
-  document.getElementById('diff-'+idMap[d]).classList.add('on');
-}
+function setMode(m){gameMode=m;document.getElementById('mode-mp').classList.toggle('on',m==='mp');document.getElementById('mode-sp').classList.toggle('on',m==='sp');document.getElementById('sv-section').style.display=m==='mp'?'block':'none';document.getElementById('diff-section').style.display=m==='sp'?'block':'none';document.getElementById('sp-btn').style.display=m==='sp'?'inline-block':'none';document.getElementById('join-btn').style.display=m==='mp'?'inline-block':'none';if(m==='mp'){refreshBtn();renderServers();stat('Pick a server to join','');}else stat('','');}
+function setDiff(d){botDifficulty=d;const idMap={easy:'easy',medium:'med',hard:'hard'};['easy','med','hard'].forEach(x=>document.getElementById('diff-'+x).classList.remove('on'));document.getElementById('diff-'+idMap[d]).classList.add('on');}
 
 // ═══════════════════════════════════════════════════════════
 // COLORS
 // ═══════════════════════════════════════════════════════════
-COLORS.forEach((c,i)=>{
-  const d=document.createElement('div');
-  d.className='cdot'+(i===0?' on':'');
-  d.style.cssText='background:'+c+';box-shadow:0 0 8px '+c+'55';
-  d.onclick=()=>{document.querySelectorAll('.cdot').forEach(x=>x.classList.remove('on'));d.classList.add('on');myColor=c;};
-  document.getElementById('colors').appendChild(d);
-});
+COLORS.forEach((c,i)=>{const d=document.createElement('div');d.className='cdot'+(i===0?' on':'');d.style.cssText='background:'+c+';box-shadow:0 0 8px '+c+'55';d.onclick=()=>{document.querySelectorAll('.cdot').forEach(x=>x.classList.remove('on'));d.classList.add('on');myColor=c;};document.getElementById('colors').appendChild(d);});
 
 // ═══════════════════════════════════════════════════════════
 // SERVER UI
 // ═══════════════════════════════════════════════════════════
-function stat(m,c){
-  const e=document.getElementById('lstat');
-  if(!e) return;
-  e.innerHTML=m;
-  // c is 'ok','err','wait' or ''
-  e.style.color = c==='ok'?'#40ff80' : c==='err'?'#ff4040' : c==='wait'?'#ffd700' : '#555';
-  e.style.textShadow = c?'0 0 8px currentColor':'';
-}
+function stat(m,c){const e=document.getElementById('lstat');if(!e) return;e.innerHTML=m;e.style.color=c==='ok'?'#40ff80':c==='err'?'#ff4040':c==='wait'?'#ffd700':'#555';e.style.textShadow=c?'0 0 8px currentColor':'';}
+const SERVERS=[{id:'s1',name:'SERVER 1',flag:'🔴'},{id:'s2',name:'SERVER 2',flag:'🔵'},{id:'s3',name:'SERVER 3',flag:'🟢'}];
+let selectedServer=null,svCounts={s1:0,s2:0,s3:0};
+function renderServers(){const grid=document.getElementById('svgrid');if(!grid) return;grid.innerHTML='';SERVERS.forEach(sv=>{const cnt=svCounts[sv.id]||0;const d=document.createElement('div');d.className='sv'+(selectedServer===sv.id?' on':'');d.innerHTML='<div class="sv-flag">'+sv.flag+'</div><div class="sv-name">'+sv.name+'</div><div class="sv-cnt" style="color:#40ff80">'+cnt+'<span style="color:#333;font-size:13px"> online</span></div><div class="sv-tick">✓</div>';d.onclick=()=>{selectedServer=sv.id;renderServers();refreshBtn();};grid.appendChild(d);});}
+function refreshBtn(){}
 
-// ══════════════════════════════════════════════════════
-// SERVER PICKER
-// ══════════════════════════════════════════════════════
-const SERVERS = [
-  {id:'s1', name:'SERVER 1', flag:'🔴'},
-  {id:'s2', name:'SERVER 2', flag:'🔵'},
-  {id:'s3', name:'SERVER 3', flag:'🟢'},
-];
-let selectedServer = null;
-let svCounts = {s1:0, s2:0, s3:0};
-
-function renderServers(){
-  const grid = document.getElementById('svgrid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  SERVERS.forEach(sv=>{
-    const cnt = svCounts[sv.id]||0;
-    const d = document.createElement('div');
-    d.className = 'sv' + (selectedServer===sv.id?' on':'');
-    d.innerHTML = '<div class="sv-flag">'+sv.flag+'</div>'
-      +'<div class="sv-name">'+sv.name+'</div>'
-      +'<div class="sv-cnt" style="color:#40ff80">'+cnt
-      +'<span style="color:#333;font-size:13px"> online</span></div>'
-      +'<div class="sv-tick">✓</div>';
-    d.onclick = ()=>{ selectedServer=sv.id; renderServers(); refreshBtn(); };
-    grid.appendChild(d);
-  });
-}
-
-function refreshBtn(){
-  // button is always enabled; doJoin() will validate server selection
-}
-
-// ══════════════════════════════════════════════════════
-// WEBSOCKET MULTIPLAYER
-// Uses free public WS relay — no account, no API key,
-// works from file:// and http://
-// ══════════════════════════════════════════════════════
-// ══════════════════════════════════════════════════════════
-// MQTT MULTIPLAYER via HiveMQ public broker
-// wss://broker.hivemq.com:8884/mqtt
-// True pub/sub — messages go to ALL subscribers on a topic.
-// No account, no API key, completely free, battle-tested.
-// ══════════════════════════════════════════════════════════
-const MQTT_URL = 'wss://broker.hivemq.com:8884/mqtt';
-
-function buildMqttConnect(clientId){
-  // MQTT 3.1.1 CONNECT packet
-  const clientIdBytes = new TextEncoder().encode(clientId);
-  const len = 10 + 2 + clientIdBytes.length;
-  const buf = new Uint8Array(2 + len);
-  let i = 0;
-  buf[i++] = 0x10; // CONNECT
-  buf[i++] = len;
-  // Protocol name "MQTT"
-  buf[i++]=0;buf[i++]=4;buf[i++]=77;buf[i++]=81;buf[i++]=84;buf[i++]=84;
-  buf[i++] = 4;    // Protocol level 3.1.1
-  buf[i++] = 2;    // Connect flags: clean session
-  buf[i++] = 0;buf[i++] = 60; // keepalive 60s
-  buf[i++] = 0;buf[i++] = clientIdBytes.length;
-  clientIdBytes.forEach(b=>buf[i++]=b);
-  return buf;
-}
-function buildMqttSubscribe(topic, msgId){
-  const tb = new TextEncoder().encode(topic);
-  const len = 2 + 2 + tb.length + 1;
-  const buf = new Uint8Array(2 + len);
-  let i=0;
-  buf[i++]=0x82;buf[i++]=len;
-  buf[i++]=(msgId>>8)&0xff;buf[i++]=msgId&0xff;
-  buf[i++]=0;buf[i++]=tb.length;
-  tb.forEach(b=>buf[i++]=b);
-  buf[i++]=0; // QoS 0
-  return buf;
-}
-function buildMqttPublish(topic, payload){
-  const tb = new TextEncoder().encode(topic);
-  const pb = new TextEncoder().encode(payload);
-  const len = 2 + tb.length + pb.length;
-  const buf = new Uint8Array(2 + len);
-  let i=0;
-  buf[i++]=0x30;buf[i++]=len; // PUBLISH, QoS 0
-  buf[i++]=0;buf[i++]=tb.length;
-  tb.forEach(b=>buf[i++]=b);
-  pb.forEach(b=>buf[i++]=b);
-  return buf;
-}
-function buildMqttPingReq(){ return new Uint8Array([0xC0,0x00]); }
-function parseMqttPacket(data){
-  const buf = new Uint8Array(data);
-  const type = (buf[0]>>4);
-  if(type===3){ // PUBLISH
-    let i=2; // skip fixed header
-    const topicLen=(buf[i++]<<8)|buf[i++];
-    const topic=new TextDecoder().decode(buf.slice(i,i+topicLen)); i+=topicLen;
-    const payload=new TextDecoder().decode(buf.slice(i));
-    return {type:'publish', topic, payload};
-  }
-  if(type===2) return {type:'connack', rc:buf[3]};
-  if(type===9) return {type:'suback'};
-  if(type===13) return {type:'pingresp'};
-  return {type:'unknown', code:type};
-}
-
-function broadcast(type, data){
-  if(!mqttWs || mqttWs.readyState!==WebSocket.OPEN || !mqttConnected) return;
-  const payload = JSON.stringify({from:myId, type, data});
-  mqttWs.send(buildMqttPublish(mqttTopic, payload));
-}
-
-function closeWS(){
-  clearInterval(mqttPingInterval); mqttPingInterval=null;
-  try{if(mqttWs){mqttWs.onclose=null;mqttWs.onerror=null;mqttWs.close();}}catch(e){}
-  mqttWs=null; mqttTopic=null; mqttConnected=false; connected=false;
-}
-function closePeer(){ closeWS(); }
-
+// ══════════════════════════════════════════════════════════════
+// MQTT MULTIPLAYER
+// ══════════════════════════════════════════════════════════════
+const MQTT_URL='wss://broker.hivemq.com:8884/mqtt';
+function buildMqttConnect(clientId){const clientIdBytes=new TextEncoder().encode(clientId);const len=10+2+clientIdBytes.length;const buf=new Uint8Array(2+len);let i=0;buf[i++]=0x10;buf[i++]=len;buf[i++]=0;buf[i++]=4;buf[i++]=77;buf[i++]=81;buf[i++]=84;buf[i++]=84;buf[i++]=4;buf[i++]=2;buf[i++]=0;buf[i++]=60;buf[i++]=0;buf[i++]=clientIdBytes.length;clientIdBytes.forEach(b=>buf[i++]=b);return buf;}
+function buildMqttSubscribe(topic,msgId){const tb=new TextEncoder().encode(topic);const len=2+2+tb.length+1;const buf=new Uint8Array(2+len);let i=0;buf[i++]=0x82;buf[i++]=len;buf[i++]=(msgId>>8)&0xff;buf[i++]=msgId&0xff;buf[i++]=0;buf[i++]=tb.length;tb.forEach(b=>buf[i++]=b);buf[i++]=0;return buf;}
+function buildMqttPublish(topic,payload){const tb=new TextEncoder().encode(topic);const pb=new TextEncoder().encode(payload);const len=2+tb.length+pb.length;const buf=new Uint8Array(2+len);let i=0;buf[i++]=0x30;buf[i++]=len;buf[i++]=0;buf[i++]=tb.length;tb.forEach(b=>buf[i++]=b);pb.forEach(b=>buf[i++]=b);return buf;}
+function buildMqttPingReq(){return new Uint8Array([0xC0,0x00]);}
+function parseMqttPacket(data){const buf=new Uint8Array(data);const type=(buf[0]>>4);if(type===3){let i=2;const topicLen=(buf[i++]<<8)|buf[i++];const topic=new TextDecoder().decode(buf.slice(i,i+topicLen));i+=topicLen;const payload=new TextDecoder().decode(buf.slice(i));return{type:'publish',topic,payload};}if(type===2) return{type:'connack',rc:buf[3]};if(type===9) return{type:'suback'};if(type===13) return{type:'pingresp'};return{type:'unknown',code:type};}
+function broadcast(type,data){if(!mqttWs||mqttWs.readyState!==WebSocket.OPEN||!mqttConnected) return;const payload=JSON.stringify({from:myId,type,data});mqttWs.send(buildMqttPublish(mqttTopic,payload));}
+function closeWS(){clearInterval(mqttPingInterval);mqttPingInterval=null;try{if(mqttWs){mqttWs.onclose=null;mqttWs.onerror=null;mqttWs.close();}}catch(e){}mqttWs=null;mqttTopic=null;mqttConnected=false;connected=false;}
+function closePeer(){closeWS();}
 function doJoin(){
-  if(!selectedServer){ stat('⚠ Pick a server first!','err'); return; }
-  myNick = document.getElementById('nick').value.trim()||'Player';
-  if(selectedAbilities.length<2){ stat('⚠ Choose 2 abilities first!','err'); return; }
-  // Check for duplicate name among connected players
-  const nameTaken = Object.values(players).some(p => p.id !== myId && p.nick && p.nick.toLowerCase() === myNick.toLowerCase());
-  if(nameTaken){
-    document.getElementById('nt-name-display').textContent = myNick;
-    document.getElementById('name-taken-overlay').classList.add('show');
-    return;
-  }
+  if(!selectedServer){stat('⚠ Pick a server first!','err');return;}
+  myNick=document.getElementById('nick').value.trim()||'Player';
+  if(selectedAbilities.length<2){stat('⚠ Choose 2 abilities first!','err');return;}
+  const nameTaken=Object.values(players).some(p=>p.id!==myId&&p.nick&&p.nick.toLowerCase()===myNick.toLowerCase());
+  if(nameTaken){document.getElementById('nt-name-display').textContent=myNick;document.getElementById('name-taken-overlay').classList.add('show');return;}
   connectMQTT();
 }
-
 function connectMQTT(){
   closeWS();
-  mqttTopic = 'tankclash/v7/' + selectedServer;
-  const serverName = SERVERS.find(s=>s.id===selectedServer).name;
+  mqttTopic='tankclash/v7/'+selectedServer;
+  const serverName=SERVERS.find(s=>s.id===selectedServer).name;
   stat('Connecting to '+serverName+'...','wait');
-
-  const timeout = setTimeout(()=>{
-    if(!connected) stat('Connection timed out — check your internet','err');
-  }, 10000);
-
-  try{ mqttWs = new WebSocket(MQTT_URL, ['mqtt']); }
-  catch(e){ clearTimeout(timeout); stat('WebSocket error: '+e.message,'err'); return; }
-  mqttWs.binaryType = 'arraybuffer';
-
-  mqttWs.onopen = ()=>{
-    // Send CONNECT packet
-    const clientId = 'tc-'+myId.slice(0,10);
-    mqttWs.send(buildMqttConnect(clientId));
-  };
-
-  mqttWs.onmessage = e=>{
-    const pkt = parseMqttPacket(e.data);
+  const timeout=setTimeout(()=>{if(!connected) stat('Connection timed out — check your internet','err');},10000);
+  try{mqttWs=new WebSocket(MQTT_URL,['mqtt']);}catch(e){clearTimeout(timeout);stat('WebSocket error: '+e.message,'err');return;}
+  mqttWs.binaryType='arraybuffer';
+  mqttWs.onopen=()=>{const clientId='tc-'+myId.slice(0,10);mqttWs.send(buildMqttConnect(clientId));};
+  mqttWs.onmessage=e=>{
+    const pkt=parseMqttPacket(e.data);
     if(pkt.type==='connack'){
-      clearTimeout(timeout);
-      if(pkt.rc!==0){ stat('MQTT auth error: '+pkt.rc,'err'); return; }
-      // Subscribe to our topic
-      mqttWs.send(buildMqttSubscribe(mqttTopic, 1));
-      // Start keepalive ping
-      mqttPingInterval = setInterval(()=>{
-        if(mqttWs&&mqttWs.readyState===WebSocket.OPEN) mqttWs.send(buildMqttPingReq());
-      }, 45000);
-      // Now we're connected — announce and enter game
-      mqttConnected=true; connected=true;
-      broadcast('_hello',{nick:myNick, color:myColor, abilities:selectedAbilities});
+      clearTimeout(timeout);if(pkt.rc!==0){stat('MQTT auth error: '+pkt.rc,'err');return;}
+      mqttWs.send(buildMqttSubscribe(mqttTopic,1));
+      mqttPingInterval=setInterval(()=>{if(mqttWs&&mqttWs.readyState===WebSocket.OPEN)mqttWs.send(buildMqttPingReq());},45000);
+      mqttConnected=true;connected=true;
+      broadcast('_hello',{nick:myNick,color:myColor,abilities:selectedAbilities});
       stat('Connected ✓','ok');
-      regPlayer(myId, myNick, myColor, selectedAbilities);
-      showScreen('game-screen');
-      document.body.classList.add('in-game');
-      window.scrollTo(0,0);
-      document.getElementById('hud-room').textContent = serverName;
-      buildWalls(); showPhase('conn');
-      setTimeout(()=>showPhase('wait'),400);
-      refreshLobbyOverlay(); initAbilityState();
+      regPlayer(myId,myNick,myColor,selectedAbilities);
+      showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);
+      document.getElementById('hud-room').textContent=serverName;
+      buildWalls();showPhase('conn');setTimeout(()=>showPhase('wait'),400);refreshLobbyOverlay();initAbilityState();
     } else if(pkt.type==='publish'){
-      if(pkt.topic !== mqttTopic) return;
-      let msg; try{ msg=JSON.parse(pkt.payload); }catch(er){return;}
+      if(pkt.topic!==mqttTopic) return;
+      let msg;try{msg=JSON.parse(pkt.payload);}catch(er){return;}
       if(!msg||msg.from===myId) return;
       if(msg.type==='_hello'){
-        // Check for name conflict after connecting
-        if(!gameActive && msg.data.nick && msg.data.nick.toLowerCase() === myNick.toLowerCase() && msg.from !== myId){
-          document.getElementById('nt-name-display').textContent = myNick;
-          document.getElementById('name-taken-overlay').classList.add('show');
-          broadcast('_bye',{});
-          closeWS();
-          showScreen('lobby-screen');document.body.classList.remove('in-game');
-          return;
+        if(!gameActive&&msg.data.nick&&msg.data.nick.toLowerCase()===myNick.toLowerCase()&&msg.from!==myId){
+          document.getElementById('nt-name-display').textContent=myNick;document.getElementById('name-taken-overlay').classList.add('show');
+          broadcast('_bye',{});closeWS();showScreen('lobby-screen');document.body.classList.remove('in-game');return;
         }
-        regPlayer(msg.from, msg.data.nick, msg.data.color, msg.data.abilities||[]);
+        regPlayer(msg.from,msg.data.nick,msg.data.color,msg.data.abilities||[]);
         if(!gameActive) refreshLobbyOverlay();
-        // Re-announce so newcomer sees us
-        broadcast('_hello',{nick:myNick, color:myColor, abilities:selectedAbilities});
-      } else if(msg.type==='_bye'){
-        delete players[msg.from];
-        if(!gameActive) refreshLobbyOverlay();
-      } else if(msg.type==='mv')  onMove({data:msg.data});
-      else if(msg.type==='evt')   onEvt({data:msg.data});
-      else if(msg.type==='chat')  onChatMsg({data:msg.data});
+        broadcast('_hello',{nick:myNick,color:myColor,abilities:selectedAbilities});
+      } else if(msg.type==='_bye'){delete players[msg.from];if(!gameActive) refreshLobbyOverlay();}
+      else if(msg.type==='mv') onMove({data:msg.data});
+      else if(msg.type==='evt') onEvt({data:msg.data});
+      else if(msg.type==='chat') onChatMsg({data:msg.data});
     }
   };
-
-  mqttWs.onerror = ()=>{ if(!connected) stat('Connection error — check internet','err'); };
-  mqttWs.onclose = ()=>{
-    clearInterval(mqttPingInterval); mqttPingInterval=null;
-    if(connected){ connected=false; mqttConnected=false; stat('Disconnected','err'); refreshLobbyOverlay(); }
-  };
+  mqttWs.onerror=()=>{if(!connected) stat('Connection error — check internet','err');};
+  mqttWs.onclose=()=>{clearInterval(mqttPingInterval);mqttPingInterval=null;if(connected){connected=false;mqttConnected=false;stat('Disconnected','err');refreshLobbyOverlay();}};
 }
 
-// Cheat code — defined first so it's always available
+// Cheat code
 function activateCheatCode(){
-  Object.values(AB_UPGRADES).forEach(u=>{ profile.abUpgrades[u.ability]=true; });
-  if(!profile.tankParts) profile.tankParts={};
-  TANK_PARTS.forEach(p=>{ profile.tankParts[p.id]=p.maxLv; });
-  if(profile.level < 25){ profile.level=25; profile.xp=9999; }
-  saveProfile();
-  updateXPUI();
-  buildSkinRow(); // <-- was missing, skins never refreshed
-  // Flash nick field
-  const el=document.getElementById('nick');
-  el.style.borderColor='#ff4040'; el.style.color='#ff4040'; el.style.textShadow='0 0 8px #ff4040';
-  setTimeout(()=>{ el.style.borderColor=''; el.style.color=''; el.style.textShadow=''; }, 1800);
-  // Big toast
-  const t=document.createElement('div');
-  t.className='xp-unlock-toast';
-  t.style.cssText='border-color:#ff4040;min-width:320px;';
-  t.innerHTML='<div class="xp-toast-title" style="color:#ff4040;font-size:24px">⚠ HACKER67 ⚠</div>'
-    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin:6px 0 4px">ALL ABILITIES UPGRADED</div>'
-    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL SKINS UNLOCKED — LV 25</div>'
-    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL TANK PARTS MAXED</div>'
-    +'<div class="xp-toast-sub" style="color:#ff4040;opacity:0.6">use wisely, soldier</div>';
-  document.body.appendChild(t);
-  setTimeout(()=>t.remove(), 5000);
+  Object.values(AB_UPGRADES).forEach(u=>{profile.abUpgrades[u.ability]=true;});
+  if(!profile.tankParts)profile.tankParts={};TANK_PARTS.forEach(p=>{profile.tankParts[p.id]=p.maxLv;});
+  if(profile.level<25){profile.level=25;profile.xp=9999;}
+  saveProfile();updateXPUI();buildSkinRow();
+  const el=document.getElementById('nick');el.style.borderColor='#ff4040';el.style.color='#ff4040';el.style.textShadow='0 0 8px #ff4040';setTimeout(()=>{el.style.borderColor='';el.style.color='';el.style.textShadow='';},1800);
+  const t=document.createElement('div');t.className='xp-unlock-toast';t.style.cssText='border-color:#ff4040;min-width:320px;';t.innerHTML='<div class="xp-toast-title" style="color:#ff4040;font-size:24px">⚠ HACKER67 ⚠</div><div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin:6px 0 4px">ALL ABILITIES UPGRADED</div><div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL SKINS UNLOCKED — LV 25</div><div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL TANK PARTS MAXED</div><div class="xp-toast-sub" style="color:#ff4040;opacity:0.6">use wisely, soldier</div>';document.body.appendChild(t);setTimeout(()=>t.remove(),5000);
   if(gameActive) addChatLine('⚠','CHEAT ACTIVATED','#ff4040');
 }
+document.getElementById('nick').addEventListener('input',function(){const val=this.value;myNick=val.trim()||'Player';if(val.trim().toLowerCase()==='hacker67') activateCheatCode();});
 
-// Nick input — use addEventListener so nothing can overwrite it
-document.getElementById('nick').addEventListener('input', function(){
-  const val = this.value;
-  myNick = val.trim() || 'Player';
-  if(val.trim().toLowerCase() === 'hacker67') activateCheatCode();
-});
-
-function showSummary(won){
-  const el=document.getElementById('game-summary');
-  const title=document.getElementById('summary-title');
-  const stats=document.getElementById('summary-stats');
-  const xpEl=document.getElementById('summary-xp');
-  if(!el) return;
-  title.textContent = won ? '⚔ VICTORY' : '💀 DEFEATED';
-  title.style.color = won ? 'var(--gold)' : 'var(--red)';
-  // Build stat cards
-  const myKills = myTank ? (myTank.kills||0) : 0;
-  const items = [
-    {icon:'⚔',label:'KILLS',val:myKills},
-    {icon:'🪙',label:'COINS',val:sessionCoins},
-    {icon:'⭐',label:'XP EARNED',val:xpSessionGained},
-  ];
-  stats.innerHTML = items.map(it=>'<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);padding:14px 8px;text-align:center;">'
-    +'<div style="font-size:22px">'+it.icon+'</div>'
-    +'<div style="font-family:Black Ops One,cursive;font-size:20px;color:var(--gold);margin:4px 0">'+it.val+'</div>'
-    +'<div style="font-size:9px;letter-spacing:3px;color:#333">'+it.label+'</div></div>').join('');
-  xpEl.textContent = 'LEVEL '+profile.level+' — '+getRank(profile.level);
-  el.style.display='flex';
-}
-function hideSummary(){
-  const el=document.getElementById('game-summary');
-  if(el) el.style.display='none';
-  doSurrender();
-}
-
-function showStreakBanner(streak, customMsg, customCol){
-  const msgs=['','','DOUBLE KILL!','TRIPLE KILL!','QUAD KILL!','PENTA KILL!','RAMPAGE!!','UNSTOPPABLE!!!'];
-  const msg = customMsg || msgs[Math.min(streak, msgs.length-1)] || (streak+'× KILLSTREAK!');
-  const cols = ['','','#ff9900','#ff9900','#ff4040','#ff00ff','#ff0000','#ffffff'];
-  const col = customCol || cols[Math.min(streak, cols.length-1)] || '#ff4040';
-  const b = document.createElement('div');
-  b.style.cssText='position:fixed;top:35%;left:50%;transform:translateX(-50%);z-index:99999;'
-    +'font-family:"Black Ops One",cursive;font-size:28px;letter-spacing:6px;color:'+col+';'
-    +'text-shadow:0 0 30px '+col+';pointer-events:none;animation:xpfloat 1.8s ease forwards;'
-    +'text-align:center;';
-  b.innerHTML = msg + '<div style="font-size:14px;letter-spacing:3px;margin-top:4px;color:var(--gold)">+XP BONUS</div>';
-  document.body.appendChild(b);
-  setTimeout(()=>b.remove(), 1900);
-  // Screen tint
-  const tint=document.createElement('div');
-  tint.style.cssText='position:fixed;inset:0;z-index:99990;pointer-events:none;background:'+col+'22;animation:xpfloat 0.6s ease forwards;';
-  document.body.appendChild(tint);
-  setTimeout(()=>tint.remove(), 650);
-}
-
-// ═══════════════════════════════════════════════════════════
-// JOIN MULTIPLAYER
-// ═══════════════════════════════════════════════════════════
-// doJoin/doHost defined above in PeerJS block
+function showSummary(won){const el=document.getElementById('game-summary'),title=document.getElementById('summary-title'),stats=document.getElementById('summary-stats'),xpEl=document.getElementById('summary-xp');if(!el) return;title.textContent=won?'⚔ VICTORY':'💀 DEFEATED';title.style.color=won?'var(--gold)':'var(--red)';const myKills=myTank?(myTank.kills||0):0;const items=[{icon:'⚔',label:'KILLS',val:myKills},{icon:'🪙',label:'COINS',val:sessionCoins},{icon:'⭐',label:'XP EARNED',val:xpSessionGained}];stats.innerHTML=items.map(it=>'<div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);padding:14px 8px;text-align:center;"><div style="font-size:22px">'+it.icon+'</div><div style="font-family:Black Ops One,cursive;font-size:20px;color:var(--gold);margin:4px 0">'+it.val+'</div><div style="font-size:9px;letter-spacing:3px;color:#333">'+it.label+'</div></div>').join('');xpEl.textContent='LEVEL '+profile.level+' — '+getRank(profile.level);el.style.display='flex';}
+function hideSummary(){const el=document.getElementById('game-summary');if(el)el.style.display='none';doSurrender();}
+function showStreakBanner(streak,customMsg,customCol){const msgs=['','','DOUBLE KILL!','TRIPLE KILL!','QUAD KILL!','PENTA KILL!','RAMPAGE!!','UNSTOPPABLE!!!'];const msg=customMsg||msgs[Math.min(streak,msgs.length-1)]||(streak+'× KILLSTREAK!');const cols=['','','#ff9900','#ff9900','#ff4040','#ff00ff','#ff0000','#ffffff'];const col=customCol||cols[Math.min(streak,cols.length-1)]||'#ff4040';const b=document.createElement('div');b.style.cssText='position:fixed;top:35%;left:50%;transform:translateX(-50%);z-index:99999;font-family:"Black Ops One",cursive;font-size:28px;letter-spacing:6px;color:'+col+';text-shadow:0 0 30px '+col+';pointer-events:none;animation:xpfloat 1.8s ease forwards;text-align:center;';b.innerHTML=msg+'<div style="font-size:14px;letter-spacing:3px;margin-top:4px;color:var(--gold)">+XP BONUS</div>';document.body.appendChild(b);setTimeout(()=>b.remove(),1900);const tint=document.createElement('div');tint.style.cssText='position:fixed;inset:0;z-index:99990;pointer-events:none;background:'+col+'22;animation:xpfloat 0.6s ease forwards;';document.body.appendChild(tint);setTimeout(()=>tint.remove(),650);}
 
 // ═══════════════════════════════════════════════════════════
 // SINGLE PLAYER
 // ═══════════════════════════════════════════════════════════
 const BOT_NAMES=['VIPER','GHOST','TITAN','BLAZE','NOVA','ROGUE','SPECTRE','PHANTOM'];
 const BOT_COLORS=['#ff4040','#ff9900','#a0ff40','#ff40ff','#40c8ff','#00ffee','#ff6666','#ffcc44'];
-
-function makeBot(id, nick, color, spawnIdx){
-  const sp = SPAWNS[spawnIdx % SPAWNS.length];
-  const abs = pickNpcAbilities();
-  return {
-    id, nick, color,
-    x:sp.x, y:sp.y, angle:sp.a,
-    hp:100, alive:true, kills:0,
-    vx:0, vy:0, trail:[], invulnTimer:0,
-    abilities:abs, shielded:false, ghost:false, invisible:false,
-    stunTimer:0, speedBoost:false, ricBounces:false,
-    aiTimer:Math.floor(Math.random()*200),
-    aiShootCd:Math.floor(Math.random()*60)+40,
-    aiAbilityCd:[180+Math.floor(Math.random()*120), 240+Math.floor(Math.random()*120)],
-    respawnTimer:0, aimSettleT:0, aimNoise:0,
-  };
-}
-
-function startSinglePlayer(){
-  myNick=document.getElementById('nick').value.trim()||'Player';
-  if(selectedAbilities.length<2){alert('Choose 2 abilities first!');return;}
-  gameMode='sp';showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);buildWalls();initAbilityState();
-  document.getElementById('hud-room').textContent='FIRST TO 5 KILLS — '+botDifficulty.toUpperCase();
-  document.getElementById('chat').style.display='none';
-  // Spawn player
-  const sp=SPAWNS[0];
-  myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false};
-  players[myId]=myTank;
-  myTank.skin=selectedSkin;
-  // Spawn bots
-  npcs=[];
-  for(let i=0;i<botCount;i++){
-    const bid='npc_'+i;
-    const bname=BOT_NAMES[i%BOT_NAMES.length];
-    const bcolor=BOT_COLORS[i%BOT_COLORS.length];
-    const bot=makeBot(bid, bname, bcolor, i+1);
-    npcs.push(bot);
-    players[bid]=bot;
-  }
-  npc=npcs[0]||null;
-  camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();
-  gameActive=true;hideOverlay();updateHUD();
-  document.getElementById('go').classList.add('hide');
-  updateAbilityHUD();
-  profile.totalGames++;saveProfile();
-  xpSessionGained=0;sessionCoins=0;
-  groundMedkits=[];medkitSpawnTimer=0;
-  for(let _i=0;_i<10&&groundMedkits.length<2;_i++) spawnGroundMedkit();myKillStreak=0;floatDmgNums=[];
-  const hc=document.getElementById('hud-coins');if(hc)hc.textContent='🪙 0';
-  // Spawn initial ground medkits
-  // Guarantee exactly 2 medkits at game start
-  }
-
-function pickNpcAbilities(){
-  const pool=Object.keys(ABILITIES);
-  const a=[],used=new Set();
-  while(a.length<2){const pick=pool[Math.floor(Math.random()*pool.length)];if(!used.has(pick)){used.add(pick);a.push(pick);}}
-  return a;
-}
+function makeBot(id,nick,color,spawnIdx){const sp=SPAWNS[spawnIdx%SPAWNS.length];const abs=pickNpcAbilities();return{id,nick,color,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:abs,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false,aiTimer:Math.floor(Math.random()*200),aiShootCd:Math.floor(Math.random()*60)+40,aiAbilityCd:[180+Math.floor(Math.random()*120),240+Math.floor(Math.random()*120)],respawnTimer:0,aimSettleT:0,aimNoise:0};}
+function startSinglePlayer(){myNick=document.getElementById('nick').value.trim()||'Player';if(selectedAbilities.length<2){alert('Choose 2 abilities first!');return;}gameMode='sp';showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);buildWalls();initAbilityState();document.getElementById('hud-room').textContent='FIRST TO 5 KILLS — '+botDifficulty.toUpperCase();document.getElementById('chat').style.display='none';const sp=SPAWNS[0];myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false};players[myId]=myTank;myTank.skin=selectedSkin;npcs=[];for(let i=0;i<botCount;i++){const bid='npc_'+i,bname=BOT_NAMES[i%BOT_NAMES.length],bcolor=BOT_COLORS[i%BOT_COLORS.length],bot=makeBot(bid,bname,bcolor,i+1);npcs.push(bot);players[bid]=bot;}npc=npcs[0]||null;camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();gameActive=true;hideOverlay();updateHUD();document.getElementById('go').classList.add('hide');updateAbilityHUD();profile.totalGames++;saveProfile();xpSessionGained=0;sessionCoins=0;groundMedkits=[];medkitSpawnTimer=0;for(let _i=0;_i<10&&groundMedkits.length<2;_i++)spawnGroundMedkit();myKillStreak=0;floatDmgNums=[];const hc=document.getElementById('hud-coins');if(hc)hc.textContent='🪙 0';}
+function pickNpcAbilities(){const pool=Object.keys(ABILITIES);const a=[],used=new Set();while(a.length<2){const pick=pool[Math.floor(Math.random()*pool.length)];if(!used.has(pick)){used.add(pick);a.push(pick);}}return a;}
 
 // ═══════════════════════════════════════════════════════════
 // ABILITY STATE
 // ═══════════════════════════════════════════════════════════
-function initAbilityState(){
-  myAbilityState=[
-    {id:selectedAbilities[0]||'ghost', cooldownTimer:0, activeTimer:0, active:false},
-    {id:selectedAbilities[1]||'laser', cooldownTimer:0, activeTimer:0, active:false}
-  ];
-  updateAbilityHUD();
-}
-
+function initAbilityState(){myAbilityState=[{id:selectedAbilities[0]||'ghost',cooldownTimer:0,activeTimer:0,active:false},{id:selectedAbilities[1]||'laser',cooldownTimer:0,activeTimer:0,active:false}];updateAbilityHUD();}
 function updateAbilityHUD(){
-  for(let i=0;i<2;i++){
-    const st=myAbilityState[i];
-    const ab=ABILITIES[st.id];
-    if(!ab) continue;
-    document.getElementById('ab-icon-'+i).textContent=ab.icon;
-    document.getElementById('ab-sname-'+i).textContent=ab.name;
-    const slot=document.getElementById('ab-slot-'+i);
-    const cdEl=document.getElementById('ab-cd-'+i);
-    const barEl=document.getElementById('ab-bar-'+i);
-    slot.className='ab-slot';
-    if(st.cooldownTimer>0){
-      slot.classList.add('on-cooldown');
-      cdEl.style.display='flex';
-      cdEl.textContent=Math.ceil(st.cooldownTimer/60)+'s';
-    } else if(st.active){
-      slot.classList.add('active-glow');
-      cdEl.style.display='none';
-      const ab2=ABILITIES[st.id];
-      const pct=ab2.duration>0?(st.activeTimer/ab2.duration)*100:0;
-      barEl.style.width=pct+'%';
-      barEl.style.background=ab2.color;
-    } else {
-      slot.classList.add('ready');
-      cdEl.style.display='none';
-      barEl.style.width='0%';
-    }
-  }
+  for(let i=0;i<2;i++){const st=myAbilityState[i],ab=ABILITIES[st.id];if(!ab) continue;document.getElementById('ab-icon-'+i).textContent=ab.icon;document.getElementById('ab-sname-'+i).textContent=ab.name;const slot=document.getElementById('ab-slot-'+i),cdEl=document.getElementById('ab-cd-'+i),barEl=document.getElementById('ab-bar-'+i);slot.className='ab-slot';if(st.cooldownTimer>0){slot.classList.add('on-cooldown');cdEl.style.display='flex';cdEl.textContent=Math.ceil(st.cooldownTimer/60)+'s';}else if(st.active){slot.classList.add('active-glow');cdEl.style.display='none';const ab2=ABILITIES[st.id];const pct=ab2.duration>0?(st.activeTimer/ab2.duration)*100:0;barEl.style.width=pct+'%';barEl.style.background=ab2.color;}else{slot.classList.add('ready');cdEl.style.display='none';barEl.style.width='0%';}}
 }
-
 
 // ── ABILITY COMBO DETECTION ──
-const COMBOS = [
-  {ids:['ghost','speed'],   name:'PHANTOM DASH',  sub:'Ghost + Overdrive activated!', color:'#a0ffee',
-   fn:(tank,states)=>{
-     tank.ghost=true; tank.speedBoost=true;
-     states.forEach(s=>{s.active=true;s.activeTimer=480;});
-     spawnPart(tank.x,tank.y,'#a0ffee',40,8);shakeFrames=6;
-   }},
-  {ids:['shield','emp'],    name:'SHOCKWAVE BURST',sub:'Shield + EMP fused!',          color:'#ffaa00',
-   fn:(tank,states)=>{
-     tank.shielded=true;
-     doEMP(tank,true);
-     spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',50,9);shakeFrames=14;
-   }},
-  {ids:['laser','triple'],  name:'HYPERBEAM',      sub:'Triple laser barrage!',        color:'#ff4040',
-   fn:(tank,states)=>{
-     [-0.3,0,0.3].forEach(offset=>{
-       const a=tank.angle+offset;const reach=2000;
-       laserBeams.push({x1:tank.x,y1:tank.y,x2:tank.x+Math.cos(a)*reach,y2:tank.y+Math.sin(a)*reach,color:'#ff4040',life:30,owner:tank.id});
-       for(const pid in players){
-         const t=players[pid];if(pid===tank.id||!t.alive) continue;
-         const steps=200;for(let s=1;s<=steps;s++){
-           const tx=tank.x+Math.cos(a)*(reach*s/steps),ty=tank.y+Math.sin(a)*(reach*s/steps);
-           if(Math.hypot(tx-t.x,ty-t.y)<20){applyHit(tank,t,50,tx,ty,'hyperbeam');break;}
-         }
-       }
-     });
-     shakeFrames=18;spawnPart(tank.x,tank.y,'#ff4040',50,10);
-     states.forEach(s=>{s.cooldownTimer=ABILITIES[s.id].cd*60;});
-   }},
+const COMBOS=[
+  {ids:['ghost','speed'],name:'PHANTOM DASH',sub:'Ghost + Overdrive activated!',color:'#a0ffee',fn:(tank,states)=>{tank.ghost=true;tank.speedBoost=true;states.forEach(s=>{s.active=true;s.activeTimer=480;});spawnPart(tank.x,tank.y,'#a0ffee',40,8);shakeFrames=6;}},
+  {ids:['shield','emp'],name:'SHOCKWAVE BURST',sub:'Shield + EMP fused!',color:'#ffaa00',fn:(tank,states)=>{tank.shielded=true;doEMP(tank,true);spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',50,9);shakeFrames=14;}},
+  {ids:['laser','triple'],name:'HYPERBEAM',sub:'Triple laser barrage!',color:'#ff4040',fn:(tank,states)=>{[-0.3,0,0.3].forEach(offset=>{const a=tank.angle+offset;const reach=2000;laserBeams.push({x1:tank.x,y1:tank.y,x2:tank.x+Math.cos(a)*reach,y2:tank.y+Math.sin(a)*reach,color:'#ff4040',life:30,owner:tank.id});for(const pid in players){const t=players[pid];if(pid===tank.id||!t.alive) continue;const steps=200;for(let s=1;s<=steps;s++){const tx=tank.x+Math.cos(a)*(reach*s/steps),ty=tank.y+Math.sin(a)*(reach*s/steps);if(Math.hypot(tx-t.x,ty-t.y)<20){applyHit(tank,t,50,tx,ty,'hyperbeam');break;}}}});shakeFrames=18;spawnPart(tank.x,tank.y,'#ff4040',50,10);states.forEach(s=>{s.cooldownTimer=ABILITIES[s.id].cd*60;});}},
 ];
+function checkCombos(slot){if(!myTank||!myTank.alive) return false;const ids=myAbilityState.map(s=>s.id);for(const combo of COMBOS){if(combo.ids.every(id=>ids.includes(id))){const states=combo.ids.map(id=>myAbilityState.find(s=>s.id===id));if(states.every(s=>s&&s.cooldownTimer===0&&!s.active)){const otherSlot=slot===0?1:0;if(myAbilityState[otherSlot]&&combo.ids.includes(myAbilityState[otherSlot].id)&&myAbilityState[slot]&&combo.ids.includes(myAbilityState[slot].id)){showComboFlash(combo.name,combo.sub,combo.color);combo.fn(myTank,states);awardXP('ability');awardXP('ability');updateAbilityHUD();return true;}}}}return false;}
+function showComboFlash(name,sub,color){const el=document.getElementById('combo-flash'),t=document.getElementById('combo-title'),s=document.getElementById('combo-sub');t.textContent='⚡ '+name;t.style.color=color;s.textContent=sub;el.classList.remove('show');void el.offsetWidth;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),950);}
+function useAbility(slot){if(!myTank||!myTank.alive) return;const st=myAbilityState[slot];if(st.cooldownTimer>0||st.active) return;const ab=ABILITIES[st.id];if(!ab) return;if(checkCombos(slot)) return;activateAbility(myTank,st,ab,slot,true);}
 
-function checkCombos(slot){
-  if(!myTank||!myTank.alive) return false;
-  const ids = myAbilityState.map(s=>s.id);
-  for(const combo of COMBOS){
-    if(combo.ids.every(id=>ids.includes(id))){
-      // Both must be ready (not on cooldown)
-      const states = combo.ids.map(id=>myAbilityState.find(s=>s.id===id));
-      if(states.every(s=>s&&s.cooldownTimer===0&&!s.active)){
-        // Only trigger if the SECOND ability is being pressed (both ready)
-        const otherSlot = slot===0?1:0;
-        if(myAbilityState[otherSlot] && combo.ids.includes(myAbilityState[otherSlot].id) &&
-           myAbilityState[slot] && combo.ids.includes(myAbilityState[slot].id)){
-          showComboFlash(combo.name, combo.sub, combo.color);
-          combo.fn(myTank, states);
-          awardXP('ability'); awardXP('ability');
-          updateAbilityHUD();
-          return true;
-        }
-      }
-    }
-  }
-  return false;
-}
-
-function showComboFlash(name, sub, color){
-  const el=document.getElementById('combo-flash');
-  const t=document.getElementById('combo-title');
-  const s=document.getElementById('combo-sub');
-  t.textContent='⚡ '+name;t.style.color=color;
-  s.textContent=sub;
-  el.classList.remove('show');
-  void el.offsetWidth; // force reflow
-  el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),950);
-}
-
-function useAbility(slot){
-  if(!myTank||!myTank.alive) return;
-  const st=myAbilityState[slot];
-  if(st.cooldownTimer>0||st.active) return;
-  const ab=ABILITIES[st.id];
-  if(!ab) return;
-  if(checkCombos(slot)) return; // combo triggered instead
-  activateAbility(myTank, st, ab, slot, true);
-}
-
-function activateAbility(tank, st, ab, slot, isMe){
-  if(isMe){ awardXP('ability'); progressChallenge('abilities'); progressChallenge('use_ability',{ability:ab.id}); lastAbilityUsed=ab.id; }
+function activateAbility(tank,st,ab,slot,isMe){
+  if(isMe){awardXP('ability');progressChallenge('abilities');progressChallenge('use_ability',{ability:ab.id});lastAbilityUsed=ab.id;}
   const cdFrames=ab.cd*60;
-  // Apply ability upgrades from player profile
-  let abDuration = ab.duration;
-  let abDmg = 35; // laser dmg
-  if(tank.id===myId){
-    if(ab.id==='laser' && profile.abUpgrades['laser']) abDmg=53;
-    if(ab.id==='heal' && profile.abUpgrades['heal']) { /* handled below */ }
-    if(ab.id==='speed' && profile.abUpgrades['speed']) abDuration=380;
-    if(ab.id==='emp' && profile.abUpgrades['emp']) { /* handled below */ }
-  }
+  let abDuration=ab.duration,abDmg=35;
+  if(tank.id===myId){if(ab.id==='laser'&&profile.abUpgrades['laser'])abDmg=53;if(ab.id==='speed'&&profile.abUpgrades['speed'])abDuration=380;}
   switch(ab.id){
-    case 'ghost':
-      tank.ghost=true;st.active=true;st.activeTimer=abDuration||ab.duration;
-      if(isMe) addChatLine('ABILITY','👻 GHOST — passing through walls!',ab.color);
-      break;
-    case 'invisible':
-      tank.invisible=true;st.active=true;st.activeTimer=ab.duration;
-      if(isMe) addChatLine('ABILITY','🌀 CLOAK — you are invisible!',ab.color);
-      break;
-    case 'laser':
-      fireLaser(tank, isMe);
-      st.cooldownTimer=cdFrames;break;
-    case 'shield':
-      tank.shielded=true;st.active=true;st.activeTimer=ab.duration;
-      if(isMe) addChatLine('ABILITY','🛡️ SHIELD — next hit blocked!',ab.color);
-      break;
-    case 'speed':
-      tank.speedBoost=true;st.active=true;st.activeTimer=ab.duration;
-      if(isMe) addChatLine('ABILITY','💨 OVERDRIVE — speed boosted!',ab.color);
-      break;
-    case 'triple':
-      fireTriple(tank, isMe);
-      st.cooldownTimer=cdFrames;break;
-    case 'teleport':
-      doTeleport(tank);
-      st.cooldownTimer=cdFrames;
-      if(isMe) addChatLine('ABILITY','🌟 BLINK — teleported!',ab.color);
-      break;
-    case 'emp':
-      doEMP(tank, isMe);
-      st.cooldownTimer=cdFrames;break;
-    case 'ricochet':
-      tank.ricBounces=true;st.active=true;st.activeTimer=ab.duration;
-      if(isMe) addChatLine('ABILITY','↩️ RICOCHET — bullets bounce 6×!',ab.color);
-      break;
-    case 'heal':
-      const healAmt=(tank.id===myId&&profile.abUpgrades['heal'])?65:40;
-      tank.hp=Math.min(100, tank.hp+healAmt);
-      st.cooldownTimer=cdFrames;
-      spawnPart(tank.x,tank.y,'#40ff80',20,4);
-      if(isMe) addChatLine('ABILITY','❤️ MEDKIT — healed 40 HP!',ab.color);
-      updateHUD();break;
+    case 'ghost':tank.ghost=true;st.active=true;st.activeTimer=abDuration||ab.duration;if(isMe)addChatLine('ABILITY','👻 GHOST — passing through walls!',ab.color);break;
+    case 'invisible':tank.invisible=true;st.active=true;st.activeTimer=ab.duration;if(isMe)addChatLine('ABILITY','🌀 CLOAK — you are invisible!',ab.color);break;
+    case 'laser':fireLaser(tank,isMe,abDmg);st.cooldownTimer=cdFrames;break;
+    case 'shield':tank.shielded=true;st.active=true;st.activeTimer=ab.duration;if(isMe)addChatLine('ABILITY','🛡️ SHIELD — next hit blocked!',ab.color);break;
+    case 'speed':tank.speedBoost=true;st.active=true;st.activeTimer=abDuration;if(isMe)addChatLine('ABILITY','💨 OVERDRIVE — speed boosted!',ab.color);break;
+    case 'triple':fireTriple(tank,isMe);st.cooldownTimer=cdFrames;break;
+    case 'teleport':doTeleport(tank);st.cooldownTimer=cdFrames;if(isMe)addChatLine('ABILITY','🌟 BLINK — teleported!',ab.color);break;
+    case 'emp':doEMP(tank,isMe);st.cooldownTimer=cdFrames;break;
+    case 'ricochet':tank.ricBounces=true;st.active=true;st.activeTimer=ab.duration;if(isMe)addChatLine('ABILITY','↩️ RICOCHET — bullets bounce 6×!',ab.color);break;
+    case 'heal':const healAmt=(tank.id===myId&&profile.abUpgrades['heal'])?65:40;tank.hp=Math.min(100,tank.hp+healAmt);st.cooldownTimer=cdFrames;spawnPart(tank.x,tank.y,'#40ff80',20,4);if(isMe)addChatLine('ABILITY','❤️ MEDKIT — healed 40 HP!',ab.color);updateHUD();break;
   }
   updateAbilityHUD();
 }
 
 function tickAbilities(){
-  for(let i=0;i<2;i++){
-    const st=myAbilityState[i];
-    const ab=ABILITIES[st.id];
-    if(!ab||!myTank) continue;
-    if(st.cooldownTimer>0) st.cooldownTimer--;
-    if(st.active){
-      st.activeTimer--;
-      // Flash the ability slot in last second as warning
-      const slotEl=document.getElementById('ab-slot-'+i);
-      if(slotEl){
-        if(st.activeTimer<=60 && st.activeTimer>0){
-          slotEl.style.outline = Math.floor(st.activeTimer/8)%2===0 ? '2px solid #ff4040' : '';
-        } else { slotEl.style.outline=''; }
-      }
-      if(st.activeTimer<=0){
-        if(slotEl) slotEl.style.outline='';
-        st.active=false;
-        st.cooldownTimer=ab.cd*60;
-        // deactivate effect
-        switch(ab.id){
-          case 'ghost': if(myTank){ myTank.ghost=false; pushOutOfWall(myTank); }break;
-          case 'invisible': if(myTank) myTank.invisible=false;break;
-          case 'shield': if(myTank) myTank.shielded=false;break;
-          case 'speed': if(myTank) myTank.speedBoost=false;break;
-          case 'ricochet': if(myTank) myTank.ricBounces=false;break;
-        }
-      }
-    }
-  }
-  // tick laser beams
+  for(let i=0;i<2;i++){const st=myAbilityState[i],ab=ABILITIES[st.id];if(!ab||!myTank) continue;if(st.cooldownTimer>0)st.cooldownTimer--;if(st.active){st.activeTimer--;const slotEl=document.getElementById('ab-slot-'+i);if(slotEl){if(st.activeTimer<=60&&st.activeTimer>0){slotEl.style.outline=Math.floor(st.activeTimer/8)%2===0?'2px solid #ff4040':'';}else{slotEl.style.outline='';}}if(st.activeTimer<=0){if(slotEl)slotEl.style.outline='';st.active=false;st.cooldownTimer=ab.cd*60;switch(ab.id){case 'ghost':if(myTank){myTank.ghost=false;pushOutOfWall(myTank);}break;case 'invisible':if(myTank)myTank.invisible=false;break;case 'shield':if(myTank)myTank.shielded=false;break;case 'speed':if(myTank)myTank.speedBoost=false;break;case 'ricochet':if(myTank)myTank.ricBounces=false;break;}}}}
   for(let i=laserBeams.length-1;i>=0;i--){laserBeams[i].life--;if(laserBeams[i].life<=0)laserBeams.splice(i,1);}
   updateAbilityHUD();
 }
 
-// ── Ability effects ───────────────────────────────────────
-function fireLaser(tank, isMe){
-  const angle=tank.angle;
-  const reach=2000;
+// ── Ability effects ─────────────────────────────────────────
+function fireLaser(tank,isMe,abDmg){
+  abDmg=abDmg||35;
+  const angle=tank.angle,reach=2000;
   const ex=tank.x+Math.cos(angle)*reach,ey=tank.y+Math.sin(angle)*reach;
   laserBeams.push({x1:tank.x,y1:tank.y,x2:ex,y2:ey,color:tank.color,life:20,owner:tank.id});
   spawnPart(tank.x,tank.y,tank.color,10,5);
-  // hit check – walk along beam
   const steps=200;
   for(let s=1;s<=steps;s++){
-    const tx=tank.x+Math.cos(angle)*(reach*s/steps);
-    const ty=tank.y+Math.sin(angle)*(reach*s/steps);
-    // wall check
+    const tx=tank.x+Math.cos(angle)*(reach*s/steps),ty=tank.y+Math.sin(angle)*(reach*s/steps);
     let blocked=false;for(const w of walls){if(tx>w.x&&tx<w.x+w.w&&ty>w.y&&ty<w.y+w.h){blocked=true;laserBeams[laserBeams.length-1].x2=tx;laserBeams[laserBeams.length-1].y2=ty;break;}}
     if(blocked) break;
-    // player hit
-    for(const pid in players){
-      if(pid===tank.id) continue;
-      const t=players[pid];if(!t.alive||t.invulnTimer>0) continue;
-      if(Math.hypot(tx-t.x,ty-t.y)<18){
-        laserBeams[laserBeams.length-1].x2=tx;laserBeams[laserBeams.length-1].y2=ty;
-        applyHit(tank,t,abDmg,tx,ty,'laser_hit');
-        break;
-      }
-    }
+    for(const pid in players){if(pid===tank.id) continue;const t=players[pid];if(!t.alive||t.invulnTimer>0) continue;if(Math.hypot(tx-t.x,ty-t.y)<18){laserBeams[laserBeams.length-1].x2=tx;laserBeams[laserBeams.length-1].y2=ty;applyHit(tank,t,abDmg,tx,ty,'laser_hit');break;}}
   }
   if(isMe&&connected) broadcast('evt',{e:'ability',from:myId,ab:'laser',angle});
 }
 
-function fireTriple(tank, isMe){
-  const angles=[tank.angle-0.28,tank.angle,tank.angle+0.28];
-  const maxBounce=tank.ricBounces?6:2;
-  angles.forEach((a,i)=>{
-    const bid=tank.id+'_t'+(bulletSeq++)+'_'+i;
-    const bx=tank.x+Math.cos(a)*22,by=tank.y+Math.sin(a)*22;
-    bullets.push({id:bid,x:bx,y:by,vx:Math.cos(a)*B_SPD,vy:Math.sin(a)*B_SPD,owner:tank.id,color:tank.color,bounces:0,maxBounce});
-    if(isMe&&connected) broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:a});
-  });
-  spawnPart(tank.x,tank.y,tank.color,8,3);
-}
+function fireTriple(tank,isMe){const angles=[tank.angle-0.28,tank.angle,tank.angle+0.28];const maxBounce=tank.ricBounces?6:2;angles.forEach((a,i)=>{const bid=tank.id+'_t'+(bulletSeq++)+'_'+i;const bx=tank.x+Math.cos(a)*22,by=tank.y+Math.sin(a)*22;bullets.push({id:bid,x:bx,y:by,vx:Math.cos(a)*B_SPD,vy:Math.sin(a)*B_SPD,owner:tank.id,color:tank.color,bounces:0,maxBounce});if(isMe&&connected)broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:a});});spawnPart(tank.x,tank.y,tank.color,8,3);}
 
-function doTeleport(tank){
-  const sp=getRandomSpawn();spawnPart(tank.x,tank.y,'#ff40ff',20,6);
-  tank.x=sp.x;tank.y=sp.y;tank.vx=0;tank.vy=0;
-  spawnPart(tank.x,tank.y,'#ff40ff',20,6);shakeFrames=4;
-  if(tank.id===myId){camX=tank.x-VP_W/2;camY=tank.y-VP_H/2;clampCam();}
-}
+function doTeleport(tank){const sp=getRandomSpawn();spawnPart(tank.x,tank.y,'#ff40ff',20,6);tank.x=sp.x;tank.y=sp.y;tank.vx=0;tank.vy=0;spawnPart(tank.x,tank.y,'#ff40ff',20,6);shakeFrames=4;if(tank.id===myId){camX=tank.x-VP_W/2;camY=tank.y-VP_H/2;clampCam();}}
 
-function doEMP(tank, isMe){
-  const radius=(tank.id===myId&&profile.abUpgrades['emp'])?310:200;
-  spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',30,6);shakeFrames=8;
-  for(const pid in players){
-    const t=players[pid];if(t.id===tank.id||!t.alive) continue;
-    if(Math.hypot(t.x-tank.x,t.y-tank.y)<radius){
-      t.stunTimer=150;spawnPart(t.x,t.y,'#ffaa00',15,4);
-      if(isMe) addChatLine('ABILITY','💥 E.M.P. — enemy stunned!','#ffaa00');
-    }
-  }
-}
+function doEMP(tank,isMe){const radius=(tank.id===myId&&profile.abUpgrades['emp'])?310:200;spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',30,6);shakeFrames=8;for(const pid in players){const t=players[pid];if(t.id===tank.id||!t.alive) continue;if(Math.hypot(t.x-tank.x,t.y-tank.y)<radius){t.stunTimer=150;spawnPart(t.x,t.y,'#ffaa00',15,4);if(isMe)addChatLine('ABILITY','💥 E.M.P. — enemy stunned!','#ffaa00');}}}
 
-function applyHit(attacker, victim, dmg, bx, by, bid){
-  if(victim.shielded){
-    victim.shielded=false;
-    // find shield slot and put on cd
-    if(victim.id===myId){
-      for(let i=0;i<2;i++){if(myAbilityState[i].id==='shield'){myAbilityState[i].active=false;myAbilityState[i].cooldownTimer=ABILITIES.shield.cd*60;}}
-    }
-    spawnPart(bx,by,'#40c8ff',12,4);addChatLine('SYSTEM',victim.nick+' shield blocked!','#40c8ff');return;
-  }
-  const newHp=Math.max(0,(victim.hp||100)-dmg);victim.hp=newHp;
-  if(newHp>0) victim.invulnTimer=80;
+function applyHit(attacker,victim,dmg,bx,by,bid){
+  if(victim.shielded){victim.shielded=false;if(victim.id===myId){for(let i=0;i<2;i++){if(myAbilityState[i].id==='shield'){myAbilityState[i].active=false;myAbilityState[i].cooldownTimer=ABILITIES.shield.cd*60;}}}spawnPart(bx,by,'#40c8ff',12,4);addChatLine('SYSTEM',victim.nick+' shield blocked!','#40c8ff');return;}
+  const newHp=Math.max(0,(victim.hp||100)-dmg);victim.hp=newHp;if(newHp>0)victim.invulnTimer=80;
   spawnPart(bx,by,victim.color,14,4);spawnWave(bx,by,victim.color);shakeFrames=6;
-  if(gameMode==='mp'&&attacker.id===myId) broadcast('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:newHp,knick:attacker.nick,vnick:victim.nick});
+  if(gameMode==='mp'&&attacker.id===myId)broadcast('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:newHp,knick:attacker.nick,vnick:victim.nick});
   if(newHp<=0){
-    victim.alive=false;victim.invulnTimer=0;
-    victim.ghost=false;victim.invisible=false;victim.stunTimer=0;victim.speedBoost=false;victim.ricBounces=false;victim.shielded=false;
+    victim.alive=false;victim.invulnTimer=0;victim.ghost=false;victim.invisible=false;victim.stunTimer=0;victim.speedBoost=false;victim.ricBounces=false;victim.shielded=false;
     spawnPart(victim.x,victim.y,victim.color,40,8);spawnWave(victim.x,victim.y,victim.color);shakeFrames=12;
-    addKF(attacker.nick,victim.nick);
-    attacker.kills=(attacker.kills||0)+1;
-    spawnCoins(victim.x,victim.y,victim.color,5);
-    if(victim.id===myId){ setTimeout(()=>playKillCam(attacker.nick), 200); }
+    addKF(attacker.nick,victim.nick);attacker.kills=(attacker.kills||0)+1;spawnCoins(victim.x,victim.y,victim.color,5);
+    // kill cam removed
     if(attacker.id===myId){
-      profile.totalKills++; saveProfile();
-      myKillStreak = (myKillStreak||0) + 1;
-      awardXP('kill');
-      // Killstreak rewards
+      profile.totalKills++;saveProfile();myKillStreak=(myKillStreak||0)+1;awardXP('kill');
       progressChallenge('streak',{val:myKillStreak});
-      if(myKillStreak===3){
-        // Speed burst
-        if(myTank){ myTank.speedBoost=true; setTimeout(()=>{if(myTank)myTank.speedBoost=false;},4000); }
-        showStreakBanner(3,'💨 SPEED BURST — 4 SECONDS!','#40ff80');
-        spawnPart(myTank.x,myTank.y,'#40ff80',30,6);
-        awardXP('kill'); // bonus XP
-      } else if(myKillStreak===5){
-        // Full heal
-        if(myTank){ myTank.hp=100; }
-        showStreakBanner(5,'❤ FULL HEAL!','#ff4040');
-        spawnPart(myTank.x,myTank.y,'#ff4040',40,7);
-        awardXP('kill'); awardXP('kill'); // big bonus XP
-        updateHUD();
-      } else if(myKillStreak>5){
-        showStreakBanner(myKillStreak,'🔥 GODLIKE!','#ff00ff');
-        awardXP('kill');
-      } else if(myKillStreak>=2){
-        showStreakBanner(myKillStreak,'','#ff9900');
-      }
+      if(myKillStreak===3){if(myTank){myTank.speedBoost=true;setTimeout(()=>{if(myTank)myTank.speedBoost=false;},4000);}showStreakBanner(3,'💨 SPEED BURST — 4 SECONDS!','#40ff80');spawnPart(myTank.x,myTank.y,'#40ff80',30,6);awardXP('kill');}
+      else if(myKillStreak===5){if(myTank){myTank.hp=100;}showStreakBanner(5,'❤ FULL HEAL!','#ff4040');spawnPart(myTank.x,myTank.y,'#ff4040',40,7);awardXP('kill');awardXP('kill');updateHUD();}
+      else if(myKillStreak>5){showStreakBanner(myKillStreak,'🔥 GODLIKE!','#ff00ff');awardXP('kill');}
+      else if(myKillStreak>=2){showStreakBanner(myKillStreak,'','#ff9900');}
     }
-    if(gameMode==='mp'&&attacker.id===myId) broadcast('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:0,knick:attacker.nick,vnick:victim.nick});
+    if(gameMode==='mp'&&attacker.id===myId)broadcast('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:0,knick:attacker.nick,vnick:victim.nick});
     updateHUD();
   }
   updateHUD();
 }
 
 // ═══════════════════════════════════════════════════════════
-// NPC AI — MULTI-BOT + PERSONALITIES
-// ═══════════════════════════════════════════════════════════
-
-// ═══════════════════════════════════════════════════════════
 // NPC AI
 // ═══════════════════════════════════════════════════════════
-const NPC_PROFILES={
-  easy:   {speed:0.55, turnRate:0.024, shootCd:140, settleFrames:38, aimTol:0.30, reactionDist:320, abilityCd:700},
-  medium: {speed:0.78, turnRate:0.034, shootCd:90,  settleFrames:22, aimTol:0.18, reactionDist:490, abilityCd:420},
-  hard:   {speed:1.05, turnRate:0.048, shootCd:55,  settleFrames:10, aimTol:0.09, reactionDist:780, abilityCd:220},
-};
-
-function closestMedkit(bot){
-  let best=null,bestD=Infinity;
-  groundMedkits.forEach(m=>{const d=Math.hypot(m.x-bot.x,m.y-bot.y);if(d<bestD){bestD=d;best=m;}});
-  return best;
-}
-
-function wallAvoidanceForce(bot){
-  const margin=80, force={x:0,y:0};
-  walls.forEach(w=>{
-    const cx=w.x+w.w/2, cy=w.y+w.h/2;
-    const dx=bot.x-cx, dy=bot.y-cy;
-    const dist=Math.hypot(dx,dy);
-    const minDist=Math.max(w.w,w.h)/2+margin;
-    if(dist<minDist&&dist>0){const str=(1-dist/minDist)*0.6;force.x+=dx/dist*str;force.y+=dy/dist*str;}
-  });
-  return force;
-}
-
+const NPC_PROFILES={easy:{speed:0.55,turnRate:0.024,shootCd:140,settleFrames:38,aimTol:0.30,reactionDist:320,abilityCd:700},medium:{speed:0.78,turnRate:0.034,shootCd:90,settleFrames:22,aimTol:0.18,reactionDist:490,abilityCd:420},hard:{speed:1.05,turnRate:0.048,shootCd:55,settleFrames:10,aimTol:0.09,reactionDist:780,abilityCd:220}};
+function closestMedkit(bot){let best=null,bestD=Infinity;groundMedkits.forEach(m=>{const d=Math.hypot(m.x-bot.x,m.y-bot.y);if(d<bestD){bestD=d;best=m;}});return best;}
+function wallAvoidanceForce(bot){const margin=80,force={x:0,y:0};walls.forEach(w=>{const cx=w.x+w.w/2,cy=w.y+w.h/2,dx=bot.x-cx,dy=bot.y-cy,dist=Math.hypot(dx,dy),minDist=Math.max(w.w,w.h)/2+margin;if(dist<minDist&&dist>0){const str=(1-dist/minDist)*0.6;force.x+=dx/dist*str;force.y+=dy/dist*str;}});return force;}
 function updateSingleBot(bot){
-  if(!bot.alive) return;
-  const prof = NPC_PROFILES[botDifficulty];
-  bot.aiTimer++;
-  if(bot.stunTimer>0){bot.stunTimer--;return;}
-
-  const target = myTank && myTank.alive ? myTank : null;
-  if(!target) return;
-
-  const dx=target.x-bot.x, dy=target.y-bot.y;
-  const dist=Math.hypot(dx,dy);
-
-  // ── AIM: stable per-shot noise, re-rolled only on each shot ──
-  if(bot.aimNoise===undefined) bot.aimNoise=0;
-  const trueAimAngle = Math.atan2(dy,dx) + bot.aimNoise;
-
-  const idealDist = botDifficulty==='hard'?260 : botDifficulty==='medium'?305 : 365;
-
-  // ── ROTATE ──
-  let angleDiff = trueAimAngle - bot.angle;
-  while(angleDiff>Math.PI)  angleDiff-=Math.PI*2;
-  while(angleDiff<-Math.PI) angleDiff+=Math.PI*2;
-  bot.angle += Math.min(Math.abs(angleDiff), prof.turnRate) * Math.sign(angleDiff);
-
-  // ── AIM SETTLE: must hold aim before firing ──
-  bot.aimSettleT = bot.aimSettleT||0;
-  if(Math.abs(angleDiff) < prof.aimTol){ bot.aimSettleT=Math.min(bot.aimSettleT+1, prof.settleFrames+5); }
-  else { bot.aimSettleT=Math.max(0, bot.aimSettleT-2); }
-  const aimReady = bot.aimSettleT >= prof.settleFrames;
-
-  // ── MEDKIT HUNTING when low HP ──
-  const nearMedkit = bot.hp < 40 ? closestMedkit(bot) : null;
-  bot.huntingMedkit = !!(nearMedkit && Math.hypot(nearMedkit.x-bot.x,nearMedkit.y-bot.y)<650);
-
-  // ── MOVE ──
-  const spd = T_SPD * prof.speed * (bot.speedBoost?2:1);
-  if(bot.huntingMedkit){
-    const mk=closestMedkit(bot);
-    if(mk){const ma=Math.atan2(mk.y-bot.y,mk.x-bot.x);bot.vx+=Math.cos(ma)*0.5;bot.vy+=Math.sin(ma)*0.5;}
-  } else if(dist>idealDist+40){
-    bot.vx+=Math.cos(bot.angle)*0.48; bot.vy+=Math.sin(bot.angle)*0.48;
-  } else if(!bot.huntingMedkit && dist<idealDist-40){
-    bot.vx-=Math.cos(bot.angle)*0.28; bot.vy-=Math.sin(bot.angle)*0.28;
-  } else if(!bot.huntingMedkit){
-    const strafeA=bot.angle+Math.PI/2*(bot.aiTimer%110<55?1:-1);
-    bot.vx+=Math.cos(strafeA)*0.25; bot.vy+=Math.sin(strafeA)*0.25;
-  }
-  const waf=wallAvoidanceForce(bot);
-  bot.vx+=waf.x*0.4; bot.vy+=waf.y*0.4;
-  bot.vx*=0.82; bot.vy*=0.82;
-  const sv=Math.hypot(bot.vx,bot.vy); if(sv>spd){bot.vx=bot.vx/sv*spd;bot.vy=bot.vy/sv*spd;}
-  const px=bot.x, py=bot.y;
-  bot.x+=bot.vx; if(!bot.ghost&&tankInWall(bot)){bot.x=px;bot.vx*=-0.4;bot.aimSettleT=0;}
-  bot.y+=bot.vy; if(!bot.ghost&&tankInWall(bot)){bot.y=py;bot.vy*=-0.4;bot.aimSettleT=0;}
-  bot.trail=bot.trail||[]; bot.trail.unshift({x:bot.x,y:bot.y}); if(bot.trail.length>16)bot.trail.pop();
-
-  // ── SHOOT ──
-  if(bot.aiShootCd>0) bot.aiShootCd--;
-  if(bot.aiShootCd<=0 && aimReady && dist<prof.reactionDist && !bot.huntingMedkit){
-    bot.aiShootCd = Math.ceil(prof.shootCd * (1.0 + Math.random()*0.5));
-    bot.aimNoise = (Math.random()-0.5)*prof.aimTol*2.2;
-    bot.aimSettleT = 0;
-    const bid=bot.id+'_b'+(bulletSeq++);
-    const bx=bot.x+Math.cos(bot.angle)*22, by=bot.y+Math.sin(bot.angle)*22;
-    bullets.push({id:bid,x:bx,y:by,vx:Math.cos(bot.angle)*B_SPD,vy:Math.sin(bot.angle)*B_SPD,owner:bot.id,color:bot.color,bounces:0,maxBounce:bot.ricBounces?6:2});
-  }
-
-  // ── ABILITIES ──
-  for(let i=0;i<2;i++){
-    if(bot.aiAbilityCd[i]>0){bot.aiAbilityCd[i]--;continue;}
-    const abId=bot.abilities[i];if(!abId) continue;
-    const ab=ABILITIES[abId];if(!ab) continue;
-    let use=false;
-    const aimOk=Math.abs(angleDiff)<0.25&&dist<prof.reactionDist;
-    switch(abId){
-      case 'heal':      use=bot.hp<50;break;
-      case 'shield':    use=dist<300;break;
-      case 'speed':     use=dist>400||bot.hp<40;break;
-      case 'ghost':     use=bot.aiTimer%300<10&&dist<500;break;
-      case 'invisible': use=bot.hp<60;break;
-      case 'teleport':  use=bot.hp<30;break;
-      case 'emp':       use=dist<200;break;
-      case 'laser':     use=dist<500&&aimOk;break;
-      case 'triple':    use=dist<400&&aimOk;break;
-      case 'ricochet':  use=bot.aiTimer%200<8;break;
-    }
-    if(use){
-      activateAbility(bot,{id:abId,cooldownTimer:0,active:false,activeTimer:0},ab,i,false);
-      bot.aiAbilityCd[i]=ab.cd*60+(Math.random()*80|0);
-    }
-  }
-
-  // ── TICK ACTIVE EFFECTS ──
-  if(bot.ghost)    {bot.ghostT   =(bot.ghostT   ||ABILITIES.ghost.duration);   bot.ghostT--;   if(bot.ghostT<=0)   {bot.ghost=false;bot.ghostT=0;pushOutOfWall(bot);}}
-  if(bot.invisible){bot.invisT   =(bot.invisT   ||ABILITIES.invisible.duration);bot.invisT--;  if(bot.invisT<=0)   {bot.invisible=false;bot.invisT=0;}}
-  if(bot.speedBoost){bot.speedT  =(bot.speedT   ||ABILITIES.speed.duration);   bot.speedT--;   if(bot.speedT<=0)   {bot.speedBoost=false;bot.speedT=0;}}
-  if(bot.shielded) {bot.shieldT  =(bot.shieldT  ||ABILITIES.shield.duration);  bot.shieldT--;  if(bot.shieldT<=0)  {bot.shielded=false; bot.shieldT=0;}}
-  if(bot.ricBounces){bot.ricT    =(bot.ricT     ||ABILITIES.ricochet.duration); bot.ricT--;     if(bot.ricT<=0)     {bot.ricBounces=false;bot.ricT=0;}}
+  if(!bot.alive) return;const prof=NPC_PROFILES[botDifficulty];bot.aiTimer++;if(bot.stunTimer>0){bot.stunTimer--;return;}
+  const target=myTank&&myTank.alive?myTank:null;if(!target) return;
+  const dx=target.x-bot.x,dy=target.y-bot.y,dist=Math.hypot(dx,dy);
+  if(bot.aimNoise===undefined)bot.aimNoise=0;const trueAimAngle=Math.atan2(dy,dx)+bot.aimNoise;
+  const idealDist=botDifficulty==='hard'?260:botDifficulty==='medium'?305:365;
+  let angleDiff=trueAimAngle-bot.angle;while(angleDiff>Math.PI)angleDiff-=Math.PI*2;while(angleDiff<-Math.PI)angleDiff+=Math.PI*2;
+  bot.angle+=Math.min(Math.abs(angleDiff),prof.turnRate)*Math.sign(angleDiff);
+  bot.aimSettleT=bot.aimSettleT||0;if(Math.abs(angleDiff)<prof.aimTol){bot.aimSettleT=Math.min(bot.aimSettleT+1,prof.settleFrames+5);}else{bot.aimSettleT=Math.max(0,bot.aimSettleT-2);}const aimReady=bot.aimSettleT>=prof.settleFrames;
+  const nearMedkit=bot.hp<40?closestMedkit(bot):null;bot.huntingMedkit=!!(nearMedkit&&Math.hypot(nearMedkit.x-bot.x,nearMedkit.y-bot.y)<650);
+  const spd=T_SPD*prof.speed*(bot.speedBoost?2:1);
+  if(bot.huntingMedkit){const mk=closestMedkit(bot);if(mk){const ma=Math.atan2(mk.y-bot.y,mk.x-bot.x);bot.vx+=Math.cos(ma)*0.5;bot.vy+=Math.sin(ma)*0.5;}}else if(dist>idealDist+40){bot.vx+=Math.cos(bot.angle)*0.48;bot.vy+=Math.sin(bot.angle)*0.48;}else if(!bot.huntingMedkit&&dist<idealDist-40){bot.vx-=Math.cos(bot.angle)*0.28;bot.vy-=Math.sin(bot.angle)*0.28;}else if(!bot.huntingMedkit){const strafeA=bot.angle+Math.PI/2*(bot.aiTimer%110<55?1:-1);bot.vx+=Math.cos(strafeA)*0.25;bot.vy+=Math.sin(strafeA)*0.25;}
+  const waf=wallAvoidanceForce(bot);bot.vx+=waf.x*0.4;bot.vy+=waf.y*0.4;bot.vx*=0.82;bot.vy*=0.82;
+  const sv=Math.hypot(bot.vx,bot.vy);if(sv>spd){bot.vx=bot.vx/sv*spd;bot.vy=bot.vy/sv*spd;}
+  const px=bot.x,py=bot.y;bot.x+=bot.vx;if(!bot.ghost&&tankInWall(bot)){bot.x=px;bot.vx*=-0.4;bot.aimSettleT=0;}bot.y+=bot.vy;if(!bot.ghost&&tankInWall(bot)){bot.y=py;bot.vy*=-0.4;bot.aimSettleT=0;}
+  bot.trail=bot.trail||[];bot.trail.unshift({x:bot.x,y:bot.y});if(bot.trail.length>16)bot.trail.pop();
+  if(bot.aiShootCd>0)bot.aiShootCd--;if(bot.aiShootCd<=0&&aimReady&&dist<prof.reactionDist&&!bot.huntingMedkit){bot.aiShootCd=Math.ceil(prof.shootCd*(1.0+Math.random()*0.5));bot.aimNoise=(Math.random()-0.5)*prof.aimTol*2.2;bot.aimSettleT=0;const bid=bot.id+'_b'+(bulletSeq++);const bx=bot.x+Math.cos(bot.angle)*22,by=bot.y+Math.sin(bot.angle)*22;bullets.push({id:bid,x:bx,y:by,vx:Math.cos(bot.angle)*B_SPD,vy:Math.sin(bot.angle)*B_SPD,owner:bot.id,color:bot.color,bounces:0,maxBounce:bot.ricBounces?6:2});}
+  for(let i=0;i<2;i++){if(bot.aiAbilityCd[i]>0){bot.aiAbilityCd[i]--;continue;}const abId=bot.abilities[i];if(!abId)continue;const ab=ABILITIES[abId];if(!ab)continue;let use=false;const aimOk=Math.abs(angleDiff)<0.25&&dist<prof.reactionDist;switch(abId){case 'heal':use=bot.hp<50;break;case 'shield':use=dist<300;break;case 'speed':use=dist>400||bot.hp<40;break;case 'ghost':use=bot.aiTimer%300<10&&dist<500;break;case 'invisible':use=bot.hp<60;break;case 'teleport':use=bot.hp<30;break;case 'emp':use=dist<200;break;case 'laser':use=dist<500&&aimOk;break;case 'triple':use=dist<400&&aimOk;break;case 'ricochet':use=bot.aiTimer%200<8;break;}if(use){activateAbility(bot,{id:abId,cooldownTimer:0,active:false,activeTimer:0},ab,i,false);bot.aiAbilityCd[i]=ab.cd*60+(Math.random()*80|0);}}
+  if(bot.ghost){bot.ghostT=(bot.ghostT||ABILITIES.ghost.duration);bot.ghostT--;if(bot.ghostT<=0){bot.ghost=false;bot.ghostT=0;pushOutOfWall(bot);}}
+  if(bot.invisible){bot.invisT=(bot.invisT||ABILITIES.invisible.duration);bot.invisT--;if(bot.invisT<=0){bot.invisible=false;bot.invisT=0;}}
+  if(bot.speedBoost){bot.speedT=(bot.speedT||ABILITIES.speed.duration);bot.speedT--;if(bot.speedT<=0){bot.speedBoost=false;bot.speedT=0;}}
+  if(bot.shielded){bot.shieldT=(bot.shieldT||ABILITIES.shield.duration);bot.shieldT--;if(bot.shieldT<=0){bot.shielded=false;bot.shieldT=0;}}
+  if(bot.ricBounces){bot.ricT=(bot.ricT||ABILITIES.ricochet.duration);bot.ricT--;if(bot.ricT<=0){bot.ricBounces=false;bot.ricT=0;}}
 }
-
-function updateAllNPCs(){
-  npcs.forEach(bot=>{
-    if(bot.alive){ updateSingleBot(bot); }
-    else {
-      bot.respawnTimer=(bot.respawnTimer||0)+1;
-      // Game ends when someone reaches kill goal (checked in update)
-      if(bot.respawnTimer>=RESPAWN_SECS*60){
-        const sp=SPAWNS[1+Math.floor(Math.random()*(SPAWNS.length-1))];
-        Object.assign(bot,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,
-          ghost:false,ghostT:0,invisible:false,invisT:0,shielded:false,shieldT:0,stunTimer:0,
-          speedBoost:false,speedT:0,ricBounces:false,ricT:0,respawnTimer:0,aiShootCd:80,aimSettleT:0,aimNoise:0});
-      }
-    }
-  });
-}
-
-// legacy compat
-function updateNPC(){ if(npc) updateSingleBot(npc); }
-function respawnNPC(){ if(!npc) return; const sp=SPAWNS[3+Math.floor(Math.random()*5)]; Object.assign(npc,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,ghost:false,invisible:false,shielded:false,stunTimer:0,speedBoost:false,ricBounces:false,aiShootCd:60}); }
+function updateAllNPCs(){npcs.forEach(bot=>{if(bot.alive){updateSingleBot(bot);}else{bot.respawnTimer=(bot.respawnTimer||0)+1;if(bot.respawnTimer>=RESPAWN_SECS*60){const sp=SPAWNS[1+Math.floor(Math.random()*(SPAWNS.length-1))];Object.assign(bot,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,ghost:false,ghostT:0,invisible:false,invisT:0,shielded:false,shieldT:0,stunTimer:0,speedBoost:false,speedT:0,ricBounces:false,ricT:0,respawnTimer:0,aiShootCd:80,aimSettleT:0,aimNoise:0});}}}); }
+function updateNPC(){if(npc)updateSingleBot(npc);}
+function respawnNPC(){if(!npc)return;const sp=SPAWNS[3+Math.floor(Math.random()*5)];Object.assign(npc,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,ghost:false,invisible:false,shielded:false,stunTimer:0,speedBoost:false,ricBounces:false,aiShootCd:60});}
 let npcRespawnTimer=0;
 
 // ═══════════════════════════════════════════════════════════
 // PLAYERS / LOBBY
 // ═══════════════════════════════════════════════════════════
-function regPlayer(id,nick,color,abilities){
-  if(players[id]){players[id].nick=nick;players[id].color=color;return;}
-  players[id]={id,nick,color,hp:100,alive:true,kills:0,x:1000,y:750,angle:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:abilities||[],shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false};
-}
+function regPlayer(id,nick,color,abilities){if(players[id]){players[id].nick=nick;players[id].color=color;return;}players[id]={id,nick,color,hp:100,alive:true,kills:0,x:1000,y:750,angle:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:abilities||[],shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false};}
 function showPhase(p){document.getElementById('ph-conn').style.display=p==='conn'?'flex':'none';document.getElementById('ph-wait').style.display=p==='wait'?'flex':'none';document.getElementById('go').classList.remove('hide');}
 function hideOverlay(){document.getElementById('go').classList.add('hide');}
-function refreshLobbyOverlay(){
-  const all=allPlayers(),cnt=all.length;
-  document.getElementById('wait-sub').textContent=cnt+' player'+(cnt!==1?'s':'')+' in room'+(cnt<2?' — need 2 to start':'');
-  document.getElementById('start-btn').style.display=cnt>=2?'block':'none';
-  const list=document.getElementById('plist');list.innerHTML='';
-  all.forEach(p=>{
-    const d=document.createElement('div');d.className='pr';
-    d.innerHTML='<div class="pr-dot" style="background:'+p.color+';box-shadow:0 0 6px '+p.color+'44"></div><div class="pr-nick" style="color:'+p.color+'">'+p.nick+'</div><div class="pr-you">'+(p.id===myId?'(YOU)':'')+'</div><div class="pr-sc">'+(p.kills||0)+' kills</div>';
-    list.appendChild(d);
-  });
-}
+function refreshLobbyOverlay(){const all=allPlayers(),cnt=all.length;document.getElementById('wait-sub').textContent=cnt+' player'+(cnt!==1?'s':'')+' in room'+(cnt<2?' — need 2 to start':'');document.getElementById('start-btn').style.display=cnt>=2?'block':'none';const list=document.getElementById('plist');list.innerHTML='';all.forEach(p=>{const d=document.createElement('div');d.className='pr';d.innerHTML='<div class="pr-dot" style="background:'+p.color+';box-shadow:0 0 6px '+p.color+'44"></div><div class="pr-nick" style="color:'+p.color+'">'+p.nick+'</div><div class="pr-you">'+(p.id===myId?'(YOU)':'')+'</div><div class="pr-sc">'+(p.kills||0)+' kills</div>';list.appendChild(d);});}
 function allPlayers(){const me={id:myId,nick:myNick,color:myColor,kills:players[myId]?.kills||0};return[me,...Object.values(players).filter(p=>p.id!==myId)];}
 
 // ═══════════════════════════════════════════════════════════
 // MULTIPLAYER EVENTS
 // ═══════════════════════════════════════════════════════════
 let lastNonce='';
-function reqStart(){
-  const ids=[myId,...Object.keys(players).filter(id=>id!==myId)];
-  const spawnMap={};ids.forEach((id,i)=>{spawnMap[id]=SPAWNS[i%SPAWNS.length];});
-  const nonce=Math.random().toString(36).slice(2);
-  broadcast('evt',{e:'start',spawnMap,nonce});
-  doStart(spawnMap,nonce); // host also starts themselves
-}
-function doStart(spawnMap,nonce){
-  if(nonce&&nonce===lastNonce) return;if(nonce) lastNonce=nonce;
-  bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;roundTimer=0;shootTimer=0;gameActive=true;deathCountdown=0;
-  document.getElementById('death-screen').style.display='none';
-  const sp=spawnMap[myId]||SPAWNS[0];
-  myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:players[myId]?.kills||0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false,skin:selectedSkin};
-  players[myId]=myTank;
-  Object.keys(spawnMap).forEach(id=>{
-    if(id===myId) return;
-    const s=spawnMap[id];
-    if(players[id]) Object.assign(players[id],{x:s.x,y:s.y,angle:s.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:0,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false});
-  });
-  initAbilityState();
-  groundMedkits=[];medkitSpawnTimer=0;
-  for(let _i=0;_i<10&&groundMedkits.length<2;_i++) spawnGroundMedkit();
-  camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();hideOverlay();updateHUD();
-}
-function getRandomSpawn(){let best=SPAWNS[0],bestDist=0;SPAWNS.forEach(sp=>{let minDist=Infinity;Object.values(players).forEach(p=>{if(p.alive&&p.id!==myId) minDist=Math.min(minDist,Math.hypot(p.x-sp.x,p.y-sp.y));});if(minDist>bestDist){bestDist=minDist;best=sp;}});return best;}
+function reqStart(){const ids=[myId,...Object.keys(players).filter(id=>id!==myId)];const spawnMap={};ids.forEach((id,i)=>{spawnMap[id]=SPAWNS[i%SPAWNS.length];});const nonce=Math.random().toString(36).slice(2);broadcast('evt',{e:'start',spawnMap,nonce});doStart(spawnMap,nonce);}
+function doStart(spawnMap,nonce){if(nonce&&nonce===lastNonce) return;if(nonce)lastNonce=nonce;bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;roundTimer=0;shootTimer=0;gameActive=true;deathCountdown=0;document.getElementById('death-screen').style.display='none';const sp=spawnMap[myId]||SPAWNS[0];myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:players[myId]?.kills||0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false,skin:selectedSkin};players[myId]=myTank;Object.keys(spawnMap).forEach(id=>{if(id===myId)return;const s=spawnMap[id];if(players[id])Object.assign(players[id],{x:s.x,y:s.y,angle:s.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:0,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false});});initAbilityState();groundMedkits=[];medkitSpawnTimer=0;for(let _i=0;_i<10&&groundMedkits.length<2;_i++)spawnGroundMedkit();camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();hideOverlay();updateHUD();}
+function getRandomSpawn(){let best=SPAWNS[0],bestDist=0;SPAWNS.forEach(sp=>{let minDist=Infinity;Object.values(players).forEach(p=>{if(p.alive&&p.id!==myId)minDist=Math.min(minDist,Math.hypot(p.x-sp.x,p.y-sp.y));});if(minDist>bestDist){bestDist=minDist;best=sp;}});return best;}
 
-function respawnMe(){
-  clearInterval(killCamInterval);killCamActive=false;
-  const kcEl=document.getElementById('killcam-overlay');if(kcEl)kcEl.classList.remove('show');
-  const sp=getRandomSpawn();
-  myTank.x=sp.x;myTank.y=sp.y;myTank.angle=sp.a;myTank.hp=100;myTank.alive=true;myTank.vx=0;myTank.vy=0;myTank.trail=[];
-  myTank.hp=getUpgradedMaxHP();myTank.invulnTimer=180;myTank.ghost=false;myTank.invisible=false;myTank.shielded=false;myTank.stunTimer=0;myTank.speedBoost=false;myTank.ricBounces=false;
-  awardXP('survived');
-  progressChallenge('survive');
-  // re-sync selected abilities
-  selectedAbilities=[myAbilityState[0].id,myAbilityState[1].id];
-  // reset ability timers for newly switched abilities
-  myTank.abilities=selectedAbilities;
-  camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();
-  document.getElementById('death-screen').style.display='none';
-  if(connected) broadcast('evt',{e:'respawn',id:myId,x:sp.x,y:sp.y,a:sp.a});
-  updateHUD();updateAbilityHUD();
-}
+function respawnMe(){const sp=getRandomSpawn();myTank.x=sp.x;myTank.y=sp.y;myTank.angle=sp.a;myTank.hp=getUpgradedMaxHP();myTank.alive=true;myTank.vx=0;myTank.vy=0;myTank.trail=[];myTank.invulnTimer=180;myTank.ghost=false;myTank.invisible=false;myTank.shielded=false;myTank.stunTimer=0;myTank.speedBoost=false;myTank.ricBounces=false;awardXP('survived');progressChallenge('survive');selectedAbilities=[myAbilityState[0].id,myAbilityState[1].id];myTank.abilities=selectedAbilities;camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();document.getElementById('death-screen').style.display='none';if(connected)broadcast('evt',{e:'respawn',id:myId,x:sp.x,y:sp.y,a:sp.a});updateHUD();updateAbilityHUD();}
 
+// ── THE FIX: Direct position assignment for remote players ──
+// Old code: lerp(p.x, d.x, 0.35) — enemies appear frozen because
+// without local physics ticking, they never reach the target.
+// New code: direct assign + trail update = enemies move correctly.
 function onMove(msg){
   const d=msg.data;if(d.id===myId) return;
   const p=players[d.id];if(!p) return;
-  p.x=lerp(p.x,d.x,0.35);p.y=lerp(p.y,d.y,0.35);p.angle=lerpAngle(p.angle,d.angle,0.35);
+  p.x=d.x;
+  p.y=d.y;
+  p.angle=d.angle;
+  p.trail=p.trail||[];
+  p.trail.unshift({x:p.x,y:p.y});
+  if(p.trail.length>16)p.trail.pop();
 }
+
 function onEvt(msg){
   const d=msg.data;
-  if(d.e==='start') doStart(d.spawnMap,d.nonce);
-  if(d.e==='shoot'&&d.from!==myId){const p=players[d.from];if(!p) return;bullets.push({id:d.bid,x:d.bx,y:d.by,vx:Math.cos(d.angle)*B_SPD,vy:Math.sin(d.angle)*B_SPD,owner:d.from,color:p.color,bounces:0,maxBounce:2});}
-  if(d.e==='hit'){
-    const v=players[d.victim];if(!v) return;v.hp=d.hp;if(d.hp>0) v.invulnTimer=80;
-    spawnPart(d.bx,d.by,v.color,14,4);spawnWave(d.bx,d.by,v.color);shakeFrames=6;
-    bullets=bullets.filter(b=>b.id!==d.bid);
-    if(d.hp<=0){v.alive=false;v.invulnTimer=0;spawnPart(v.x,v.y,v.color,40,8);spawnWave(v.x,v.y,v.color);shakeFrames=12;addKF(d.knick,d.vnick);if(players[d.killer]) players[d.killer].kills=(players[d.killer].kills||0)+1;spawnCoins(v.x,v.y,v.color,5);}
-    updateHUD();
-  }
-  if(d.e==='respawn'){const p=players[d.id];if(!p) return;p.x=d.x;p.y=d.y;p.angle=d.a;p.hp=100;p.alive=true;p.vx=0;p.vy=0;p.trail=[];p.invulnTimer=180;updateHUD();}
-  if(d.e==='coin_collect') coins=coins.filter(c=>c.id!==d.cid);
+  if(d.e==='start')doStart(d.spawnMap,d.nonce);
+  if(d.e==='shoot'&&d.from!==myId){const p=players[d.from];if(!p)return;bullets.push({id:d.bid,x:d.bx,y:d.by,vx:Math.cos(d.angle)*B_SPD,vy:Math.sin(d.angle)*B_SPD,owner:d.from,color:p.color,bounces:0,maxBounce:2});}
+  if(d.e==='hit'){const v=players[d.victim];if(!v)return;v.hp=d.hp;if(d.hp>0)v.invulnTimer=80;spawnPart(d.bx,d.by,v.color,14,4);spawnWave(d.bx,d.by,v.color);shakeFrames=6;bullets=bullets.filter(b=>b.id!==d.bid);if(d.hp<=0){v.alive=false;v.invulnTimer=0;spawnPart(v.x,v.y,v.color,40,8);spawnWave(v.x,v.y,v.color);shakeFrames=12;addKF(d.knick,d.vnick);if(players[d.killer])players[d.killer].kills=(players[d.killer].kills||0)+1;spawnCoins(v.x,v.y,v.color,5);}updateHUD();}
+  if(d.e==='respawn'){const p=players[d.id];if(!p)return;p.x=d.x;p.y=d.y;p.angle=d.a;p.hp=100;p.alive=true;p.vx=0;p.vy=0;p.trail=[];p.invulnTimer=180;updateHUD();}
+  if(d.e==='coin_collect')coins=coins.filter(c=>c.id!==d.cid);
 }
 function onChatMsg(msg){addChatLine(msg.data.nick,msg.data.msg,msg.data.color);}
 
 // ═══════════════════════════════════════════════════════════
 // KEYS
 // ═══════════════════════════════════════════════════════════
-document.addEventListener('keydown',e=>{
-  keys[e.code]=true;
-  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code)) e.preventDefault();
-  if(e.code==='KeyQ'&&gameActive) useAbility(0);
-  if(e.code==='KeyE'&&gameActive) useAbility(1);
-});
+document.addEventListener('keydown',e=>{keys[e.code]=true;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();if(e.code==='KeyQ'&&gameActive)useAbility(0);if(e.code==='KeyE'&&gameActive)useAbility(1);});
 document.addEventListener('keyup',e=>keys[e.code]=false);
 
 // ═══════════════════════════════════════════════════════════
@@ -2169,42 +932,10 @@ function lerp(a,b,t){return a+(b-a)*t;}
 function lerpAngle(a,b,t){let d=b-a;while(d>Math.PI)d-=Math.PI*2;while(d<-Math.PI)d+=Math.PI*2;return a+d*t;}
 function rectsOverlap(ax,ay,aw,ah,bx,by,bw,bh){return ax<bx+bw&&ax+aw>bx&&ay<by+bh&&ay+ah>by;}
 function tankInWall(t){for(const w of walls)if(rectsOverlap(t.x-14,t.y-12,28,24,w.x,w.y,w.w,w.h))return w;return null;}
-
-// Push tank out of any wall it's overlapping — used when ghost expires mid-wall
-function pushOutOfWall(t){
-  const w=tankInWall(t);
-  if(!w) return; // not stuck, nothing to do
-  // Find which edge of the wall is closest and eject to just outside it
-  const overlapLeft  = (t.x+14) - w.x;
-  const overlapRight = (w.x+w.w) - (t.x-14);
-  const overlapTop   = (t.y+12) - w.y;
-  const overlapBot   = (w.y+w.h) - (t.y-12);
-  const min = Math.min(overlapLeft, overlapRight, overlapTop, overlapBot);
-  if(min===overlapLeft)  t.x = w.x - 14 - 2;
-  else if(min===overlapRight) t.x = w.x + w.w + 14 + 2;
-  else if(min===overlapTop)   t.y = w.y - 12 - 2;
-  else                        t.y = w.y + w.h + 12 + 2;
-  t.vx=0; t.vy=0;
-  // Clamp to map bounds just in case
-  t.x=Math.max(16,Math.min(MAP_W-16,t.x));
-  t.y=Math.max(14,Math.min(MAP_H-14,t.y));
-}
+function pushOutOfWall(t){const w=tankInWall(t);if(!w)return;const overlapLeft=(t.x+14)-w.x,overlapRight=(w.x+w.w)-(t.x-14),overlapTop=(t.y+12)-w.y,overlapBot=(w.y+w.h)-(t.y-12);const min=Math.min(overlapLeft,overlapRight,overlapTop,overlapBot);if(min===overlapLeft)t.x=w.x-14-2;else if(min===overlapRight)t.x=w.x+w.w+14+2;else if(min===overlapTop)t.y=w.y-12-2;else t.y=w.y+w.h+12+2;t.vx=0;t.vy=0;t.x=Math.max(16,Math.min(MAP_W-16,t.x));t.y=Math.max(14,Math.min(MAP_H-14,t.y));}
 function bulletHitsWall(b){for(const w of walls)if(b.x>w.x&&b.x<w.x+w.w&&b.y>w.y&&b.y<w.y+w.h)return w;return null;}
 function clampCam(){camX=Math.max(0,Math.min(MAP_W-VP_W,camX));camY=Math.max(0,Math.min(MAP_H-VP_H,camY));}
-
-function buildWalls(){
-  const T=16;
-  walls=[
-    {x:0,y:0,w:MAP_W,h:T},{x:0,y:MAP_H-T,w:MAP_W,h:T},{x:0,y:0,w:T,h:MAP_H},{x:MAP_W-T,y:0,w:T,h:MAP_H},
-    {x:300,y:280,w:220,h:32},{x:300,y:1188,w:220,h:32},{x:180,y:500,w:32,h:220},{x:180,y:780,w:32,h:220},{x:440,y:620,w:180,h:32},
-    {x:1480,y:280,w:220,h:32},{x:1480,y:1188,w:220,h:32},{x:1788,y:500,w:32,h:220},{x:1788,y:780,w:32,h:220},{x:1380,y:620,w:180,h:32},
-    {x:860,y:200,w:32,h:220},{x:1108,y:200,w:32,h:220},{x:700,y:380,w:220,h:32},{x:1080,y:380,w:220,h:32},
-    {x:860,y:1080,w:32,h:220},{x:1108,y:1080,w:32,h:220},{x:700,y:1088,w:220,h:32},{x:1080,y:1088,w:220,h:32},
-    {x:700,y:580,w:260,h:32},{x:1040,y:580,w:260,h:32},{x:700,y:888,w:260,h:32},{x:1040,y:888,w:260,h:32},
-    {x:920,y:500,w:160,h:32},{x:920,y:968,w:160,h:32},{x:960,y:620,w:32,h:260},
-    {x:580,y:700,w:32,h:200},{x:1388,y:700,w:32,h:200},
-  ];
-}
+function buildWalls(){const T=16;walls=[{x:0,y:0,w:MAP_W,h:T},{x:0,y:MAP_H-T,w:MAP_W,h:T},{x:0,y:0,w:T,h:MAP_H},{x:MAP_W-T,y:0,w:T,h:MAP_H},{x:300,y:280,w:220,h:32},{x:300,y:1188,w:220,h:32},{x:180,y:500,w:32,h:220},{x:180,y:780,w:32,h:220},{x:440,y:620,w:180,h:32},{x:1480,y:280,w:220,h:32},{x:1480,y:1188,w:220,h:32},{x:1788,y:500,w:32,h:220},{x:1788,y:780,w:32,h:220},{x:1380,y:620,w:180,h:32},{x:860,y:200,w:32,h:220},{x:1108,y:200,w:32,h:220},{x:700,y:380,w:220,h:32},{x:1080,y:380,w:220,h:32},{x:860,y:1080,w:32,h:220},{x:1108,y:1080,w:32,h:220},{x:700,y:1088,w:220,h:32},{x:1080,y:1088,w:220,h:32},{x:700,y:580,w:260,h:32},{x:1040,y:580,w:260,h:32},{x:700,y:888,w:260,h:32},{x:1040,y:888,w:260,h:32},{x:920,y:500,w:160,h:32},{x:920,y:968,w:160,h:32},{x:960,y:620,w:32,h:260},{x:580,y:700,w:32,h:200},{x:1388,y:700,w:32,h:200}];}
 function spawnPart(x,y,color,n,sp){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,s=Math.random()*sp+1;particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:Math.random()*.03+.015,r:Math.random()*3+1,color});}}
 function spawnWave(x,y,color){shockwaves.push({x,y,r:4,maxR:70,life:1,color});}
 
@@ -2214,30 +945,8 @@ function spawnWave(x,y,color){shockwaves.push({x,y,r:4,maxR:70,life:1,color});}
 let coinSeq=0;
 function spawnCoins(x,y,color,n){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,r=20+Math.random()*40;coins.push({id:myId+'_c'+(coinSeq++),x:x+Math.cos(a)*r,y:y+Math.sin(a)*r,color,life:1,age:0,vx:Math.cos(a)*2,vy:Math.sin(a)*2});}}
 function updateCoins(){
-  coins.forEach(c=>{
-    // Magnet: coins within 80px get pulled toward the player
-    if(myTank&&myTank.alive&&c.age>15){
-      const mdx=myTank.x-c.x, mdy=myTank.y-c.y, md=Math.hypot(mdx,mdy);
-      if(md<80&&md>0){ const pull=0.4*(1-md/80); c.vx+=mdx/md*pull; c.vy+=mdy/md*pull; }
-    }
-    c.x+=c.vx;c.y+=c.vy;c.vx*=0.88;c.vy*=0.88;c.age++;
-  });
-  if(myTank&&myTank.alive){
-    coins=coins.filter(c=>{
-      if(c.age<20) return true;
-      if(Math.hypot(c.x-myTank.x,c.y-myTank.y)<22){
-        spawnPart(c.x,c.y,'#ffd700',8,3);
-        awardXP('coin');
-        sessionCoins++;
-        progressChallenge('coins');
-        const hc=document.getElementById('hud-coins');
-        if(hc) hc.textContent='🪙 '+sessionCoins;
-        if(connected) broadcast('evt',{e:'coin_collect',cid:c.id});
-        return false;
-      }
-      return true;
-    });
-  }
+  coins.forEach(c=>{if(myTank&&myTank.alive&&c.age>15){const mdx=myTank.x-c.x,mdy=myTank.y-c.y,md=Math.hypot(mdx,mdy);if(md<80&&md>0){const pull=0.4*(1-md/80);c.vx+=mdx/md*pull;c.vy+=mdy/md*pull;}}c.x+=c.vx;c.y+=c.vy;c.vx*=0.88;c.vy*=0.88;c.age++;});
+  if(myTank&&myTank.alive){coins=coins.filter(c=>{if(c.age<20)return true;if(Math.hypot(c.x-myTank.x,c.y-myTank.y)<22){spawnPart(c.x,c.y,'#ffd700',8,3);awardXP('coin');sessionCoins++;progressChallenge('coins');const hc=document.getElementById('hud-coins');if(hc)hc.textContent='🪙 '+sessionCoins;if(connected)broadcast('evt',{e:'coin_collect',cid:c.id});return false;}return true;});}
   coins=coins.filter(c=>c.age<1200);
 }
 
@@ -2245,116 +954,56 @@ function updateCoins(){
 // MOVE / SHOOT
 // ═══════════════════════════════════════════════════════════
 let lastSend=0;
-function trySendMove(){if(!connected||!myTank) return;const now=Date.now();if(now-lastSend<50) return;lastSend=now;broadcast('mv',{id:myId,x:Math.round(myTank.x*10)/10,y:Math.round(myTank.y*10)/10,angle:Math.round(myTank.angle*100)/100});}
-function tryShoot(){
-  if(!myTank||!myTank.alive||shootTimer>0) return;
-  shootTimer=Math.round(getUpgradedFireCD());
-  const bid=myId+'_'+(bulletSeq++);
-  const bx=myTank.x+Math.cos(myTank.angle)*22,by=myTank.y+Math.sin(myTank.angle)*22;
-  const maxBounce=myTank.ricBounces?6:2;
-  const myBSpd=getUpgradedBulletSpd();
-  bullets.push({id:bid,x:bx,y:by,vx:Math.cos(myTank.angle)*myBSpd,vy:Math.sin(myTank.angle)*myBSpd,owner:myId,color:myTank.color,bounces:0,maxBounce});
-  myTank.vx-=Math.cos(myTank.angle)*1.5;myTank.vy-=Math.sin(myTank.angle)*1.5;
-  if(connected) broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});
+function trySendMove(){
+  if(!connected||!myTank) return;
+  const now=Date.now();
+  // Send at ~30fps (33ms) instead of 20fps — smoother remote movement
+  if(now-lastSend<33) return;
+  lastSend=now;
+  broadcast('mv',{id:myId,x:Math.round(myTank.x*10)/10,y:Math.round(myTank.y*10)/10,angle:Math.round(myTank.angle*100)/100});
 }
+function tryShoot(){if(!myTank||!myTank.alive||shootTimer>0)return;shootTimer=Math.round(getUpgradedFireCD());const bid=myId+'_'+(bulletSeq++);const bx=myTank.x+Math.cos(myTank.angle)*22,by=myTank.y+Math.sin(myTank.angle)*22;const maxBounce=myTank.ricBounces?6:2;const myBSpd=getUpgradedBulletSpd();bullets.push({id:bid,x:bx,y:by,vx:Math.cos(myTank.angle)*myBSpd,vy:Math.sin(myTank.angle)*myBSpd,owner:myId,color:myTank.color,bounces:0,maxBounce});myTank.vx-=Math.cos(myTank.angle)*1.5;myTank.vy-=Math.sin(myTank.angle)*1.5;if(connected)broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});}
 
 // ═══════════════════════════════════════════════════════════
 // MAIN UPDATE
 // ═══════════════════════════════════════════════════════════
 function update(){
-  Object.values(players).forEach(p=>{if(p.invulnTimer>0) p.invulnTimer--;if(p.stunTimer>0) p.stunTimer--;});
-
-  // NPC respawn
-  if(gameMode==='sp'&&npc&&!npc.alive){
-    npcRespawnTimer++;if(npcRespawnTimer>=RESPAWN_SECS*60){npcRespawnTimer=0;respawnNPC();}
-  }
-
-  // Player death countdown
-  if(deathCountdown>0){
-    deathCountdown--;
-    document.getElementById('death-timer').textContent='Respawning in '+Math.ceil(deathCountdown/60)+'...';
-    if(deathCountdown===0) respawnMe();
-  }
-  if(!gameActive) return;
-  roundTimer++;if(shootTimer>0) shootTimer--;
-
-  // NPC update
+  Object.values(players).forEach(p=>{if(p.invulnTimer>0)p.invulnTimer--;if(p.stunTimer>0)p.stunTimer--;});
+  if(gameMode==='sp'&&npc&&!npc.alive){npcRespawnTimer++;if(npcRespawnTimer>=RESPAWN_SECS*60){npcRespawnTimer=0;respawnNPC();}}
+  if(deathCountdown>0){deathCountdown--;document.getElementById('death-timer').textContent='Respawning in '+Math.ceil(deathCountdown/60)+'...';if(deathCountdown===0)respawnMe();}
+  if(!gameActive)return;
+  roundTimer++;if(shootTimer>0)shootTimer--;
   if(gameMode==='sp'){
     updateAllNPCs();
-    // Check 5-kill win condition
-    if(gameActive){
-      const KILL_GOAL=5;
-      const me=players[myId];
-      const botWinner=npcs.find(b=>(b.kills||0)>=KILL_GOAL);
-      if(me&&(me.kills||0)>=KILL_GOAL){
-        gameActive=false;
-        awardXP('game');
-        setTimeout(()=>showSummary(true),800);
-      } else if(botWinner){
-        gameActive=false;
-        setTimeout(()=>showSummary(false),800);
-      }
-    }
+    if(gameActive){const KILL_GOAL=5;const me=players[myId];const botWinner=npcs.find(b=>(b.kills||0)>=KILL_GOAL);if(me&&(me.kills||0)>=KILL_GOAL){gameActive=false;awardXP('game');setTimeout(()=>showSummary(true),800);}else if(botWinner){gameActive=false;setTimeout(()=>showSummary(false),800);}}
   }
-
   if(myTank&&myTank.alive&&myTank.stunTimer===0){
-    if(keys['ArrowLeft'])  myTank.angle-=T_TRN;
-    if(keys['ArrowRight']) myTank.angle+=T_TRN;
+    if(keys['ArrowLeft'])myTank.angle-=T_TRN;if(keys['ArrowRight'])myTank.angle+=T_TRN;
     const spd=myTank.speedBoost?getUpgradedSpeed()*2:getUpgradedSpeed();
-    if(keys['ArrowUp'])   {myTank.vx+=Math.cos(myTank.angle)*.55;myTank.vy+=Math.sin(myTank.angle)*.55;}
-    if(keys['ArrowDown']) {myTank.vx-=Math.cos(myTank.angle)*.3;myTank.vy-=Math.sin(myTank.angle)*.3;}
-    if(keys['Space']||keys['KeyL']) tryShoot();
+    if(keys['ArrowUp']){myTank.vx+=Math.cos(myTank.angle)*.55;myTank.vy+=Math.sin(myTank.angle)*.55;}
+    if(keys['ArrowDown']){myTank.vx-=Math.cos(myTank.angle)*.3;myTank.vy-=Math.sin(myTank.angle)*.3;}
+    if(keys['Space']||keys['KeyL'])tryShoot();
     myTank.vx*=.83;myTank.vy*=.83;
     const s=Math.hypot(myTank.vx,myTank.vy);if(s>spd){myTank.vx=myTank.vx/s*spd;myTank.vy=myTank.vy/s*spd;}
     const px=myTank.x,py=myTank.y;
     myTank.x+=myTank.vx;if(!myTank.ghost&&tankInWall(myTank)){myTank.x=px;myTank.vx*=-.3;}
     myTank.y+=myTank.vy;if(!myTank.ghost&&tankInWall(myTank)){myTank.y=py;myTank.vy*=-.3;}
-    myTank.trail=myTank.trail||[];myTank.trail.unshift({x:myTank.x,y:myTank.y});if(myTank.trail.length>16) myTank.trail.pop();
-    if(gameMode==='mp') trySendMove();
+    myTank.trail=myTank.trail||[];myTank.trail.unshift({x:myTank.x,y:myTank.y});if(myTank.trail.length>16)myTank.trail.pop();
+    if(gameMode==='mp')trySendMove();
     camX=lerp(camX,myTank.x-VP_W/2,0.1);camY=lerp(camY,myTank.y-VP_H/2,0.1);clampCam();
   }
-
   // Bullet update
   for(let i=bullets.length-1;i>=0;i--){
     const b=bullets[i];b.x+=b.vx;b.y+=b.vy;
     const maxB=b.maxBounce!==undefined?b.maxBounce:2;
-    const hw=bulletHitsWall(b);
-    if(hw){if(b.bounces>=maxB){spawnPart(b.x,b.y,b.color,5,2);bullets.splice(i,1);continue;}b.bounces++;const dx=(b.x-(hw.x+hw.w/2))/hw.w,dy=(b.y-(hw.y+hw.h/2))/hw.h;if(Math.abs(dx)>Math.abs(dy))b.vx*=-1;else b.vy*=-1;spawnPart(b.x,b.y,b.color,4,2);continue;}
-    // hit detection (owner's bullets can hit others)
+    const hw=bulletHitsWall(b);if(hw){if(b.bounces>=maxB){spawnPart(b.x,b.y,b.color,5,2);bullets.splice(i,1);continue;}b.bounces++;const dx=(b.x-(hw.x+hw.w/2))/hw.w,dy=(b.y-(hw.y+hw.h/2))/hw.h;if(Math.abs(dx)>Math.abs(dy))b.vx*=-1;else b.vy*=-1;spawnPart(b.x,b.y,b.color,4,2);continue;}
     let hit=false;
-    for(const pid in players){
-      if(pid===b.owner) continue;
-      const t=players[pid];if(!t.alive||t.invulnTimer>0) continue;
-      // Invisible players have 65% dodge chance vs bullets
-      if(t.invisible && b.owner!==t.id && Math.random()<0.65) continue;
-      if(Math.hypot(b.x-t.x,b.y-t.y)<18){
-        const attacker=players[b.owner]||myTank;
-        const dmg = (b.owner===myId) ? getUpgradedDamage() : 20;
-        applyHit(attacker,t,dmg,b.x,b.y,b.id);
-        bullets.splice(i,1);hit=true;break;
-      }
-    }
-    if(hit) continue;
-    if(b.x<-50||b.x>MAP_W+50||b.y<-50||b.y>MAP_H+50) bullets.splice(i,1);
+    for(const pid in players){if(pid===b.owner)continue;const t=players[pid];if(!t.alive||t.invulnTimer>0)continue;if(t.invisible&&b.owner!==t.id&&Math.random()<0.65)continue;if(Math.hypot(b.x-t.x,b.y-t.y)<18){const attacker=players[b.owner]||myTank;const dmg=(b.owner===myId)?getUpgradedDamage():20;applyHit(attacker,t,dmg,b.x,b.y,b.id);bullets.splice(i,1);hit=true;break;}}
+    if(hit)continue;if(b.x<-50||b.x>MAP_W+50||b.y<-50||b.y>MAP_H+50)bullets.splice(i,1);
   }
-
   // Player death trigger
-  if(myTank&&!myTank.alive&&deathCountdown===0){
-    deathCountdown=RESPAWN_SECS*60;
-    profile.totalDeaths++;saveProfile();
-    myKillStreak=0;
-    document.getElementById('death-screen').style.display='flex';
-    document.getElementById('death-timer').textContent='Respawning in '+RESPAWN_SECS+'...';
-    document.getElementById('death-xp').textContent='LV '+profile.level+' '+getRank(profile.level)+' — '+xpSessionGained+' XP this game';
-    deathSelectedSlot=0;
-    selectDeathSlot(0);
-    buildDeathAbilityGrid();
-  }
-
-  tickAbilities();
-  updateCoins();
-  updateGroundMedkits();
-  if(gameActive) recordKillCamFrame(); // runs in both mp and sp
+  if(myTank&&!myTank.alive&&deathCountdown===0){deathCountdown=RESPAWN_SECS*60;profile.totalDeaths++;saveProfile();myKillStreak=0;document.getElementById('death-screen').style.display='flex';document.getElementById('death-timer').textContent='Respawning in '+RESPAWN_SECS+'...';document.getElementById('death-xp').textContent='LV '+profile.level+' '+getRank(profile.level)+' — '+xpSessionGained+' XP this game';deathSelectedSlot=0;selectDeathSlot(0);buildDeathAbilityGrid();}
+  tickAbilities();updateCoins();updateGroundMedkits();
   for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.91;p.vy*=.91;p.life-=p.decay;if(p.life<=0)particles.splice(i,1);}
   for(let i=shockwaves.length-1;i>=0;i--){const s=shockwaves[i];s.r+=(s.maxR-s.r)*.18;s.life-=.055;if(s.life<=0)shockwaves.splice(i,1);}
 }
@@ -2363,309 +1012,88 @@ function update(){
 // HUD
 // ═══════════════════════════════════════════════════════════
 function updateHUD(){
-  const me=players[myId]||myTank;
-  const opp=Object.values(players).find(p=>p.id!==myId);
+  const me=players[myId]||myTank,opp=Object.values(players).find(p=>p.id!==myId);
   if(me){document.getElementById('h-left').textContent='▶ '+me.nick;document.getElementById('h-left').style.color=me.color;document.getElementById('hp-left').style.cssText='width:'+Math.max(0,me.hp||0)+'%;background:'+me.color+';box-shadow:0 0 6px '+me.color;}
   if(opp){document.getElementById('h-right').textContent=opp.nick+' ◀';document.getElementById('h-right').style.color=opp.color;document.getElementById('hp-right').style.cssText='width:'+Math.max(0,opp.hp||0)+'%;background:'+opp.color+';box-shadow:0 0 6px '+opp.color+';float:right';}
-  const sorted=Object.values(players).sort((a,b)=>(b.kills||0)-(a.kills||0));
-  const KILL_GOAL=5;
-  document.getElementById('hud-score').textContent=sorted.slice(0,3).map(p=>
-    (p.kills||0)+'/'+KILL_GOAL+' '+p.nick).join('  ');
-  const lead=document.getElementById('hud-lead');lead.innerHTML='';
-  sorted.slice(0,4).forEach((p,i)=>{
-    const r=document.createElement('div');r.className='lead-row';
-    r.innerHTML=(i===0&&(p.kills||0)>0?'👑 ':'&nbsp;&nbsp;&nbsp;')+'<div class="lead-dot" style="background:'+p.color+';box-shadow:0 0 4px '+p.color+'66"></div>&nbsp;<span class="lead-name" style="color:'+p.color+'">'+p.nick+'</span><span class="lead-kills">'+(p.kills||0)+'K</span>';
-    lead.appendChild(r);
-  });
+  const sorted=Object.values(players).sort((a,b)=>(b.kills||0)-(a.kills||0));const KILL_GOAL=5;
+  document.getElementById('hud-score').textContent=sorted.slice(0,3).map(p=>(p.kills||0)+'/'+KILL_GOAL+' '+p.nick).join('  ');
+  const lead=document.getElementById('hud-lead');lead.innerHTML='';sorted.slice(0,4).forEach((p,i)=>{const r=document.createElement('div');r.className='lead-row';r.innerHTML=(i===0&&(p.kills||0)>0?'👑 ':'&nbsp;&nbsp;&nbsp;')+'<div class="lead-dot" style="background:'+p.color+';box-shadow:0 0 4px '+p.color+'66"></div>&nbsp;<span class="lead-name" style="color:'+p.color+'">'+p.nick+'</span><span class="lead-kills">'+(p.kills||0)+'K</span>';lead.appendChild(r);});
 }
-function addChatLine(nick,msg,color){
-  const log=document.getElementById('chat-log');
-  const d=document.createElement('div');d.className='cm';
-  d.innerHTML='<span style="color:'+(color||'#888')+'">'+nick+':</span> '+msg;
-  log.appendChild(d);log.scrollTop=log.scrollHeight;
-  while(log.children.length>16) log.removeChild(log.firstChild);
-}
-function sendChat(){const ci=document.getElementById('ci'),msg=ci.value.trim();if(!msg||!connected) return;broadcast('chat',{nick:myNick,msg,color:myColor});addChatLine('YOU',msg,myColor);ci.value='';}
+function addChatLine(nick,msg,color){const log=document.getElementById('chat-log');const d=document.createElement('div');d.className='cm';d.innerHTML='<span style="color:'+(color||'#888')+'">'+nick+':</span> '+msg;log.appendChild(d);log.scrollTop=log.scrollHeight;while(log.children.length>16)log.removeChild(log.firstChild);}
+function sendChat(){const ci=document.getElementById('ci'),msg=ci.value.trim();if(!msg||!connected)return;broadcast('chat',{nick:myNick,msg,color:myColor});addChatLine('YOU',msg,myColor);ci.value='';}
 function addKF(k,v){const kf=document.getElementById('kf');const d=document.createElement('div');d.className='kfe';d.textContent=k+' ⚡ '+v;kf.appendChild(d);setTimeout(()=>d.remove(),4000);}
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0,0);
-}
+function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 
 // ═══════════════════════════════════════════════════════════
 // SURRENDER
 // ═══════════════════════════════════════════════════════════
 function showSurrenderConfirm(){document.getElementById('surrender-confirm').style.display='flex';}
 function hideSurrenderConfirm(){document.getElementById('surrender-confirm').style.display='none';}
-function doSurrender(){
-  gameActive=false;
-  if(channel){
-    addChatLine('SYSTEM',myNick+' surrendered!','#ff4040');
-    broadcast('chat',{nick:'SYSTEM',msg:myNick+' surrendered!',color:'#ff4040'});
-    broadcast('_bye',{});
-    closeWS();
-  }
-  // Clean up
-  bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;
-  if(xpSessionGained>0) awardXP('game'); xpSessionGained=0;
-  players={};myTank=null;npc=null;npcs=[];npcRespawnTimer=0;deathCountdown=0;
-  document.getElementById('surrender-confirm').style.display='none';
-  document.getElementById('death-screen').style.display='none';
-  document.getElementById('go').classList.remove('hide');
-  document.getElementById('chat').style.display='';
-  document.body.classList.remove('in-game');showScreen('lobby-screen');
-  renderServers();
-  stat('Select a server and join.','ok');
-  document.getElementById('sp-btn').style.display=(gameMode==='sp'?'inline-block':'none');
-  if(gameMode==='mp') refreshBtn();
-}
-
-// ═══════════════════════════════════════════════════════════
+function doSurrender(){gameActive=false;if(channel){addChatLine('SYSTEM',myNick+' surrendered!','#ff4040');broadcast('chat',{nick:'SYSTEM',msg:myNick+' surrendered!',color:'#ff4040'});broadcast('_bye',{});closeWS();}bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;if(xpSessionGained>0)awardXP('game');xpSessionGained=0;players={};myTank=null;npc=null;npcs=[];npcRespawnTimer=0;deathCountdown=0;document.getElementById('surrender-confirm').style.display='none';document.getElementById('death-screen').style.display='none';document.getElementById('go').classList.remove('hide');document.getElementById('chat').style.display='';document.body.classList.remove('in-game');showScreen('lobby-screen');renderServers();stat('Select a server and join.','ok');document.getElementById('sp-btn').style.display=(gameMode==='sp'?'inline-block':'none');if(gameMode==='mp')refreshBtn();}
 
 // ═══════════════════════════════════════════════════════════
 // GROUND MEDKITS
 // ═══════════════════════════════════════════════════════════
-let groundMedkits = [];
-let medkitSeq = 0;
-let medkitSpawnTimer = 0;
-const MEDKIT_SPAWN_INTERVAL = 900;
-const MEDKIT_MAX = 2;
-const MEDKIT_HEAL = 30;
-const MEDKIT_MIN_DIST = 140;
-
-function randomMedkitPos(){
-  for(let attempt=0;attempt<80;attempt++){
-    const x=120+Math.random()*(MAP_W-240);
-    const y=120+Math.random()*(MAP_H-240);
-    let blocked=false;
-    for(const w of walls){ if(x>w.x-30&&x<w.x+w.w+30&&y>w.y-30&&y<w.y+w.h+30){blocked=true;break;} }
-    if(blocked) continue;
-    let tooClose=false;
-    for(const m of groundMedkits){ if(Math.hypot(m.x-x,m.y-y)<MEDKIT_MIN_DIST){tooClose=true;break;} }
-    if(tooClose) continue;
-    let nearSpawn=false;
-    for(const s of SPAWNS){ if(Math.hypot(s.x-x,s.y-y)<120){nearSpawn=true;break;} }
-    if(nearSpawn) continue;
-    return {x,y};
-  }
-  return {x:MAP_W/2+(Math.random()-0.5)*300, y:MAP_H/2+(Math.random()-0.5)*200};
-}
-
-function spawnGroundMedkit(){
-  if(groundMedkits.length>=MEDKIT_MAX) return;
-  const pos=randomMedkitPos();
-  if(!pos) return;
-  groundMedkits.push({id:'mk'+(medkitSeq++),x:pos.x,y:pos.y,pulse:0});
-}
-
-function updateGroundMedkits(){
-  if(!gameActive) return;
-  medkitSpawnTimer++;
-  if(medkitSpawnTimer>=MEDKIT_SPAWN_INTERVAL){medkitSpawnTimer=0;spawnGroundMedkit();}
-  groundMedkits.forEach(m=>m.pulse=(m.pulse+0.06)%(Math.PI*2));
-  for(const pid in players){
-    const t=players[pid];if(!t.alive) continue;
-    for(let i=groundMedkits.length-1;i>=0;i--){
-      const m=groundMedkits[i];
-      if(Math.hypot(t.x-m.x,t.y-m.y)<24){
-        t.hp=Math.min(100,t.hp+MEDKIT_HEAL);
-        spawnPart(m.x,m.y,'#40ff80',16,4);
-        spawnWave(m.x,m.y,'#40ff80');
-        groundMedkits.splice(i,1);
-        if(t.id===myId){ addChatLine('PICKUP','❤ +'+MEDKIT_HEAL+' HP from medkit!','#40ff80'); awardXP('medkit'); progressChallenge('medkits'); }
-        updateHUD();
-        break;
-      }
-    }
-  }
-}
-
-function drawGroundMedkits(){
-  groundMedkits.forEach(m=>{
-    const glow=0.5+Math.sin(m.pulse)*0.35;
-    ctx.save();
-    ctx.shadowColor='#40ff80';ctx.shadowBlur=18*glow;
-    ctx.fillStyle='#1a3320';ctx.strokeStyle='#40ff80';ctx.lineWidth=1.5;ctx.globalAlpha=0.9;
-    ctx.fillRect(m.x-12,m.y-12,24,24);ctx.strokeRect(m.x-12,m.y-12,24,24);
-    ctx.fillStyle='#40ff80';ctx.globalAlpha=glow;
-    ctx.fillRect(m.x-3,m.y-9,6,18);
-    ctx.fillRect(m.x-9,m.y-3,18,6);
-    ctx.globalAlpha=0.25*glow;ctx.strokeStyle='#40ff80';ctx.lineWidth=2;
-    ctx.beginPath();ctx.arc(m.x,m.y,16+Math.sin(m.pulse)*4,0,Math.PI*2);ctx.stroke();
-    ctx.restore();
-  });
-}
+let groundMedkits=[],medkitSeq=0,medkitSpawnTimer=0;
+const MEDKIT_SPAWN_INTERVAL=900,MEDKIT_MAX=2,MEDKIT_HEAL=30,MEDKIT_MIN_DIST=140;
+function randomMedkitPos(){for(let attempt=0;attempt<80;attempt++){const x=120+Math.random()*(MAP_W-240),y=120+Math.random()*(MAP_H-240);let blocked=false;for(const w of walls){if(x>w.x-30&&x<w.x+w.w+30&&y>w.y-30&&y<w.y+w.h+30){blocked=true;break;}}if(blocked)continue;let tooClose=false;for(const m of groundMedkits){if(Math.hypot(m.x-x,m.y-y)<MEDKIT_MIN_DIST){tooClose=true;break;}}if(tooClose)continue;let nearSpawn=false;for(const s of SPAWNS){if(Math.hypot(s.x-x,s.y-y)<120){nearSpawn=true;break;}}if(nearSpawn)continue;return{x,y};}return{x:MAP_W/2+(Math.random()-0.5)*300,y:MAP_H/2+(Math.random()-0.5)*200};}
+function spawnGroundMedkit(){if(groundMedkits.length>=MEDKIT_MAX)return;const pos=randomMedkitPos();if(!pos)return;groundMedkits.push({id:'mk'+(medkitSeq++),x:pos.x,y:pos.y,pulse:0});}
+function updateGroundMedkits(){if(!gameActive)return;medkitSpawnTimer++;if(medkitSpawnTimer>=MEDKIT_SPAWN_INTERVAL){medkitSpawnTimer=0;spawnGroundMedkit();}groundMedkits.forEach(m=>m.pulse=(m.pulse+0.06)%(Math.PI*2));for(const pid in players){const t=players[pid];if(!t.alive)continue;for(let i=groundMedkits.length-1;i>=0;i--){const m=groundMedkits[i];if(Math.hypot(t.x-m.x,t.y-m.y)<24){t.hp=Math.min(100,t.hp+MEDKIT_HEAL);spawnPart(m.x,m.y,'#40ff80',16,4);spawnWave(m.x,m.y,'#40ff80');groundMedkits.splice(i,1);if(t.id===myId){addChatLine('PICKUP','❤ +'+MEDKIT_HEAL+' HP from medkit!','#40ff80');awardXP('medkit');progressChallenge('medkits');}updateHUD();break;}}}}
+function drawGroundMedkits(){groundMedkits.forEach(m=>{const glow=0.5+Math.sin(m.pulse)*0.35;ctx.save();ctx.shadowColor='#40ff80';ctx.shadowBlur=18*glow;ctx.fillStyle='#1a3320';ctx.strokeStyle='#40ff80';ctx.lineWidth=1.5;ctx.globalAlpha=0.9;ctx.fillRect(m.x-12,m.y-12,24,24);ctx.strokeRect(m.x-12,m.y-12,24,24);ctx.fillStyle='#40ff80';ctx.globalAlpha=glow;ctx.fillRect(m.x-3,m.y-9,6,18);ctx.fillRect(m.x-9,m.y-3,18,6);ctx.globalAlpha=0.25*glow;ctx.strokeStyle='#40ff80';ctx.lineWidth=2;ctx.beginPath();ctx.arc(m.x,m.y,16+Math.sin(m.pulse)*4,0,Math.PI*2);ctx.stroke();ctx.restore();});}
 
 // ═══════════════════════════════════════════════════════════
 // DRAW
 // ═══════════════════════════════════════════════════════════
-const canvas=document.getElementById('c');
-const ctx=canvas.getContext('2d');
-const mm=document.getElementById('minimap-canvas');
-const mctx=mm.getContext('2d');
+const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
+const mm=document.getElementById('minimap-canvas'),mctx=mm.getContext('2d');
 
 function draw(){
   ctx.save();
   if(shakeFrames>0){ctx.translate((Math.random()-.5)*shakeFrames*.8,(Math.random()-.5)*shakeFrames*.8);shakeFrames--;}
   ctx.translate(-Math.round(camX),-Math.round(camY));
   ctx.fillStyle='#0c0c18';ctx.fillRect(camX,camY,VP_W,VP_H);
-  // Low HP vignette — red pulse on screen edge
-  if(myTank&&myTank.alive&&myTank.hp<30){
-    const pulse=0.4+0.35*Math.sin(roundTimer*0.12);
-    const vig=ctx.createRadialGradient(camX+VP_W/2,camY+VP_H/2,VP_H*0.25,camX+VP_W/2,camY+VP_H/2,VP_W*0.75);
-    vig.addColorStop(0,'transparent');vig.addColorStop(1,'rgba(255,0,0,'+pulse+')');
-    ctx.fillStyle=vig;ctx.fillRect(camX,camY,VP_W,VP_H);
-  }
-  // hex grid bg
-  ctx.save();ctx.globalAlpha=.02;ctx.strokeStyle='#fff';ctx.lineWidth=.5;
-  const hs=40,r0=Math.floor(camY/(hs*1.5))-1,r1=r0+Math.ceil(VP_H/(hs*1.5))+3;
-  const c0=Math.floor(camX/(hs*1.73))-1,c1=c0+Math.ceil(VP_W/(hs*1.73))+3;
-  for(let row=r0;row<r1;row++) for(let col=c0;col<c1;col++){
-    const cx=col*hs*1.73+(row%2)*hs*.865,cy=row*hs*1.5;
-    ctx.beginPath();for(let k=0;k<6;k++){const a=(Math.PI/3)*k-Math.PI/6;k===0?ctx.moveTo(cx+hs*Math.cos(a),cy+hs*Math.sin(a)):ctx.lineTo(cx+hs*Math.cos(a),cy+hs*Math.sin(a));}ctx.closePath();ctx.stroke();
-  }
-  ctx.restore();
-  // walls
-  for(const w of walls){
-    if(w.x+w.w<camX||w.x>camX+VP_W||w.y+w.h<camY||w.y>camY+VP_H) continue;
-    const g=ctx.createLinearGradient(w.x,w.y,w.x,w.y+w.h);g.addColorStop(0,'#252538');g.addColorStop(1,'#111120');
-    ctx.fillStyle=g;ctx.fillRect(w.x,w.y,w.w,w.h);ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;ctx.strokeRect(w.x+.5,w.y+.5,w.w-1,w.h-1);
-  }
-  // coins
+  if(myTank&&myTank.alive&&myTank.hp<30){const pulse=0.4+0.35*Math.sin(roundTimer*0.12);const vig=ctx.createRadialGradient(camX+VP_W/2,camY+VP_H/2,VP_H*0.25,camX+VP_W/2,camY+VP_H/2,VP_W*0.75);vig.addColorStop(0,'transparent');vig.addColorStop(1,'rgba(255,0,0,'+pulse+')');ctx.fillStyle=vig;ctx.fillRect(camX,camY,VP_W,VP_H);}
+  ctx.save();ctx.globalAlpha=.02;ctx.strokeStyle='#fff';ctx.lineWidth=.5;const hs=40,r0=Math.floor(camY/(hs*1.5))-1,r1=r0+Math.ceil(VP_H/(hs*1.5))+3,c0=Math.floor(camX/(hs*1.73))-1,c1=c0+Math.ceil(VP_W/(hs*1.73))+3;for(let row=r0;row<r1;row++)for(let col=c0;col<c1;col++){const cx=col*hs*1.73+(row%2)*hs*.865,cy=row*hs*1.5;ctx.beginPath();for(let k=0;k<6;k++){const a=(Math.PI/3)*k-Math.PI/6;k===0?ctx.moveTo(cx+hs*Math.cos(a),cy+hs*Math.sin(a)):ctx.lineTo(cx+hs*Math.cos(a),cy+hs*Math.sin(a));}ctx.closePath();ctx.stroke();}ctx.restore();
+  for(const w of walls){if(w.x+w.w<camX||w.x>camX+VP_W||w.y+w.h<camY||w.y>camY+VP_H)continue;const g=ctx.createLinearGradient(w.x,w.y,w.x,w.y+w.h);g.addColorStop(0,'#252538');g.addColorStop(1,'#111120');ctx.fillStyle=g;ctx.fillRect(w.x,w.y,w.w,w.h);ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;ctx.strokeRect(w.x+.5,w.y+.5,w.w-1,w.h-1);}
   coins.forEach(c=>{const pulse=Math.sin(c.age*0.1)*0.3+0.7;ctx.save();ctx.globalAlpha=pulse;ctx.shadowColor='#ffd700';ctx.shadowBlur=10;ctx.fillStyle='#ffd700';ctx.beginPath();ctx.arc(c.x,c.y,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffaa00';ctx.beginPath();ctx.arc(c.x-1,c.y-1,3,0,Math.PI*2);ctx.fill();ctx.restore();});
   drawGroundMedkits();
-  // shockwaves
   for(const s of shockwaves){ctx.save();ctx.globalAlpha=s.life*.65;ctx.strokeStyle=s.color;ctx.shadowColor=s.color;ctx.shadowBlur=14;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=s.life*.1;ctx.fillStyle=s.color;ctx.fill();ctx.restore();}
-  // particles
   for(const p of particles){ctx.save();ctx.globalAlpha=p.life;ctx.shadowColor=p.color;ctx.shadowBlur=9;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);ctx.fill();ctx.restore();}
-  // laser beams
-  for(const lb of laserBeams){
-    ctx.save();ctx.globalAlpha=lb.life/20;
-    ctx.strokeStyle=lb.color;ctx.shadowColor=lb.color;ctx.shadowBlur=20;ctx.lineWidth=4;
-    ctx.beginPath();ctx.moveTo(lb.x1,lb.y1);ctx.lineTo(lb.x2,lb.y2);ctx.stroke();
-    ctx.strokeStyle='#fff';ctx.shadowBlur=8;ctx.lineWidth=1.5;
-    ctx.beginPath();ctx.moveTo(lb.x1,lb.y1);ctx.lineTo(lb.x2,lb.y2);ctx.stroke();
-    ctx.restore();
-  }
-  // bullets
-  for(const b of bullets){
-    ctx.save();const g=ctx.createLinearGradient(b.x-b.vx*6,b.y-b.vy*6,b.x,b.y);g.addColorStop(0,'transparent');g.addColorStop(1,b.color+'bb');
-    ctx.strokeStyle=g;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(b.x-b.vx*6,b.y-b.vy*6);ctx.lineTo(b.x,b.y);ctx.stroke();
-    ctx.shadowColor=b.color;ctx.shadowBlur=14;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(b.x,b.y,4.5,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.color;ctx.beginPath();ctx.arc(b.x,b.y,3,0,Math.PI*2);ctx.fill();ctx.restore();
-  }
-  // tanks
-  for(const id in players){const t=players[id];if(t.alive) drawTank(t,id===myId);}
-  // Floating damage numbers
-  for(let i=floatDmgNums.length-1;i>=0;i--){
-    const d=floatDmgNums[i];d.y+=d.vy;d.life-=0.025;
-    if(d.life<=0){floatDmgNums.splice(i,1);continue;}
-    ctx.save();ctx.globalAlpha=d.life;
-    ctx.font='bold 16px Arial';ctx.textAlign='center';
-    ctx.strokeStyle='rgba(0,0,0,0.9)';ctx.lineWidth=3;
-    ctx.strokeText('-'+d.dmg,d.x,d.y);
-    ctx.fillStyle=d.color;ctx.shadowColor=d.color;ctx.shadowBlur=8;
-    ctx.fillText('-'+d.dmg,d.x,d.y);
-    ctx.restore();
-  }
+  for(const lb of laserBeams){ctx.save();ctx.globalAlpha=lb.life/20;ctx.strokeStyle=lb.color;ctx.shadowColor=lb.color;ctx.shadowBlur=20;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(lb.x1,lb.y1);ctx.lineTo(lb.x2,lb.y2);ctx.stroke();ctx.strokeStyle='#fff';ctx.shadowBlur=8;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(lb.x1,lb.y1);ctx.lineTo(lb.x2,lb.y2);ctx.stroke();ctx.restore();}
+  for(const b of bullets){ctx.save();const g=ctx.createLinearGradient(b.x-b.vx*6,b.y-b.vy*6,b.x,b.y);g.addColorStop(0,'transparent');g.addColorStop(1,b.color+'bb');ctx.strokeStyle=g;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(b.x-b.vx*6,b.y-b.vy*6);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.shadowColor=b.color;ctx.shadowBlur=14;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(b.x,b.y,4.5,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.color;ctx.beginPath();ctx.arc(b.x,b.y,3,0,Math.PI*2);ctx.fill();ctx.restore();}
+  for(const id in players){const t=players[id];if(t.alive)drawTank(t,id===myId);}
+  for(let i=floatDmgNums.length-1;i>=0;i--){const d=floatDmgNums[i];d.y+=d.vy;d.life-=0.025;if(d.life<=0){floatDmgNums.splice(i,1);continue;}ctx.save();ctx.globalAlpha=d.life;ctx.font='bold 16px Arial';ctx.textAlign='center';ctx.strokeStyle='rgba(0,0,0,0.9)';ctx.lineWidth=3;ctx.strokeText('-'+d.dmg,d.x,d.y);ctx.fillStyle=d.color;ctx.shadowColor=d.color;ctx.shadowBlur=8;ctx.fillText('-'+d.dmg,d.x,d.y);ctx.restore();}
   ctx.restore();
   drawMinimap();
 }
 
 function drawTank(t,isMe){
-  // invisible enemies = skip rendering (unless they're us)
   if(t.invisible&&!isMe){return;}
-
-  const trail=t.trail||[];
-  ctx.save();
-  // ghost effect
-  if(t.ghost){ctx.globalAlpha=0.45;}
-  // invisible self = semi transparent
-  if(t.invisible&&isMe){ctx.globalAlpha=0.25;}
-  // stun effect
-  if(t.stunTimer>0){ctx.filter='hue-rotate(180deg) brightness(1.5)';}
-
-  for(let i=trail.length-1;i>=0;i--){
-    const a=(1-i/trail.length)*.12;
-    ctx.beginPath();ctx.arc(trail[i].x,trail[i].y,10*(1-i/trail.length),0,Math.PI*2);
-    ctx.fillStyle=t.color+Math.floor(a*255).toString(16).padStart(2,'0');ctx.fill();
-  }
-  const blink=t.invulnTimer>0&&Math.floor(t.invulnTimer/6)%2===1;
-  if(blink){ctx.restore();return;}
-  ctx.translate(t.x,t.y);ctx.rotate(t.angle);
-  ctx.shadowColor=t.color;ctx.shadowBlur=20;
-  const skin = t.skin||'default';
-  // Hull base
-  let hullColor=t.color;
-  let hullStyle=null;
-  if(skin==='stealth'){ctx.globalAlpha*=0.85;hullColor='#1a1a2e';}
-  else if(skin==='chrome'){hullStyle=()=>{const g=ctx.createLinearGradient(-15,-12,15,12);g.addColorStop(0,'#eee');g.addColorStop(0.5,t.color);g.addColorStop(1,'#fff');return g;};}
-  else if(skin==='neon'){ctx.shadowBlur=30;ctx.shadowColor='#fff';}
-  else if(skin==='gold'){hullColor='#ffd700';}
-  else if(skin==='void'){hullColor='#0a0010';ctx.shadowColor='#9900ff';ctx.shadowBlur=25;}
-  else if(skin==='inferno'){hullStyle=()=>{const g=ctx.createLinearGradient(-15,0,15,0);g.addColorStop(0,'#ff4400');g.addColorStop(0.5,'#ffaa00');g.addColorStop(1,'#ff2200');return g;};}
+  const trail=t.trail||[];ctx.save();
+  if(t.ghost)ctx.globalAlpha=0.45;if(t.invisible&&isMe)ctx.globalAlpha=0.25;if(t.stunTimer>0)ctx.filter='hue-rotate(180deg) brightness(1.5)';
+  for(let i=trail.length-1;i>=0;i--){const a=(1-i/trail.length)*.12;ctx.beginPath();ctx.arc(trail[i].x,trail[i].y,10*(1-i/trail.length),0,Math.PI*2);ctx.fillStyle=t.color+Math.floor(a*255).toString(16).padStart(2,'0');ctx.fill();}
+  const blink=t.invulnTimer>0&&Math.floor(t.invulnTimer/6)%2===1;if(blink){ctx.restore();return;}
+  ctx.translate(t.x,t.y);ctx.rotate(t.angle);ctx.shadowColor=t.color;ctx.shadowBlur=20;
+  const skin=t.skin||'default';let hullColor=t.color,hullStyle=null;
+  if(skin==='stealth'){ctx.globalAlpha*=0.85;hullColor='#1a1a2e';}else if(skin==='chrome'){hullStyle=()=>{const g=ctx.createLinearGradient(-15,-12,15,12);g.addColorStop(0,'#eee');g.addColorStop(0.5,t.color);g.addColorStop(1,'#fff');return g;};}else if(skin==='neon'){ctx.shadowBlur=30;ctx.shadowColor='#fff';}else if(skin==='gold'){hullColor='#ffd700';}else if(skin==='void'){hullColor='#0a0010';ctx.shadowColor='#9900ff';ctx.shadowBlur=25;}else if(skin==='inferno'){hullStyle=()=>{const g=ctx.createLinearGradient(-15,0,15,0);g.addColorStop(0,'#ff4400');g.addColorStop(0.5,'#ffaa00');g.addColorStop(1,'#ff2200');return g;};}
   ctx.fillStyle=hullStyle?hullStyle():hullColor;ctx.beginPath();ctx.roundRect(-15,-12,30,24,4);ctx.fill();
-  // Camo pattern overlay
-  if(skin==='camo'){
-    ctx.save();ctx.globalAlpha=0.4;
-    [[-10,-8,8,6,'#2d5a1b'],[2,-4,7,8,'#3d7a2b'],[-6,2,6,5,'#1a3d0d']].forEach(([x,y,w,h,c])=>{ctx.fillStyle=c;ctx.fillRect(x,y,w,h);});
-    ctx.restore();
-  }
-  ctx.shadowBlur=0;ctx.fillStyle='rgba(0,0,0,0.35)';ctx.beginPath();ctx.roundRect(-15,-12,30,24,4);ctx.fill();
-  ctx.fillStyle='rgba(255,255,255,0.2)';ctx.beginPath();ctx.roundRect(-13,-10,26,10,3);ctx.fill();
-  ctx.strokeStyle='rgba(0,0,0,0.4)';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(-5,-12);ctx.lineTo(-5,12);ctx.stroke();ctx.beginPath();ctx.moveTo(5,-12);ctx.lineTo(5,12);ctx.stroke();
-  ctx.shadowColor=t.color;ctx.shadowBlur=12;ctx.fillStyle=t.color;ctx.beginPath();ctx.arc(0,0,9,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle='rgba(255,255,255,0.22)';ctx.beginPath();ctx.arc(-2,-2,5,0,Math.PI*2);ctx.fill();
-  ctx.fillStyle=t.color;ctx.shadowBlur=10;ctx.fillRect(7,-3.5,20,7);ctx.fillStyle='#fff';ctx.shadowBlur=18;ctx.fillRect(25,-2.5,4,5);
+  if(skin==='camo'){ctx.save();ctx.globalAlpha=0.4;[[-10,-8,8,6,'#2d5a1b'],[2,-4,7,8,'#3d7a2b'],[-6,2,6,5,'#1a3d0d']].forEach(([x,y,w,h,c])=>{ctx.fillStyle=c;ctx.fillRect(x,y,w,h);});ctx.restore();}
+  ctx.shadowBlur=0;ctx.fillStyle='rgba(0,0,0,0.35)';ctx.beginPath();ctx.roundRect(-15,-12,30,24,4);ctx.fill();ctx.fillStyle='rgba(255,255,255,0.2)';ctx.beginPath();ctx.roundRect(-13,-10,26,10,3);ctx.fill();ctx.strokeStyle='rgba(0,0,0,0.4)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(-5,-12);ctx.lineTo(-5,12);ctx.stroke();ctx.beginPath();ctx.moveTo(5,-12);ctx.lineTo(5,12);ctx.stroke();
+  ctx.shadowColor=t.color;ctx.shadowBlur=12;ctx.fillStyle=t.color;ctx.beginPath();ctx.arc(0,0,9,0,Math.PI*2);ctx.fill();ctx.fillStyle='rgba(255,255,255,0.22)';ctx.beginPath();ctx.arc(-2,-2,5,0,Math.PI*2);ctx.fill();ctx.fillStyle=t.color;ctx.shadowBlur=10;ctx.fillRect(7,-3.5,20,7);ctx.fillStyle='#fff';ctx.shadowBlur=18;ctx.fillRect(25,-2.5,4,5);
   ctx.shadowBlur=0;ctx.fillStyle='rgba(0,0,0,0.65)';[-8,0,8].forEach(x=>{ctx.fillRect(x-3.5,-16,7,5);ctx.fillRect(x-3.5,11,7,5);});
-  // shield aura
   if(t.shielded){ctx.globalAlpha=0.5+Math.sin(roundTimer*0.15)*0.3;ctx.strokeStyle='#40c8ff';ctx.shadowColor='#40c8ff';ctx.shadowBlur=18;ctx.lineWidth=3;ctx.beginPath();ctx.arc(0,0,22,0,Math.PI*2);ctx.stroke();}
-  // ricochet highlight
   if(t.ricBounces){ctx.globalAlpha=0.3;ctx.strokeStyle='#ff9900';ctx.shadowColor='#ff9900';ctx.shadowBlur=12;ctx.lineWidth=2;ctx.setLineDash([4,4]);ctx.beginPath();ctx.arc(0,0,24,0,Math.PI*2);ctx.stroke();ctx.setLineDash([]);}
-
   ctx.restore();
-  // name + hp bar (above tank)
-  ctx.save();ctx.textAlign='center';ctx.shadowColor='#000';ctx.shadowBlur=6;
-  ctx.font='bold 14px Arial,sans-serif';ctx.lineWidth=3;ctx.strokeStyle='rgba(0,0,0,0.8)';
-  ctx.strokeText((isMe?'▶ ':'')+t.nick,t.x,t.y-34);
-  ctx.fillStyle=isMe?'#ffffff':t.color;ctx.shadowColor=t.color;ctx.shadowBlur=10;
-  ctx.fillText((isMe?'▶ ':'')+t.nick,t.x,t.y-34);
-  const bw=48,bh=5,bx=t.x-bw/2,by=t.y-44;
-  ctx.shadowBlur=0;ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(bx-1,by-1,bw+2,bh+2);
-  ctx.fillStyle='rgba(255,255,255,0.05)';ctx.fillRect(bx,by,bw,bh);
-  const pct=(t.hp||0)/100,bc=pct>.5?t.color:pct>.25?'#ffaa00':'#ff2020';
-  ctx.fillStyle=bc;ctx.shadowColor=bc;ctx.shadowBlur=6;ctx.fillRect(bx,by,bw*pct,bh);
-  // ability icons above name
-  if(t.abilities&&t.abilities.length>0){
-    t.abilities.forEach((abId,i)=>{
-      const ab=ABILITIES[abId];if(!ab) return;
-      ctx.font='11px Arial';ctx.shadowBlur=0;ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(t.x-26+i*24,t.y-58,20,16);
-      ctx.fillText(ab.icon,t.x-16+i*24,t.y-46);
-    });
-  }
+  ctx.save();ctx.textAlign='center';ctx.shadowColor='#000';ctx.shadowBlur=6;ctx.font='bold 14px Arial,sans-serif';ctx.lineWidth=3;ctx.strokeStyle='rgba(0,0,0,0.8)';ctx.strokeText((isMe?'▶ ':'')+t.nick,t.x,t.y-34);ctx.fillStyle=isMe?'#ffffff':t.color;ctx.shadowColor=t.color;ctx.shadowBlur=10;ctx.fillText((isMe?'▶ ':'')+t.nick,t.x,t.y-34);
+  const bw=48,bh=5,bx2=t.x-bw/2,by2=t.y-44;ctx.shadowBlur=0;ctx.fillStyle='rgba(0,0,0,0.6)';ctx.fillRect(bx2-1,by2-1,bw+2,bh+2);ctx.fillStyle='rgba(255,255,255,0.05)';ctx.fillRect(bx2,by2,bw,bh);const pct=(t.hp||0)/100,bc=pct>.5?t.color:pct>.25?'#ffaa00':'#ff2020';ctx.fillStyle=bc;ctx.shadowColor=bc;ctx.shadowBlur=6;ctx.fillRect(bx2,by2,bw*pct,bh);
+  if(t.abilities&&t.abilities.length>0){t.abilities.forEach((abId,i)=>{const ab=ABILITIES[abId];if(!ab)return;ctx.font='11px Arial';ctx.shadowBlur=0;ctx.fillStyle='rgba(0,0,0,0.5)';ctx.fillRect(t.x-26+i*24,t.y-58,20,16);ctx.fillText(ab.icon,t.x-16+i*24,t.y-46);});}
   ctx.restore();
 }
 
 function drawMinimap(){
-  const mw=mm.width,mh=mm.height;
-  mctx.fillStyle='rgba(0,0,0,0.88)';mctx.fillRect(0,0,mw,mh);
-  mctx.fillStyle='#1e1e30';
-  walls.forEach(w=>{mctx.fillRect(w.x/MAP_W*mw,w.y/MAP_H*mh,Math.max(1,w.w/MAP_W*mw),Math.max(1,w.h/MAP_H*mh));});
-  mctx.strokeStyle='rgba(255,255,255,0.14)';mctx.lineWidth=1;
-  mctx.strokeRect(camX/MAP_W*mw,camY/MAP_H*mh,VP_W/MAP_W*mw,VP_H/MAP_H*mh);
-  for(const id in players){const t=players[id];if(!t.alive) continue;if(t.invisible&&id!==myId) continue;mctx.fillStyle=t.color;mctx.shadowColor=t.color;mctx.shadowBlur=id===myId?6:3;mctx.beginPath();mctx.arc(t.x/MAP_W*mw,t.y/MAP_H*mh,id===myId?4:3,0,Math.PI*2);mctx.fill();}
-  // medkits on minimap
-  groundMedkits.forEach(m=>{
-    const pulse=0.5+0.5*Math.sin(roundTimer*0.08+m.pulse);
-    const mx=m.x/MAP_W*mw, my=m.y/MAP_H*mh;
-    mctx.strokeStyle='#40ff80';mctx.lineWidth=1.5;
-    mctx.shadowColor='#40ff80';mctx.shadowBlur=4+pulse*6;
-    mctx.globalAlpha=0.7+pulse*0.3;
-    mctx.beginPath();mctx.moveTo(mx-4,my);mctx.lineTo(mx+4,my);
-    mctx.moveTo(mx,my-4);mctx.lineTo(mx,my+4);
-    mctx.stroke();mctx.globalAlpha=1;mctx.shadowBlur=0;
-  });
+  const mw=mm.width,mh=mm.height;mctx.fillStyle='rgba(0,0,0,0.88)';mctx.fillRect(0,0,mw,mh);mctx.fillStyle='#1e1e30';walls.forEach(w=>{mctx.fillRect(w.x/MAP_W*mw,w.y/MAP_H*mh,Math.max(1,w.w/MAP_W*mw),Math.max(1,w.h/MAP_H*mh));});mctx.strokeStyle='rgba(255,255,255,0.14)';mctx.lineWidth=1;mctx.strokeRect(camX/MAP_W*mw,camY/MAP_H*mh,VP_W/MAP_W*mw,VP_H/MAP_H*mh);
+  for(const id in players){const t=players[id];if(!t.alive)continue;if(t.invisible&&id!==myId)continue;mctx.fillStyle=t.color;mctx.shadowColor=t.color;mctx.shadowBlur=id===myId?6:3;mctx.beginPath();mctx.arc(t.x/MAP_W*mw,t.y/MAP_H*mh,id===myId?4:3,0,Math.PI*2);mctx.fill();}
+  groundMedkits.forEach(m=>{const pulse=0.5+0.5*Math.sin(roundTimer*0.08+m.pulse),mx=m.x/MAP_W*mw,my=m.y/MAP_H*mh;mctx.strokeStyle='#40ff80';mctx.lineWidth=1.5;mctx.shadowColor='#40ff80';mctx.shadowBlur=4+pulse*6;mctx.globalAlpha=0.7+pulse*0.3;mctx.beginPath();mctx.moveTo(mx-4,my);mctx.lineTo(mx+4,my);mctx.moveTo(mx,my-4);mctx.lineTo(mx,my+4);mctx.stroke();mctx.globalAlpha=1;mctx.shadowBlur=0;});
   mctx.shadowBlur=0;
 }
 
@@ -2678,12 +1106,8 @@ loop();
 <script>
 (function(){
   var SECRET_CODE="G0RD0N",gate=document.getElementById('gg-gate'),input=document.getElementById('gg-input'),btn=document.getElementById('gg-btn'),box=document.getElementById('gg-box'),denied=document.getElementById('gg-denied'),granted=document.getElementById('gg-granted'),active=false,t;
-  function attempt(){
-    var val=input.value.toUpperCase().trim();
-    if(val===SECRET_CODE){denied.classList.remove('show');granted.classList.add('show');input.disabled=true;btn.disabled=true;setTimeout(function(){gate.classList.add('gg-unlock');setTimeout(function(){gate.style.display='none';},900);},600);}
-    else{if(active) return;active=true;denied.classList.add('show');box.classList.add('gg-shake');gate.classList.add('gg-glitch');input.value='';clearTimeout(t);t=setTimeout(function(){denied.classList.remove('show');box.classList.remove('gg-shake');gate.classList.remove('gg-glitch');active=false;},1200);}
-  }
-  btn.addEventListener('click',attempt);input.addEventListener('keydown',function(e){if(e.key==='Enter') attempt();});
+  function attempt(){var val=input.value.toUpperCase().trim();if(val===SECRET_CODE){denied.classList.remove('show');granted.classList.add('show');input.disabled=true;btn.disabled=true;setTimeout(function(){gate.classList.add('gg-unlock');setTimeout(function(){gate.style.display='none';},900);},600);}else{if(active)return;active=true;denied.classList.add('show');box.classList.add('gg-shake');gate.classList.add('gg-glitch');input.value='';clearTimeout(t);t=setTimeout(function(){denied.classList.remove('show');box.classList.remove('gg-shake');gate.classList.remove('gg-glitch');active=false;},1200);}}
+  btn.addEventListener('click',attempt);input.addEventListener('keydown',function(e){if(e.key==='Enter')attempt();});
   window.addEventListener('load',function(){setTimeout(function(){input.focus();},150);});
 })();
 </script>
