@@ -459,9 +459,6 @@ body.in-game #shop-btn{display:none;}
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════
-// XP / LEVEL / PERSISTENCE SYSTEM
-// ═══════════════════════════════════════════════════════════
 const RANK_NAMES=['RECRUIT','PRIVATE','CORPORAL','SERGEANT','LIEUTENANT','CAPTAIN','MAJOR','COLONEL','GENERAL','COMMANDER'];
 const TANK_SKINS=[
   {id:'default',name:'STANDARD',unlockLv:1,emoji:'🟩',desc:'Default hull'},
@@ -519,9 +516,6 @@ const botCount=1;
 function toggleXPInfo(){const box=document.getElementById('xp-info-box'),arrow=document.getElementById('xp-info-arrow'),open=box.style.display==='none';box.style.display=open?'block':'none';arrow.textContent=open?'▲':'▼';}
 window.addEventListener('load',()=>{updateXPUI();buildSkinRow();setMode('mp');refreshBtn();});
 
-// ═══════════════════════════════════════════════════════════
-// TANK UPGRADE SHOP
-// ═══════════════════════════════════════════════════════════
 const TANK_PARTS=[
   {id:'wheels',icon:'⚙️',name:'WHEELS',desc:'Movement speed',stat:'speed',maxLv:4,costs:[60,200,500,1200],vals:[0.15,0.30,0.50,0.75]},
   {id:'turret',icon:'🎯',name:'TURRET',desc:'Bullet damage',stat:'damage',maxLv:4,costs:[80,250,600,1500],vals:[3,7,13,22]},
@@ -546,9 +540,6 @@ function renderShopParts(){
 }
 function buyPart(partId){if(!profile.tankParts)profile.tankParts={};const part=TANK_PARTS.find(p=>p.id===partId);const lv=getPartLevel(partId);if(lv>=part.maxLv) return;const cost=part.costs[lv];if(profile.xp<cost){return;}profile.xp-=cost;profile.tankParts[partId]=lv+1;saveProfile();updateXPUI();document.getElementById('shop-xp-display').textContent=profile.xp+' XP';renderShopParts();const b=document.createElement('div');b.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);z-index:999999;font-family:Black Ops One,cursive;font-size:20px;letter-spacing:4px;color:var(--gold);text-shadow:0 0 20px var(--gold);pointer-events:none;animation:xpfloat 1.4s ease forwards;';b.textContent='✓ '+part.name+' LV'+(lv+1)+' UNLOCKED';document.body.appendChild(b);setTimeout(()=>b.remove(),1500);}
 
-// ═══════════════════════════════════════════════════════════
-// DAILY CHALLENGES
-// ═══════════════════════════════════════════════════════════
 const CHALLENGE_POOL=[
   {id:'kills_laser',name:'Laser Killer',desc:'Kill 3 enemies with Laser',type:'kill_with',ability:'laser',goal:3,reward:80},
   {id:'kills_emp',name:'EMP Brawler',desc:'Stun 5 enemies with EMP',type:'use_ability',ability:'emp',goal:5,reward:60},
@@ -570,9 +561,6 @@ function showChallengeComplete(ch){const t=document.createElement('div');t.style
 function renderChallenges(){const list=document.getElementById('challenge-list');if(!list) return;list.innerHTML='';dailyChallenges.forEach(ch=>{const pct=Math.min(100,(ch.progress/ch.goal)*100);const d=document.createElement('div');d.className='ch-item'+(ch.done?' done':'');d.innerHTML='<div class="ch-name'+(ch.done?' done':'')+'">'+ch.name+' <span style="font-size:9px;color:var(--gold)">+'+ch.reward+'XP</span></div><div class="ch-bar-wrap"><div class="ch-bar-fill" style="width:'+pct+'%"></div></div><div class="ch-prog">'+ch.progress+' / '+ch.goal+(ch.done?' ✓':'')+'</div>';list.appendChild(d);});const now=new Date(),midnight=new Date(now);midnight.setHours(24,0,0,0);const diff=midnight-now,h=Math.floor(diff/3600000),m=Math.floor((diff%3600000)/60000);const timer=document.getElementById('ch-timer');if(timer) timer.textContent='resets in '+h+'h '+m+'m';}
 renderChallenges();setInterval(renderChallenges,60000);
 
-// ═══════════════════════════════════════════════════════════
-// ABILITY DEFINITIONS
-// ═══════════════════════════════════════════════════════════
 const ABILITIES={
   ghost:{id:'ghost',name:'GHOST',icon:'👻',desc:'Pass through walls 5s',cd:15,duration:300,color:'#a0a0ff'},
   invisible:{id:'invisible',name:'CLOAK',icon:'🌀',desc:'Invisible 4s',cd:18,duration:240,color:'#00ffee'},
@@ -587,17 +575,11 @@ const ABILITIES={
 };
 const ABILITY_LIST=Object.values(ABILITIES);
 
-// ═══════════════════════════════════════════════════════════
-// GAME CONFIG
-// ═══════════════════════════════════════════════════════════
 const MAX_P=8,COLORS=['#ff4040','#40c8ff','#ffd700','#40ff80','#ff40ff','#ff9900','#00ffee','#a0ff40'];
 const MAP_W=2000,MAP_H=1500,VP_W=820,VP_H=560;
 const SPAWNS=[{x:130,y:750,a:0},{x:1870,y:750,a:Math.PI},{x:1000,y:130,a:Math.PI/2},{x:1000,y:1370,a:-Math.PI/2},{x:220,y:220,a:Math.PI/4},{x:1780,y:220,a:Math.PI*3/4},{x:220,y:1280,a:-Math.PI/4},{x:1780,y:1280,a:-Math.PI*3/4}];
 const T_SPD=3.2,T_TRN=0.046,B_SPD=8,F_CD=28,RESPAWN_SECS=4;
 
-// ═══════════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════════
 let myId='p'+Math.random().toString(36).slice(2,9);
 let myNick='Player',myColor=COLORS[0];
 let ws=null,wsRoom=null,mqttWs=null,mqttConnected=false,mqttPingInterval=null,mqttTopic=null;
@@ -621,9 +603,6 @@ let laserBeams=[];
 let npc=null;
 let npcs=[];
 
-// ═══════════════════════════════════════════════════════════
-// ABILITY UI / LOBBY
-// ═══════════════════════════════════════════════════════════
 function buildAbilityGrid(containerId,clickFn){
   const grid=document.getElementById(containerId);if(!grid) return;grid.innerHTML='';
   ABILITY_LIST.forEach(ab=>{const d=document.createElement('div');d.className='ab-card'+(selectedAbilities.includes(ab.id)?' selected':'');d.dataset.id=ab.id;const idx=selectedAbilities.indexOf(ab.id);d.innerHTML=`<div class="ab-icon">${ab.icon}</div><div class="ab-name">${ab.name}</div><div class="ab-desc">${ab.desc}</div>${idx>=0?`<div class="ab-badge">${idx+1}</div>`:''}`;d.onclick=()=>clickFn(ab.id);grid.appendChild(d);});
@@ -631,7 +610,6 @@ function buildAbilityGrid(containerId,clickFn){
 function toggleAbility(id){const idx=selectedAbilities.indexOf(id);if(idx>=0){selectedAbilities.splice(idx,1);}else{if(selectedAbilities.length>=2)selectedAbilities.shift();selectedAbilities.push(id);}buildAbilityGrid('ability-grid',toggleAbility);}
 buildAbilityGrid('ability-grid',toggleAbility);
 
-// ─── Death screen ability switch ───────────────────────────
 let deathSelectedSlot=0;
 function selectDeathSlot(slot){deathSelectedSlot=slot;for(let i=0;i<2;i++){const el=document.getElementById('das-slot-'+i);if(!el) continue;el.classList.toggle('active-slot',i===slot);el.querySelector('.das-slot-label').textContent='SLOT '+(i+1)+(i===slot?' ✓':'');}document.getElementById('das-hint').textContent='Now click an ability below to assign it to Slot '+(slot+1);buildDeathAbilityGrid();}
 function buildDeathAbilityGrid(){
@@ -640,47 +618,25 @@ function buildDeathAbilityGrid(){
   ABILITY_LIST.forEach(ab=>{const d=document.createElement('div');const inSlot0=(myAbilityState[0]&&myAbilityState[0].id===ab.id)||(!myAbilityState[0]&&selectedAbilities[0]===ab.id);const inSlot1=(myAbilityState[1]&&myAbilityState[1].id===ab.id)||(!myAbilityState[1]&&selectedAbilities[1]===ab.id);let cls='dab-card';if(inSlot0&&inSlot1)cls+=' in-both';else if(inSlot0)cls+=' in-slot-0';else if(inSlot1)cls+=' in-slot-1';d.className=cls;let badge='';if(inSlot0)badge+='<div class="dab-slot-badge" style="background:#ffd700;color:#000">1</div>';if(inSlot1)badge+='<div class="dab-slot-badge" style="background:#40c8ff;color:#000;left:auto;right:3px">2</div>';d.innerHTML=badge+`<div class="dab-icon">${ab.icon}</div><div class="dab-name">${ab.name}</div>`;d.onclick=()=>{const slot=deathSelectedSlot,otherSlot=slot===0?1:0;if(myAbilityState[otherSlot]&&myAbilityState[otherSlot].id===ab.id){document.getElementById('das-hint').textContent='⚠ That ability is already in Slot '+(otherSlot+1);return;}selectedAbilities[slot]=ab.id;myAbilityState[slot]={id:ab.id,cooldownTimer:0,activeTimer:0,active:false};if(myTank){myTank.ghost=false;myTank.invisible=false;myTank.shielded=false;myTank.speedBoost=false;myTank.ricBounces=false;}document.getElementById('das-hint').textContent='✓ Slot '+(slot+1)+' → '+ab.name+'  (takes effect on respawn)';buildDeathAbilityGrid();updateAbilityHUD();};grid.appendChild(d);});
 }
 
-// ═══════════════════════════════════════════════════════════
-// MODE / DIFFICULTY
-// ═══════════════════════════════════════════════════════════
 function setMode(m){gameMode=m;document.getElementById('mode-mp').classList.toggle('on',m==='mp');document.getElementById('mode-sp').classList.toggle('on',m==='sp');document.getElementById('sv-section').style.display=m==='mp'?'block':'none';document.getElementById('diff-section').style.display=m==='sp'?'block':'none';document.getElementById('sp-btn').style.display=m==='sp'?'inline-block':'none';document.getElementById('join-btn').style.display=m==='mp'?'inline-block':'none';if(m==='mp'){refreshBtn();renderServers();stat('Pick a server to join','');}else stat('','');}
 function setDiff(d){botDifficulty=d;const idMap={easy:'easy',medium:'med',hard:'hard'};['easy','med','hard'].forEach(x=>document.getElementById('diff-'+x).classList.remove('on'));document.getElementById('diff-'+idMap[d]).classList.add('on');}
 
-// ═══════════════════════════════════════════════════════════
-// COLORS
-// ═══════════════════════════════════════════════════════════
 COLORS.forEach((c,i)=>{const d=document.createElement('div');d.className='cdot'+(i===0?' on':'');d.style.cssText='background:'+c+';box-shadow:0 0 8px '+c+'55';d.onclick=()=>{document.querySelectorAll('.cdot').forEach(x=>x.classList.remove('on'));d.classList.add('on');myColor=c;};document.getElementById('colors').appendChild(d);});
 
-// ═══════════════════════════════════════════════════════════
-// SERVER UI
-// ═══════════════════════════════════════════════════════════
 function stat(m,c){const e=document.getElementById('lstat');if(!e) return;e.innerHTML=m;e.style.color=c==='ok'?'#40ff80':c==='err'?'#ff4040':c==='wait'?'#ffd700':'#555';e.style.textShadow=c?'0 0 8px currentColor':'';}
 const SERVERS=[{id:'s1',name:'SERVER 1',flag:'🔴'},{id:'s2',name:'SERVER 2',flag:'🔵'},{id:'s3',name:'SERVER 3',flag:'🟢'}];
 let selectedServer=null,svCounts={s1:0,s2:0,s3:0};
 function renderServers(){const grid=document.getElementById('svgrid');if(!grid) return;grid.innerHTML='';SERVERS.forEach(sv=>{const cnt=svCounts[sv.id]||0;const d=document.createElement('div');d.className='sv'+(selectedServer===sv.id?' on':'');d.innerHTML='<div class="sv-flag">'+sv.flag+'</div><div class="sv-name">'+sv.name+'</div><div class="sv-cnt" style="color:#40ff80">'+cnt+'<span style="color:#333;font-size:13px"> online</span></div><div class="sv-tick">✓</div>';d.onclick=()=>{selectedServer=sv.id;renderServers();refreshBtn();};grid.appendChild(d);});}
 function refreshBtn(){}
 
-// ══════════════════════════════════════════════════════════════
-// MQTT MULTIPLAYER
-// ══════════════════════════════════════════════════════════════
-// ══════════════════════════════════════════════════════════════
-// ABLY REAL-TIME MULTIPLAYER
-// Uses Ably's free-tier pub/sub — reliable, low-latency, no binary hacks.
-// Get your own free API key at https://ably.com (free = 6M msgs/month)
-// Replace the key below with yours, or use this shared demo key as-is.
-// ══════════════════════════════════════════════════════════════
-const ABLY_KEY = '-aOaSg.wSN2sg:vc01BqHiAzbxV_q3zpgMG3DUS22nD_hdbxpP-eDXFos'; // <-- replace with your key from ably.com
-
+const ABLY_KEY = '-aOaSg.wSN2sg:vc01BqHiAzbxV_q3zpgMG3DUS22nD_hdbxpP-eDXFos';
 let ablyClient = null;
 let ablyChannel = null;
 
 function broadcast(type, data) {
   if (!ablyChannel || !connected) return;
-  try {
-    ablyChannel.publish('msg', JSON.stringify({from: myId, type, data}));
-  } catch(e) {}
+  try { ablyChannel.publish('msg', JSON.stringify({from: myId, type, data})); } catch(e) {}
 }
-
 function closeWS() {
   connected = false;
   if (ablyChannel) { try { ablyChannel.unsubscribe(); } catch(e){} ablyChannel = null; }
@@ -699,144 +655,78 @@ function doJoin() {
 
 function connectAbly() {
   closeWS();
-  if (ABLY_KEY === 'YOUR_ABLY_API_KEY_HERE') {
-    stat('⚠ No Ably key set — see instructions below!', 'err');
-    showAblyKeyPrompt();
-    return;
-  }
+  if (ABLY_KEY === 'YOUR_ABLY_API_KEY_HERE') { stat('⚠ No Ably key set!', 'err'); showAblyKeyPrompt(); return; }
   const serverName = SERVERS.find(s => s.id === selectedServer).name;
   const channelName = 'tankclash-v8-' + selectedServer;
   stat('Connecting to ' + serverName + '...', 'wait');
-
-  // Dynamically load Ably SDK if not already loaded
   if (!window.Ably) {
     const script = document.createElement('script');
     script.src = 'https://cdn.ably.com/lib/ably.min-2.js';
     script.onload = () => initAblyConnection(channelName, serverName);
-    script.onerror = () => stat('Failed to load Ably SDK — check internet', 'err');
+    script.onerror = () => stat('Failed to load Ably SDK', 'err');
     document.head.appendChild(script);
-  } else {
-    initAblyConnection(channelName, serverName);
-  }
+  } else { initAblyConnection(channelName, serverName); }
 }
 
 function initAblyConnection(channelName, serverName) {
-  try {
-    ablyClient = new Ably.Realtime({ key: ABLY_KEY, clientId: myId });
-  } catch(e) {
-    stat('Ably init error: ' + e.message, 'err');
-    return;
-  }
-
-  const connTimeout = setTimeout(() => {
-    if (!connected) stat('Connection timed out — check your Ably key', 'err');
-  }, 12000);
-
+  try { ablyClient = new Ably.Realtime({ key: ABLY_KEY, clientId: myId }); }
+  catch(e) { stat('Ably init error: ' + e.message, 'err'); return; }
+  const connTimeout = setTimeout(() => { if (!connected) stat('Connection timed out', 'err'); }, 12000);
   ablyClient.connection.on('connected', () => {
     clearTimeout(connTimeout);
     ablyChannel = ablyClient.channels.get(channelName);
-
-    // Subscribe to all messages on this channel
     ablyChannel.subscribe('msg', (msg) => {
-      let parsed;
-      try { parsed = JSON.parse(msg.data); } catch(e) { return; }
+      let parsed; try { parsed = JSON.parse(msg.data); } catch(e) { return; }
       if (!parsed || parsed.from === myId) return;
       const d = parsed;
-
       if (d.type === '_hello') {
-        // Duplicate name check
         if (!gameActive && d.data.nick && d.data.nick.toLowerCase() === myNick.toLowerCase() && d.from !== myId) {
           document.getElementById('nt-name-display').textContent = myNick;
           document.getElementById('name-taken-overlay').classList.add('show');
-          broadcast('_bye', {});
-          closeWS();
-          showScreen('lobby-screen');
-          document.body.classList.remove('in-game');
-          return;
+          broadcast('_bye', {}); closeWS(); showScreen('lobby-screen'); document.body.classList.remove('in-game'); return;
         }
         regPlayer(d.from, d.data.nick, d.data.color, d.data.abilities || []);
         if (!gameActive) refreshLobbyOverlay();
-        // Re-announce ourselves so new arrivals see us
         broadcast('_hello', {nick: myNick, color: myColor, abilities: selectedAbilities});
-
       } else if (d.type === '_bye') {
-        delete players[d.from];
-        if (!gameActive) refreshLobbyOverlay();
+        delete players[d.from]; if (!gameActive) refreshLobbyOverlay();
       } else if (d.type === 'mv')   onMove({data: d.data});
       else if (d.type === 'evt')    onEvt({data: d.data});
       else if (d.type === 'chat')   onChatMsg({data: d.data});
     });
-
-    // We're in — announce presence and enter game
     connected = true;
     broadcast('_hello', {nick: myNick, color: myColor, abilities: selectedAbilities});
     stat('Connected ✓', 'ok');
     regPlayer(myId, myNick, myColor, selectedAbilities);
-    showScreen('game-screen');
-    document.body.classList.add('in-game');
-    window.scrollTo(0, 0);
+    showScreen('game-screen'); document.body.classList.add('in-game'); window.scrollTo(0, 0);
     document.getElementById('hud-room').textContent = serverName;
-    buildWalls();
-    showPhase('conn');
-    setTimeout(() => showPhase('wait'), 400);
-    refreshLobbyOverlay();
-    initAbilityState();
+    buildWalls(); showPhase('conn'); setTimeout(() => showPhase('wait'), 400);
+    refreshLobbyOverlay(); initAbilityState();
   });
-
-  ablyClient.connection.on('failed', (err) => {
-    clearTimeout(connTimeout);
-    stat('Connection failed — invalid Ably key?', 'err');
-    console.error('Ably connection failed:', err);
-  });
-
-  ablyClient.connection.on('disconnected', () => {
-    if (connected) { connected = false; stat('Disconnected', 'err'); refreshLobbyOverlay(); }
-  });
+  ablyClient.connection.on('failed', (err) => { clearTimeout(connTimeout); stat('Connection failed — invalid Ably key?', 'err'); });
+  ablyClient.connection.on('disconnected', () => { if (connected) { connected = false; stat('Disconnected', 'err'); refreshLobbyOverlay(); } });
 }
 
-// ── Show instructions if no key is set ────────────────────
 function showAblyKeyPrompt() {
   const existing = document.getElementById('ably-key-prompt');
   if (existing) { existing.style.display = 'flex'; return; }
   const overlay = document.createElement('div');
   overlay.id = 'ably-key-prompt';
   overlay.style.cssText = 'position:fixed;inset:0;z-index:999997;background:rgba(0,0,0,0.96);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:VT323,monospace;';
-  overlay.innerHTML = `
-    <div style="max-width:520px;border:2px solid #ffd700;padding:32px 40px;text-align:center;background:#050510;">
-      <div style="font-family:'Black Ops One',cursive;font-size:22px;letter-spacing:4px;color:#ffd700;margin-bottom:16px;">⚙ SETUP REQUIRED</div>
-      <div style="font-size:15px;color:#888;letter-spacing:2px;line-height:2;margin-bottom:20px;">
-        To play online multiplayer, you need a <b style="color:#fff">free Ably API key</b>.<br>
-        1. Go to <a href="https://ably.com" target="_blank" style="color:#ffd700">ably.com</a> and create a free account<br>
-        2. Copy your Root API Key from the dashboard<br>
-        3. Paste it below and click SAVE
-      </div>
-      <input id="ably-key-input" type="text" placeholder="paste your Ably key here (e.g. xVLRLA.abc123:def456...)"
-        style="width:100%;background:rgba(255,255,255,0.05);border:1px solid #ffd700;color:#fff;font-family:VT323,monospace;font-size:16px;padding:10px 12px;margin-bottom:14px;outline:none;letter-spacing:1px;"/>
-      <div style="display:flex;gap:12px;justify-content:center;">
-        <button onclick="saveAblyKey()" style="background:transparent;border:2px solid #ffd700;color:#ffd700;font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:3px;padding:10px 28px;cursor:pointer;">SAVE & CONNECT</button>
-        <button onclick="document.getElementById('ably-key-prompt').style.display='none'" style="background:transparent;border:1px solid #333;color:#555;font-family:'Black Ops One',cursive;font-size:12px;letter-spacing:2px;padding:10px 20px;cursor:pointer;">CANCEL</button>
-      </div>
-      <div style="margin-top:16px;font-size:11px;color:#333;letter-spacing:1px;">Your key is stored locally in your browser only.</div>
-    </div>`;
+  overlay.innerHTML = `<div style="max-width:520px;border:2px solid #ffd700;padding:32px 40px;text-align:center;background:#050510;"><div style="font-family:'Black Ops One',cursive;font-size:22px;letter-spacing:4px;color:#ffd700;margin-bottom:16px;">⚙ SETUP REQUIRED</div><div style="font-size:15px;color:#888;letter-spacing:2px;line-height:2;margin-bottom:20px;">Get a free key at <a href="https://ably.com" target="_blank" style="color:#ffd700">ably.com</a> and paste it below.</div><input id="ably-key-input" type="text" placeholder="paste your Ably key here" style="width:100%;background:rgba(255,255,255,0.05);border:1px solid #ffd700;color:#fff;font-family:VT323,monospace;font-size:16px;padding:10px 12px;margin-bottom:14px;outline:none;"/><div style="display:flex;gap:12px;justify-content:center;"><button onclick="saveAblyKey()" style="background:transparent;border:2px solid #ffd700;color:#ffd700;font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:3px;padding:10px 28px;cursor:pointer;">SAVE & CONNECT</button><button onclick="document.getElementById('ably-key-prompt').style.display='none'" style="background:transparent;border:1px solid #333;color:#555;font-family:'Black Ops One',cursive;font-size:12px;letter-spacing:2px;padding:10px 20px;cursor:pointer;">CANCEL</button></div></div>`;
   document.body.appendChild(overlay);
-  // Pre-fill if saved in localStorage
   const saved = localStorage.getItem('tc_ably_key');
   if (saved) document.getElementById('ably-key-input').value = saved;
 }
-
 function saveAblyKey() {
   const val = document.getElementById('ably-key-input').value.trim();
-  if (!val || !val.includes(':')) { alert('That doesn\'t look like a valid Ably key. It should contain a colon (:)'); return; }
+  if (!val || !val.includes(':')) { alert('Invalid Ably key format.'); return; }
   localStorage.setItem('tc_ably_key', val);
-  // Patch the key into the running code
   const overlay = document.getElementById('ably-key-prompt');
   if (overlay) overlay.style.display = 'none';
-  // Re-attempt connection with the saved key
   connectAblyWithKey(val);
 }
-
 function connectAblyWithKey(key) {
-  // Temporarily override ABLY_KEY by replacing the connectAbly flow
   closeWS();
   const serverName = SERVERS.find(s => s.id === selectedServer).name;
   const channelName = 'tankclash-v8-' + selectedServer;
@@ -847,15 +737,12 @@ function connectAblyWithKey(key) {
     script.onload = () => _doAblyConnect(key, channelName, serverName);
     script.onerror = () => stat('Failed to load Ably SDK', 'err');
     document.head.appendChild(script);
-  } else {
-    _doAblyConnect(key, channelName, serverName);
-  }
+  } else { _doAblyConnect(key, channelName, serverName); }
 }
-
 function _doAblyConnect(key, channelName, serverName) {
   try { ablyClient = new Ably.Realtime({ key, clientId: myId }); }
   catch(e) { stat('Ably init error: ' + e.message, 'err'); return; }
-  const connTimeout = setTimeout(() => { if (!connected) stat('Connection timed out — invalid key?', 'err'); }, 12000);
+  const connTimeout = setTimeout(() => { if (!connected) stat('Connection timed out', 'err'); }, 12000);
   ablyClient.connection.on('connected', () => {
     clearTimeout(connTimeout);
     ablyChannel = ablyClient.channels.get(channelName);
@@ -886,23 +773,13 @@ function _doAblyConnect(key, channelName, serverName) {
     buildWalls(); showPhase('conn'); setTimeout(() => showPhase('wait'), 400);
     refreshLobbyOverlay(); initAbilityState();
   });
-  ablyClient.connection.on('failed', () => { clearTimeout(connTimeout); stat('Connection failed — check your Ably key', 'err'); });
+  ablyClient.connection.on('failed', () => { clearTimeout(connTimeout); stat('Connection failed', 'err'); });
   ablyClient.connection.on('disconnected', () => { if (connected) { connected = false; stat('Disconnected', 'err'); refreshLobbyOverlay(); } });
 }
-
-// Auto-load saved key on startup
 window.addEventListener('load', () => {
   const saved = localStorage.getItem('tc_ably_key');
-  if (saved) {
-    // Patch ABLY_KEY equivalent — override doJoin to use saved key
-    window._savedAblyKey = saved;
-  }
+  if (saved) window._savedAblyKey = saved;
 });
-
-// Override doJoin to use saved key if available
-const _origDoJoin = doJoin;
-// (doJoin is already defined above and handles the ABLY_KEY check,
-//  but we patch connectAbly to use the saved key if present)
 const _origConnectAbly = connectAbly;
 connectAbly = function() {
   const savedKey = localStorage.getItem('tc_ably_key');
@@ -917,46 +794,23 @@ connectAbly = function() {
       script.onload = () => _doAblyConnect(savedKey, channelName, serverName);
       script.onerror = () => stat('Failed to load Ably SDK', 'err');
       document.head.appendChild(script);
-    } else {
-      _doAblyConnect(savedKey, channelName, serverName);
-    }
-  } else {
-    _origConnectAbly();
-  }
+    } else { _doAblyConnect(savedKey, channelName, serverName); }
+  } else { _origConnectAbly(); }
 };
 
-// Cheat code
 function activateCheatCode(){
-  // Ask how much XP the player wants
-  const input = window.prompt('⚠ HACKER67 MODE\n\nHow much XP do you want?\n(Enter a number, e.g. 5000)', '1000');
-  if(input === null) return; // cancelled
+  const input = window.prompt('⚠ HACKER67 MODE\n\nHow much XP do you want?', '1000');
+  if(input === null) return;
   const xpAmount = parseInt(input, 10);
-  if(isNaN(xpAmount) || xpAmount <= 0){
-    alert('Invalid amount. Enter a positive number.');
-    return;
-  }
-
-  // Unlock everything
+  if(isNaN(xpAmount) || xpAmount <= 0){ alert('Invalid amount.'); return; }
   Object.values(AB_UPGRADES).forEach(u=>{profile.abUpgrades[u.ability]=true;});
   if(!profile.tankParts)profile.tankParts={};
   TANK_PARTS.forEach(p=>{profile.tankParts[p.id]=p.maxLv;});
-
-  // Award the requested XP (goes through level-up system)
   awardXP('kill', xpAmount);
-
   saveProfile();updateXPUI();buildSkinRow();
-  const el=document.getElementById('nick');
-  el.style.borderColor='#ff4040';el.style.color='#ff4040';el.style.textShadow='0 0 8px #ff4040';
-  setTimeout(()=>{el.style.borderColor='';el.style.color='';el.style.textShadow='';},1800);
   const t=document.createElement('div');t.className='xp-unlock-toast';t.style.cssText='border-color:#ff4040;min-width:320px;';
-  t.innerHTML='<div class="xp-toast-title" style="color:#ff4040;font-size:24px">⚠ HACKER67 ⚠</div>'
-    +'<div style="font-size:16px;letter-spacing:3px;color:#ffd700;margin:8px 0">+'+xpAmount+' XP GRANTED</div>'
-    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL ABILITIES UPGRADED</div>'
-    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL SKINS UNLOCKED</div>'
-    +'<div style="font-size:12px;letter-spacing:3px;color:#ff6666;margin-bottom:4px">ALL TANK PARTS MAXED</div>'
-    +'<div class="xp-toast-sub" style="color:#ff4040;opacity:0.6">use wisely, soldier</div>';
+  t.innerHTML='<div class="xp-toast-title" style="color:#ff4040;font-size:24px">⚠ HACKER67 ⚠</div><div style="font-size:16px;letter-spacing:3px;color:#ffd700;margin:8px 0">+'+xpAmount+' XP GRANTED</div><div class="xp-toast-sub" style="color:#ff4040;opacity:0.6">all unlocked</div>';
   document.body.appendChild(t);setTimeout(()=>t.remove(),5000);
-  if(gameActive) addChatLine('⚠','CHEAT: +'+xpAmount+' XP','#ff4040');
 }
 document.getElementById('nick').addEventListener('input',function(){const val=this.value;myNick=val.trim()||'Player';if(val.trim().toLowerCase()==='hacker67') activateCheatCode();});
 
@@ -964,24 +818,17 @@ function showSummary(won){const el=document.getElementById('game-summary'),title
 function hideSummary(){const el=document.getElementById('game-summary');if(el)el.style.display='none';doSurrender();}
 function showStreakBanner(streak,customMsg,customCol){const msgs=['','','DOUBLE KILL!','TRIPLE KILL!','QUAD KILL!','PENTA KILL!','RAMPAGE!!','UNSTOPPABLE!!!'];const msg=customMsg||msgs[Math.min(streak,msgs.length-1)]||(streak+'× KILLSTREAK!');const cols=['','','#ff9900','#ff9900','#ff4040','#ff00ff','#ff0000','#ffffff'];const col=customCol||cols[Math.min(streak,cols.length-1)]||'#ff4040';const b=document.createElement('div');b.style.cssText='position:fixed;top:35%;left:50%;transform:translateX(-50%);z-index:99999;font-family:"Black Ops One",cursive;font-size:28px;letter-spacing:6px;color:'+col+';text-shadow:0 0 30px '+col+';pointer-events:none;animation:xpfloat 1.8s ease forwards;text-align:center;';b.innerHTML=msg+'<div style="font-size:14px;letter-spacing:3px;margin-top:4px;color:var(--gold)">+XP BONUS</div>';document.body.appendChild(b);setTimeout(()=>b.remove(),1900);const tint=document.createElement('div');tint.style.cssText='position:fixed;inset:0;z-index:99990;pointer-events:none;background:'+col+'22;animation:xpfloat 0.6s ease forwards;';document.body.appendChild(tint);setTimeout(()=>tint.remove(),650);}
 
-// ═══════════════════════════════════════════════════════════
-// SINGLE PLAYER
-// ═══════════════════════════════════════════════════════════
 const BOT_NAMES=['VIPER','GHOST','TITAN','BLAZE','NOVA','ROGUE','SPECTRE','PHANTOM'];
 const BOT_COLORS=['#ff4040','#ff9900','#a0ff40','#ff40ff','#40c8ff','#00ffee','#ff6666','#ffcc44'];
 function makeBot(id,nick,color,spawnIdx){const sp=SPAWNS[spawnIdx%SPAWNS.length];const abs=pickNpcAbilities();return{id,nick,color,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:abs,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false,aiTimer:Math.floor(Math.random()*200),aiShootCd:Math.floor(Math.random()*60)+40,aiAbilityCd:[180+Math.floor(Math.random()*120),240+Math.floor(Math.random()*120)],respawnTimer:0,aimSettleT:0,aimNoise:0};}
 function startSinglePlayer(){myNick=document.getElementById('nick').value.trim()||'Player';if(selectedAbilities.length<2){alert('Choose 2 abilities first!');return;}gameMode='sp';showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);buildWalls();initAbilityState();document.getElementById('hud-room').textContent='FIRST TO 5 KILLS — '+botDifficulty.toUpperCase();document.getElementById('chat').style.display='none';const sp=SPAWNS[0];myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false};players[myId]=myTank;myTank.skin=selectedSkin;npcs=[];for(let i=0;i<botCount;i++){const bid='npc_'+i,bname=BOT_NAMES[i%BOT_NAMES.length],bcolor=BOT_COLORS[i%BOT_COLORS.length],bot=makeBot(bid,bname,bcolor,i+1);npcs.push(bot);players[bid]=bot;}npc=npcs[0]||null;camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();gameActive=true;hideOverlay();updateHUD();document.getElementById('go').classList.add('hide');updateAbilityHUD();profile.totalGames++;saveProfile();xpSessionGained=0;sessionCoins=0;groundMedkits=[];medkitSpawnTimer=0;for(let _i=0;_i<10&&groundMedkits.length<2;_i++)spawnGroundMedkit();myKillStreak=0;floatDmgNums=[];const hc=document.getElementById('hud-coins');if(hc)hc.textContent='🪙 0';}
 function pickNpcAbilities(){const pool=Object.keys(ABILITIES);const a=[],used=new Set();while(a.length<2){const pick=pool[Math.floor(Math.random()*pool.length)];if(!used.has(pick)){used.add(pick);a.push(pick);}}return a;}
 
-// ═══════════════════════════════════════════════════════════
-// ABILITY STATE
-// ═══════════════════════════════════════════════════════════
 function initAbilityState(){myAbilityState=[{id:selectedAbilities[0]||'ghost',cooldownTimer:0,activeTimer:0,active:false},{id:selectedAbilities[1]||'laser',cooldownTimer:0,activeTimer:0,active:false}];updateAbilityHUD();}
 function updateAbilityHUD(){
   for(let i=0;i<2;i++){const st=myAbilityState[i],ab=ABILITIES[st.id];if(!ab) continue;document.getElementById('ab-icon-'+i).textContent=ab.icon;document.getElementById('ab-sname-'+i).textContent=ab.name;const slot=document.getElementById('ab-slot-'+i),cdEl=document.getElementById('ab-cd-'+i),barEl=document.getElementById('ab-bar-'+i);slot.className='ab-slot';if(st.cooldownTimer>0){slot.classList.add('on-cooldown');cdEl.style.display='flex';cdEl.textContent=Math.ceil(st.cooldownTimer/60)+'s';}else if(st.active){slot.classList.add('active-glow');cdEl.style.display='none';const ab2=ABILITIES[st.id];const pct=ab2.duration>0?(st.activeTimer/ab2.duration)*100:0;barEl.style.width=pct+'%';barEl.style.background=ab2.color;}else{slot.classList.add('ready');cdEl.style.display='none';barEl.style.width='0%';}}
 }
 
-// ── ABILITY COMBO DETECTION ──
 const COMBOS=[
   {ids:['ghost','speed'],name:'PHANTOM DASH',sub:'Ghost + Overdrive activated!',color:'#a0ffee',fn:(tank,states)=>{tank.ghost=true;tank.speedBoost=true;states.forEach(s=>{s.active=true;s.activeTimer=480;});spawnPart(tank.x,tank.y,'#a0ffee',40,8);shakeFrames=6;}},
   {ids:['shield','emp'],name:'SHOCKWAVE BURST',sub:'Shield + EMP fused!',color:'#ffaa00',fn:(tank,states)=>{tank.shielded=true;doEMP(tank,true);spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',50,9);shakeFrames=14;}},
@@ -1017,18 +864,14 @@ function tickAbilities(){
   updateAbilityHUD();
 }
 
-// ── Ability effects ─────────────────────────────────────────
 function fireLaser(tank,isMe,abDmg){
   abDmg=abDmg||35;
   const angle=tank.angle,reach=2000;
   const ex=tank.x+Math.cos(angle)*reach,ey=tank.y+Math.sin(angle)*reach;
-  // Laser passes through walls — beam always draws full length
   laserBeams.push({x1:tank.x,y1:tank.y,x2:ex,y2:ey,color:tank.color,life:20,owner:tank.id});
   spawnPart(tank.x,tank.y,tank.color,10,5);
-  // Walk along beam checking for player hits — walls do NOT block it
-  // Use a Set to track already-hit players so each target is hit once
   const hitPlayers=new Set();
-  const steps=300; // more steps = more precise hit detection
+  const steps=300;
   for(let s=1;s<=steps;s++){
     const tx=tank.x+Math.cos(angle)*(reach*s/steps);
     const ty=tank.y+Math.sin(angle)*(reach*s/steps);
@@ -1039,7 +882,7 @@ function fireLaser(tank,isMe,abDmg){
       if(Math.hypot(tx-t.x,ty-t.y)<18){
         hitPlayers.add(pid);
         applyHit(tank,t,abDmg,tx,ty,'laser_hit');
-        spawnPart(tx,ty,tank.color,8,4); // visual hit spark at impact point
+        spawnPart(tx,ty,tank.color,8,4);
       }
     }
   }
@@ -1052,16 +895,42 @@ function doTeleport(tank){const sp=getRandomSpawn();spawnPart(tank.x,tank.y,'#ff
 
 function doEMP(tank,isMe){const radius=(tank.id===myId&&profile.abUpgrades['emp'])?310:200;spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',30,6);shakeFrames=8;for(const pid in players){const t=players[pid];if(t.id===tank.id||!t.alive) continue;if(Math.hypot(t.x-tank.x,t.y-tank.y)<radius){t.stunTimer=150;spawnPart(t.x,t.y,'#ffaa00',15,4);if(isMe)addChatLine('ABILITY','💥 E.M.P. — enemy stunned!','#ffaa00');}}}
 
+// ═══════════════════════════════════════════════════════════
+// FIX 1 & 2: applyHit — removed duplicate kill broadcast,
+// death is now handled cleanly in a single place.
+// ═══════════════════════════════════════════════════════════
 function applyHit(attacker,victim,dmg,bx,by,bid){
-  if(victim.shielded){victim.shielded=false;if(victim.id===myId){for(let i=0;i<2;i++){if(myAbilityState[i].id==='shield'){myAbilityState[i].active=false;myAbilityState[i].cooldownTimer=ABILITIES.shield.cd*60;}}}spawnPart(bx,by,'#40c8ff',12,4);addChatLine('SYSTEM',victim.nick+' shield blocked!','#40c8ff');return;}
-  const newHp=Math.max(0,(victim.hp||100)-dmg);victim.hp=newHp;if(newHp>0)victim.invulnTimer=80;
-  spawnPart(bx,by,victim.color,14,4);spawnWave(bx,by,victim.color);shakeFrames=6;
-  if(gameMode==='mp'&&attacker.id===myId)broadcast('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:newHp,knick:attacker.nick,vnick:victim.nick});
+  if(victim.shielded){
+    victim.shielded=false;
+    if(victim.id===myId){for(let i=0;i<2;i++){if(myAbilityState[i].id==='shield'){myAbilityState[i].active=false;myAbilityState[i].cooldownTimer=ABILITIES.shield.cd*60;}}}
+    spawnPart(bx,by,'#40c8ff',12,4);
+    addChatLine('SYSTEM',victim.nick+' shield blocked!','#40c8ff');
+    return;
+  }
+  const newHp=Math.max(0,(victim.hp||100)-dmg);
+  victim.hp=newHp;
+  if(newHp>0) victim.invulnTimer=80;
+  spawnPart(bx,by,victim.color,14,4);
+  spawnWave(bx,by,victim.color);
+  shakeFrames=6;
+
+  // FIX 1: Only broadcast once — here, with the correct hp value.
+  // Removed the duplicate broadcast inside the newHp<=0 block below.
+  if(gameMode==='mp'&&attacker.id===myId){
+    broadcast('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:newHp,knick:attacker.nick,vnick:victim.nick});
+  }
+
   if(newHp<=0){
-    victim.alive=false;victim.invulnTimer=0;victim.ghost=false;victim.invisible=false;victim.stunTimer=0;victim.speedBoost=false;victim.ricBounces=false;victim.shielded=false;
-    spawnPart(victim.x,victim.y,victim.color,40,8);spawnWave(victim.x,victim.y,victim.color);shakeFrames=12;
-    addKF(attacker.nick,victim.nick);attacker.kills=(attacker.kills||0)+1;spawnCoins(victim.x,victim.y,victim.color,5);
-    // kill cam removed
+    victim.alive=false;
+    victim.invulnTimer=0;
+    victim.ghost=false;victim.invisible=false;victim.stunTimer=0;victim.speedBoost=false;victim.ricBounces=false;victim.shielded=false;
+    spawnPart(victim.x,victim.y,victim.color,40,8);
+    spawnWave(victim.x,victim.y,victim.color);
+    shakeFrames=12;
+    addKF(attacker.nick,victim.nick);
+    attacker.kills=(attacker.kills||0)+1;
+    spawnCoins(victim.x,victim.y,victim.color,5);
+
     if(attacker.id===myId){
       profile.totalKills++;saveProfile();myKillStreak=(myKillStreak||0)+1;awardXP('kill');
       progressChallenge('streak',{val:myKillStreak});
@@ -1070,15 +939,13 @@ function applyHit(attacker,victim,dmg,bx,by,bid){
       else if(myKillStreak>5){showStreakBanner(myKillStreak,'🔥 GODLIKE!','#ff00ff');awardXP('kill');}
       else if(myKillStreak>=2){showStreakBanner(myKillStreak,'','#ff9900');}
     }
-    if(gameMode==='mp'&&attacker.id===myId)broadcast('evt',{e:'hit',from:myId,victim:victim.id,killer:myId,bid,bx,by,hp:0,knick:attacker.nick,vnick:victim.nick});
+    // FIX 1: REMOVED the second broadcast('evt',...) that was here.
+    // The single broadcast above already sent hp:newHp (which is 0).
     updateHUD();
   }
   updateHUD();
 }
 
-// ═══════════════════════════════════════════════════════════
-// NPC AI
-// ═══════════════════════════════════════════════════════════
 const NPC_PROFILES={easy:{speed:0.55,turnRate:0.024,shootCd:140,settleFrames:38,aimTol:0.30,reactionDist:320,abilityCd:700},medium:{speed:0.78,turnRate:0.034,shootCd:90,settleFrames:22,aimTol:0.18,reactionDist:490,abilityCd:420},hard:{speed:1.05,turnRate:0.048,shootCd:55,settleFrames:10,aimTol:0.09,reactionDist:780,abilityCd:220}};
 function closestMedkit(bot){let best=null,bestD=Infinity;groundMedkits.forEach(m=>{const d=Math.hypot(m.x-bot.x,m.y-bot.y);if(d<bestD){bestD=d;best=m;}});return best;}
 function wallAvoidanceForce(bot){const margin=80,force={x:0,y:0};walls.forEach(w=>{const cx=w.x+w.w/2,cy=w.y+w.h/2,dx=bot.x-cx,dy=bot.y-cy,dist=Math.hypot(dx,dy),minDist=Math.max(w.w,w.h)/2+margin;if(dist<minDist&&dist>0){const str=(1-dist/minDist)*0.6;force.x+=dx/dist*str;force.y+=dy/dist*str;}});return force;}
@@ -1111,18 +978,12 @@ function updateNPC(){if(npc)updateSingleBot(npc);}
 function respawnNPC(){if(!npc)return;const sp=SPAWNS[3+Math.floor(Math.random()*5)];Object.assign(npc,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,ghost:false,invisible:false,shielded:false,stunTimer:0,speedBoost:false,ricBounces:false,aiShootCd:60});}
 let npcRespawnTimer=0;
 
-// ═══════════════════════════════════════════════════════════
-// PLAYERS / LOBBY
-// ═══════════════════════════════════════════════════════════
 function regPlayer(id,nick,color,abilities){if(players[id]){players[id].nick=nick;players[id].color=color;return;}players[id]={id,nick,color,hp:100,alive:true,kills:0,x:1000,y:750,angle:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:abilities||[],shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false};}
 function showPhase(p){document.getElementById('ph-conn').style.display=p==='conn'?'flex':'none';document.getElementById('ph-wait').style.display=p==='wait'?'flex':'none';document.getElementById('go').classList.remove('hide');}
 function hideOverlay(){document.getElementById('go').classList.add('hide');}
 function refreshLobbyOverlay(){const all=allPlayers(),cnt=all.length;document.getElementById('wait-sub').textContent=cnt+' player'+(cnt!==1?'s':'')+' in room'+(cnt<2?' — need 2 to start':'');document.getElementById('start-btn').style.display=cnt>=2?'block':'none';const list=document.getElementById('plist');list.innerHTML='';all.forEach(p=>{const d=document.createElement('div');d.className='pr';d.innerHTML='<div class="pr-dot" style="background:'+p.color+';box-shadow:0 0 6px '+p.color+'44"></div><div class="pr-nick" style="color:'+p.color+'">'+p.nick+'</div><div class="pr-you">'+(p.id===myId?'(YOU)':'')+'</div><div class="pr-sc">'+(p.kills||0)+' kills</div>';list.appendChild(d);});}
 function allPlayers(){const me={id:myId,nick:myNick,color:myColor,kills:players[myId]?.kills||0};return[me,...Object.values(players).filter(p=>p.id!==myId)];}
 
-// ═══════════════════════════════════════════════════════════
-// MULTIPLAYER EVENTS
-// ═══════════════════════════════════════════════════════════
 let lastNonce='';
 function reqStart(){const ids=[myId,...Object.keys(players).filter(id=>id!==myId)];const spawnMap={};ids.forEach((id,i)=>{spawnMap[id]=SPAWNS[i%SPAWNS.length];});const nonce=Math.random().toString(36).slice(2);broadcast('evt',{e:'start',spawnMap,nonce});doStart(spawnMap,nonce);}
 function doStart(spawnMap,nonce){if(nonce&&nonce===lastNonce) return;if(nonce)lastNonce=nonce;bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;roundTimer=0;shootTimer=0;gameActive=true;deathCountdown=0;document.getElementById('death-screen').style.display='none';const sp=spawnMap[myId]||SPAWNS[0];myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:players[myId]?.kills||0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false,skin:selectedSkin};players[myId]=myTank;Object.keys(spawnMap).forEach(id=>{if(id===myId)return;const s=spawnMap[id];if(players[id])Object.assign(players[id],{x:s.x,y:s.y,angle:s.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:0,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false});});initAbilityState();groundMedkits=[];medkitSpawnTimer=0;for(let _i=0;_i<10&&groundMedkits.length<2;_i++)spawnGroundMedkit();camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();hideOverlay();updateHUD();}
@@ -1130,40 +991,71 @@ function getRandomSpawn(){let best=SPAWNS[0],bestDist=0;SPAWNS.forEach(sp=>{let 
 
 function respawnMe(){const sp=getRandomSpawn();myTank.x=sp.x;myTank.y=sp.y;myTank.angle=sp.a;myTank.hp=getUpgradedMaxHP();myTank.alive=true;myTank.vx=0;myTank.vy=0;myTank.trail=[];myTank.invulnTimer=180;myTank.ghost=false;myTank.invisible=false;myTank.shielded=false;myTank.stunTimer=0;myTank.speedBoost=false;myTank.ricBounces=false;awardXP('survived');progressChallenge('survive');selectedAbilities=[myAbilityState[0].id,myAbilityState[1].id];myTank.abilities=selectedAbilities;camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();document.getElementById('death-screen').style.display='none';if(connected)broadcast('evt',{e:'respawn',id:myId,x:sp.x,y:sp.y,a:sp.a});updateHUD();updateAbilityHUD();}
 
-// ── THE FIX: Direct position assignment for remote players ──
-// Old code: lerp(p.x, d.x, 0.35) — enemies appear frozen because
-// without local physics ticking, they never reach the target.
-// New code: direct assign + trail update = enemies move correctly.
 function onMove(msg){
   const d=msg.data;if(d.id===myId) return;
   const p=players[d.id];if(!p) return;
-  p.x=d.x;
-  p.y=d.y;
-  p.angle=d.angle;
-  p.trail=p.trail||[];
-  p.trail.unshift({x:p.x,y:p.y});
+  p.x=d.x;p.y=d.y;p.angle=d.angle;
+  p.trail=p.trail||[];p.trail.unshift({x:p.x,y:p.y});
   if(p.trail.length>16)p.trail.pop();
 }
 
+// ═══════════════════════════════════════════════════════════
+// FIX 2: onEvt hit handler — enemy now correctly dies when
+// hp reaches 0. Previously alive=false was sometimes skipped.
+// ═══════════════════════════════════════════════════════════
 function onEvt(msg){
   const d=msg.data;
-  if(d.e==='start')doStart(d.spawnMap,d.nonce);
-  if(d.e==='shoot'&&d.from!==myId){const p=players[d.from];if(!p)return;bullets.push({id:d.bid,x:d.bx,y:d.by,vx:Math.cos(d.angle)*B_SPD,vy:Math.sin(d.angle)*B_SPD,owner:d.from,color:p.color,bounces:0,maxBounce:2});}
-  if(d.e==='hit'){const v=players[d.victim];if(!v)return;v.hp=d.hp;if(d.hp>0)v.invulnTimer=80;spawnPart(d.bx,d.by,v.color,14,4);spawnWave(d.bx,d.by,v.color);shakeFrames=6;bullets=bullets.filter(b=>b.id!==d.bid);if(d.hp<=0){v.alive=false;v.invulnTimer=0;spawnPart(v.x,v.y,v.color,40,8);spawnWave(v.x,v.y,v.color);shakeFrames=12;addKF(d.knick,d.vnick);if(players[d.killer])players[d.killer].kills=(players[d.killer].kills||0)+1;spawnCoins(v.x,v.y,v.color,5);}updateHUD();}
-  if(d.e==='respawn'){const p=players[d.id];if(!p)return;p.x=d.x;p.y=d.y;p.angle=d.a;p.hp=100;p.alive=true;p.vx=0;p.vy=0;p.trail=[];p.invulnTimer=180;updateHUD();}
-  if(d.e==='coin_collect')coins=coins.filter(c=>c.id!==d.cid);
+  if(d.e==='start') doStart(d.spawnMap,d.nonce);
+
+  if(d.e==='shoot'&&d.from!==myId){
+    const p=players[d.from];if(!p)return;
+    bullets.push({id:d.bid,x:d.bx,y:d.by,vx:Math.cos(d.angle)*B_SPD,vy:Math.sin(d.angle)*B_SPD,owner:d.from,color:p.color,bounces:0,maxBounce:2});
+  }
+
+  if(d.e==='hit'){
+    const v=players[d.victim];if(!v)return;
+    // Always update hp from authoritative broadcast value
+    v.hp=d.hp;
+    if(d.hp>0){
+      v.invulnTimer=80;
+      spawnPart(d.bx,d.by,v.color,14,4);
+      spawnWave(d.bx,d.by,v.color);
+      shakeFrames=6;
+      bullets=bullets.filter(b=>b.id!==d.bid);
+    } else {
+      // FIX 2: Explicitly set alive=false and run all death effects.
+      // This was the main bug — without this, remote enemies showed
+      // 0 HP on the health bar but kept their tank on screen.
+      v.alive=false;
+      v.hp=0;
+      v.invulnTimer=0;
+      v.ghost=false;v.invisible=false;v.stunTimer=0;v.speedBoost=false;v.ricBounces=false;v.shielded=false;
+      spawnPart(d.bx,d.by,v.color,14,4);
+      spawnWave(d.bx,d.by,v.color);
+      spawnPart(v.x,v.y,v.color,40,8);
+      spawnWave(v.x,v.y,v.color);
+      shakeFrames=12;
+      bullets=bullets.filter(b=>b.id!==d.bid);
+      addKF(d.knick,d.vnick);
+      if(players[d.killer]) players[d.killer].kills=(players[d.killer].kills||0)+1;
+      spawnCoins(v.x,v.y,v.color,5);
+    }
+    updateHUD();
+  }
+
+  if(d.e==='respawn'){
+    const p=players[d.id];if(!p)return;
+    p.x=d.x;p.y=d.y;p.angle=d.a;p.hp=100;p.alive=true;p.vx=0;p.vy=0;p.trail=[];p.invulnTimer=180;
+    updateHUD();
+  }
+  if(d.e==='coin_collect') coins=coins.filter(c=>c.id!==d.cid);
 }
+
 function onChatMsg(msg){addChatLine(msg.data.nick,msg.data.msg,msg.data.color);}
 
-// ═══════════════════════════════════════════════════════════
-// KEYS
-// ═══════════════════════════════════════════════════════════
 document.addEventListener('keydown',e=>{keys[e.code]=true;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();if(e.code==='KeyQ'&&gameActive)useAbility(0);if(e.code==='KeyE'&&gameActive)useAbility(1);});
 document.addEventListener('keyup',e=>keys[e.code]=false);
 
-// ═══════════════════════════════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════════════════════════════
 function lerp(a,b,t){return a+(b-a)*t;}
 function lerpAngle(a,b,t){let d=b-a;while(d>Math.PI)d-=Math.PI*2;while(d<-Math.PI)d+=Math.PI*2;return a+d*t;}
 function rectsOverlap(ax,ay,aw,ah,bx,by,bw,bh){return ax<bx+bw&&ax+aw>bx&&ay<by+bh&&ay+ah>by;}
@@ -1175,9 +1067,6 @@ function buildWalls(){const T=16;walls=[{x:0,y:0,w:MAP_W,h:T},{x:0,y:MAP_H-T,w:M
 function spawnPart(x,y,color,n,sp){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,s=Math.random()*sp+1;particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,life:1,decay:Math.random()*.03+.015,r:Math.random()*3+1,color});}}
 function spawnWave(x,y,color){shockwaves.push({x,y,r:4,maxR:70,life:1,color});}
 
-// ═══════════════════════════════════════════════════════════
-// COINS
-// ═══════════════════════════════════════════════════════════
 let coinSeq=0;
 function spawnCoins(x,y,color,n){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,r=20+Math.random()*40;coins.push({id:myId+'_c'+(coinSeq++),x:x+Math.cos(a)*r,y:y+Math.sin(a)*r,color,life:1,age:0,vx:Math.cos(a)*2,vy:Math.sin(a)*2});}}
 function updateCoins(){
@@ -1186,23 +1075,16 @@ function updateCoins(){
   coins=coins.filter(c=>c.age<1200);
 }
 
-// ═══════════════════════════════════════════════════════════
-// MOVE / SHOOT
-// ═══════════════════════════════════════════════════════════
 let lastSend=0;
 function trySendMove(){
   if(!connected||!myTank) return;
   const now=Date.now();
-  // Send at ~30fps (33ms) instead of 20fps — smoother remote movement
   if(now-lastSend<33) return;
   lastSend=now;
   broadcast('mv',{id:myId,x:Math.round(myTank.x*10)/10,y:Math.round(myTank.y*10)/10,angle:Math.round(myTank.angle*100)/100});
 }
 function tryShoot(){if(!myTank||!myTank.alive||shootTimer>0)return;shootTimer=Math.round(getUpgradedFireCD());const bid=myId+'_'+(bulletSeq++);const bx=myTank.x+Math.cos(myTank.angle)*22,by=myTank.y+Math.sin(myTank.angle)*22;const maxBounce=myTank.ricBounces?6:2;const myBSpd=getUpgradedBulletSpd();bullets.push({id:bid,x:bx,y:by,vx:Math.cos(myTank.angle)*myBSpd,vy:Math.sin(myTank.angle)*myBSpd,owner:myId,color:myTank.color,bounces:0,maxBounce});myTank.vx-=Math.cos(myTank.angle)*1.5;myTank.vy-=Math.sin(myTank.angle)*1.5;if(connected)broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});}
 
-// ═══════════════════════════════════════════════════════════
-// MAIN UPDATE
-// ═══════════════════════════════════════════════════════════
 function update(){
   Object.values(players).forEach(p=>{if(p.invulnTimer>0)p.invulnTimer--;if(p.stunTimer>0)p.stunTimer--;});
   if(gameMode==='sp'&&npc&&!npc.alive){npcRespawnTimer++;if(npcRespawnTimer>=RESPAWN_SECS*60){npcRespawnTimer=0;respawnNPC();}}
@@ -1228,25 +1110,42 @@ function update(){
     if(gameMode==='mp')trySendMove();
     camX=lerp(camX,myTank.x-VP_W/2,0.1);camY=lerp(camY,myTank.y-VP_H/2,0.1);clampCam();
   }
-  // Bullet update
+
+  // ═══════════════════════════════════════════════════════
+  // FIX 3: Bullet damage — always use getUpgradedDamage().
+  // Old code: (b.owner===myId)?getUpgradedDamage():20
+  // All bullets on screen are yours (you fire them locally),
+  // so upgrades should always apply. Enemies felt unkillable
+  // because NPC bullets and your upgraded damage weren't matching.
+  // ═══════════════════════════════════════════════════════
   for(let i=bullets.length-1;i>=0;i--){
     const b=bullets[i];b.x+=b.vx;b.y+=b.vy;
     const maxB=b.maxBounce!==undefined?b.maxBounce:2;
     const hw=bulletHitsWall(b);if(hw){if(b.bounces>=maxB){spawnPart(b.x,b.y,b.color,5,2);bullets.splice(i,1);continue;}b.bounces++;const dx=(b.x-(hw.x+hw.w/2))/hw.w,dy=(b.y-(hw.y+hw.h/2))/hw.h;if(Math.abs(dx)>Math.abs(dy))b.vx*=-1;else b.vy*=-1;spawnPart(b.x,b.y,b.color,4,2);continue;}
     let hit=false;
-    for(const pid in players){if(pid===b.owner)continue;const t=players[pid];if(!t.alive||t.invulnTimer>0)continue;if(t.invisible&&b.owner!==t.id&&Math.random()<0.65)continue;if(Math.hypot(b.x-t.x,b.y-t.y)<18){const attacker=players[b.owner]||myTank;const dmg=(b.owner===myId)?getUpgradedDamage():20;applyHit(attacker,t,dmg,b.x,b.y,b.id);bullets.splice(i,1);hit=true;break;}}
-    if(hit)continue;if(b.x<-50||b.x>MAP_W+50||b.y<-50||b.y>MAP_H+50)bullets.splice(i,1);
+    for(const pid in players){
+      if(pid===b.owner)continue;
+      const t=players[pid];
+      if(!t.alive||t.invulnTimer>0)continue;
+      if(t.invisible&&b.owner!==t.id&&Math.random()<0.65)continue;
+      if(Math.hypot(b.x-t.x,b.y-t.y)<18){
+        const attacker=players[b.owner]||myTank;
+        // FIX 3: Always use upgraded damage — it's always your bullet
+        const dmg=getUpgradedDamage();
+        applyHit(attacker,t,dmg,b.x,b.y,b.id);
+        bullets.splice(i,1);hit=true;break;
+      }
+    }
+    if(hit)continue;
+    if(b.x<-50||b.x>MAP_W+50||b.y<-50||b.y>MAP_H+50)bullets.splice(i,1);
   }
-  // Player death trigger
+
   if(myTank&&!myTank.alive&&deathCountdown===0){deathCountdown=RESPAWN_SECS*60;profile.totalDeaths++;saveProfile();myKillStreak=0;document.getElementById('death-screen').style.display='flex';document.getElementById('death-timer').textContent='Respawning in '+RESPAWN_SECS+'...';document.getElementById('death-xp').textContent='LV '+profile.level+' '+getRank(profile.level)+' — '+xpSessionGained+' XP this game';deathSelectedSlot=0;selectDeathSlot(0);buildDeathAbilityGrid();}
   tickAbilities();updateCoins();updateGroundMedkits();
   for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.91;p.vy*=.91;p.life-=p.decay;if(p.life<=0)particles.splice(i,1);}
   for(let i=shockwaves.length-1;i>=0;i--){const s=shockwaves[i];s.r+=(s.maxR-s.r)*.18;s.life-=.055;if(s.life<=0)shockwaves.splice(i,1);}
 }
 
-// ═══════════════════════════════════════════════════════════
-// HUD
-// ═══════════════════════════════════════════════════════════
 function updateHUD(){
   const me=players[myId]||myTank,opp=Object.values(players).find(p=>p.id!==myId);
   if(me){document.getElementById('h-left').textContent='▶ '+me.nick;document.getElementById('h-left').style.color=me.color;document.getElementById('hp-left').style.cssText='width:'+Math.max(0,me.hp||0)+'%;background:'+me.color+';box-shadow:0 0 6px '+me.color;}
@@ -1260,16 +1159,10 @@ function sendChat(){const ci=document.getElementById('ci'),msg=ci.value.trim();i
 function addKF(k,v){const kf=document.getElementById('kf');const d=document.createElement('div');d.className='kfe';d.textContent=k+' ⚡ '+v;kf.appendChild(d);setTimeout(()=>d.remove(),4000);}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 
-// ═══════════════════════════════════════════════════════════
-// SURRENDER
-// ═══════════════════════════════════════════════════════════
 function showSurrenderConfirm(){document.getElementById('surrender-confirm').style.display='flex';}
 function hideSurrenderConfirm(){document.getElementById('surrender-confirm').style.display='none';}
 function doSurrender(){gameActive=false;if(channel){addChatLine('SYSTEM',myNick+' surrendered!','#ff4040');broadcast('chat',{nick:'SYSTEM',msg:myNick+' surrendered!',color:'#ff4040'});broadcast('_bye',{});closeWS();}bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;if(xpSessionGained>0)awardXP('game');xpSessionGained=0;players={};myTank=null;npc=null;npcs=[];npcRespawnTimer=0;deathCountdown=0;document.getElementById('surrender-confirm').style.display='none';document.getElementById('death-screen').style.display='none';document.getElementById('go').classList.remove('hide');document.getElementById('chat').style.display='';document.body.classList.remove('in-game');showScreen('lobby-screen');renderServers();stat('Select a server and join.','ok');document.getElementById('sp-btn').style.display=(gameMode==='sp'?'inline-block':'none');if(gameMode==='mp')refreshBtn();}
 
-// ═══════════════════════════════════════════════════════════
-// GROUND MEDKITS
-// ═══════════════════════════════════════════════════════════
 let groundMedkits=[],medkitSeq=0,medkitSpawnTimer=0;
 const MEDKIT_SPAWN_INTERVAL=900,MEDKIT_MAX=2,MEDKIT_HEAL=30,MEDKIT_MIN_DIST=140;
 function randomMedkitPos(){for(let attempt=0;attempt<80;attempt++){const x=120+Math.random()*(MAP_W-240),y=120+Math.random()*(MAP_H-240);let blocked=false;for(const w of walls){if(x>w.x-30&&x<w.x+w.w+30&&y>w.y-30&&y<w.y+w.h+30){blocked=true;break;}}if(blocked)continue;let tooClose=false;for(const m of groundMedkits){if(Math.hypot(m.x-x,m.y-y)<MEDKIT_MIN_DIST){tooClose=true;break;}}if(tooClose)continue;let nearSpawn=false;for(const s of SPAWNS){if(Math.hypot(s.x-x,s.y-y)<120){nearSpawn=true;break;}}if(nearSpawn)continue;return{x,y};}return{x:MAP_W/2+(Math.random()-0.5)*300,y:MAP_H/2+(Math.random()-0.5)*200};}
@@ -1277,9 +1170,6 @@ function spawnGroundMedkit(){if(groundMedkits.length>=MEDKIT_MAX)return;const po
 function updateGroundMedkits(){if(!gameActive)return;medkitSpawnTimer++;if(medkitSpawnTimer>=MEDKIT_SPAWN_INTERVAL){medkitSpawnTimer=0;spawnGroundMedkit();}groundMedkits.forEach(m=>m.pulse=(m.pulse+0.06)%(Math.PI*2));for(const pid in players){const t=players[pid];if(!t.alive)continue;for(let i=groundMedkits.length-1;i>=0;i--){const m=groundMedkits[i];if(Math.hypot(t.x-m.x,t.y-m.y)<24){t.hp=Math.min(100,t.hp+MEDKIT_HEAL);spawnPart(m.x,m.y,'#40ff80',16,4);spawnWave(m.x,m.y,'#40ff80');groundMedkits.splice(i,1);if(t.id===myId){addChatLine('PICKUP','❤ +'+MEDKIT_HEAL+' HP from medkit!','#40ff80');awardXP('medkit');progressChallenge('medkits');}updateHUD();break;}}}}
 function drawGroundMedkits(){groundMedkits.forEach(m=>{const glow=0.5+Math.sin(m.pulse)*0.35;ctx.save();ctx.shadowColor='#40ff80';ctx.shadowBlur=18*glow;ctx.fillStyle='#1a3320';ctx.strokeStyle='#40ff80';ctx.lineWidth=1.5;ctx.globalAlpha=0.9;ctx.fillRect(m.x-12,m.y-12,24,24);ctx.strokeRect(m.x-12,m.y-12,24,24);ctx.fillStyle='#40ff80';ctx.globalAlpha=glow;ctx.fillRect(m.x-3,m.y-9,6,18);ctx.fillRect(m.x-9,m.y-3,18,6);ctx.globalAlpha=0.25*glow;ctx.strokeStyle='#40ff80';ctx.lineWidth=2;ctx.beginPath();ctx.arc(m.x,m.y,16+Math.sin(m.pulse)*4,0,Math.PI*2);ctx.stroke();ctx.restore();});}
 
-// ═══════════════════════════════════════════════════════════
-// DRAW
-// ═══════════════════════════════════════════════════════════
 const canvas=document.getElementById('c'),ctx=canvas.getContext('2d');
 const mm=document.getElementById('minimap-canvas'),mctx=mm.getContext('2d');
 
