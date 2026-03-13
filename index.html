@@ -62,21 +62,51 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 #lstat.err{color:var(--red);text-shadow:0 0 8px var(--red);}
 #lstat.wait{color:var(--gold);text-shadow:0 0 8px var(--gold);}
 #game-wrap{position:relative;display:flex;flex-direction:column;align-items:center;overflow:visible;width:820px;}
-#hud{width:820px;height:56px;display:flex;align-items:center;background:rgba(0,0,0,0.88);border:1px solid var(--border);border-bottom:none;padding:0 8px;gap:6px;}
-.phud{width:165px;flex-shrink:0;padding:3px 6px;}
+/* HUD is now 2 rows: top = player info, bottom = abilities */
+#hud{width:820px;display:flex;flex-direction:column;background:rgba(0,0,0,0.92);border:1px solid var(--border);border-bottom:none;}
+#hud-top{height:44px;display:flex;align-items:center;padding:0 8px;gap:6px;border-bottom:1px solid rgba(255,255,255,0.05);}
+#hud-bottom{height:48px;display:flex;align-items:center;justify-content:center;gap:0;padding:0 8px;background:rgba(0,0,0,0.4);}
+.phud{width:148px;flex-shrink:0;padding:2px 6px;}
 .phud .pname{font-family:'Black Ops One',cursive;font-size:10px;letter-spacing:2px;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.hp-wrap{height:7px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;}
+.hp-wrap{height:6px;background:rgba(255,255,255,0.07);border-radius:3px;overflow:hidden;}
 .hp-fill{height:100%;border-radius:3px;transition:width .12s;}
 #hud-mid{flex:1;text-align:center;}
-#hud-score{font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:2px;color:var(--gold);text-shadow:0 0 12px var(--gold);line-height:1.3;}
+#hud-score{font-family:'Black Ops One',cursive;font-size:12px;letter-spacing:2px;color:var(--gold);text-shadow:0 0 12px var(--gold);line-height:1.3;}
 #hud-room{font-size:9px;letter-spacing:2px;color:#222;margin-top:1px;}
-#hud-lead{width:215px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:3px 8px;border-left:1px solid rgba(255,255,255,0.06);}
+#hud-lead{width:185px;flex-shrink:0;display:flex;flex-direction:column;justify-content:center;gap:2px;padding:3px 8px;border-left:1px solid rgba(255,255,255,0.06);}
 .lead-row{display:flex;align-items:center;gap:5px;font-size:11px;line-height:1.4;}
 .lead-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 .lead-name{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11px;}
 .lead-kills{color:var(--gold);font-family:'Black Ops One',cursive;font-size:10px;flex-shrink:0;}
-canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0,0,0,0.9);}
-#go{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.92);z-index:10;backdrop-filter:blur(4px);}
+/* Ability bar — now lives in #hud-bottom */
+#ability-bar{display:flex;align-items:center;gap:0;flex:1;justify-content:center;}
+.ab-divider{width:1px;height:28px;background:rgba(255,255,255,0.06);margin:0 10px;}
+/* Horizontal pill-style ability slots */
+.ab-slot{width:160px;height:38px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);display:flex;flex-direction:row;align-items:center;gap:8px;cursor:pointer;position:relative;transition:all .18s;padding:0 10px;overflow:hidden;}
+.ab-slot:hover{border-color:rgba(255,215,0,0.4);background:rgba(255,215,0,0.04);}
+.ab-slot.ready{border-color:rgba(255,215,0,0.55);box-shadow:0 0 10px rgba(255,215,0,0.15);}
+.ab-slot.active-glow{border-color:#fff;box-shadow:0 0 16px rgba(255,255,255,0.5);animation:abpulse .4s ease infinite alternate;}
+@keyframes abpulse{from{box-shadow:0 0 8px rgba(255,255,255,0.3);}to{box-shadow:0 0 24px rgba(255,255,255,0.8);}}
+.ab-slot.on-cooldown{border-color:rgba(255,255,255,0.05);background:rgba(0,0,0,0.3);}
+.ab-slot-left{display:flex;flex-direction:column;align-items:center;gap:1px;flex-shrink:0;}
+.ab-slot-icon{font-size:20px;line-height:1;}
+.ab-slot-key{font-size:9px;letter-spacing:1px;color:#333;font-family:'Black Ops One',cursive;}
+.ab-slot-right{flex:1;min-width:0;}
+.ab-slot-name{font-size:9px;letter-spacing:2px;color:#666;font-family:'Black Ops One',cursive;margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.ab-slot-status{font-size:10px;color:#2a2a38;letter-spacing:1px;}
+.ab-slot.ready .ab-slot-name{color:var(--gold);}
+.ab-slot.ready .ab-slot-status{color:#40ff80;}
+.ab-slot.active-glow .ab-slot-name{color:#fff;}
+.ab-slot.active-glow .ab-slot-status{color:#40c8ff;}
+.ab-cd-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;font-family:'Black Ops One',cursive;font-size:13px;color:#888;letter-spacing:2px;}
+.ab-active-bar{position:absolute;bottom:0;left:0;height:2px;transition:width .1s linear;}
+/* Coins display in hud-bottom */
+#hud-coins-pill{display:flex;align-items:center;gap:5px;padding:4px 10px;background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.15);margin-left:12px;flex-shrink:0;}
+#hud-coins-pill span{font-family:'Black Ops One',cursive;font-size:12px;color:var(--gold);text-shadow:0 0 8px var(--gold);}
+/* Surrender button moves to hud-bottom left */
+#hud-surrender-wrap{display:flex;align-items:center;margin-right:10px;flex-shrink:0;}
+canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0,0,0,0.9);border-top:none;}
+#go{position:absolute;top:92px;left:50%;transform:translateX(-50%);width:820px;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.92);z-index:10;backdrop-filter:blur(4px);}
 #go.hide{display:none;}
 .spinner{width:40px;height:40px;border:3px solid rgba(255,215,0,0.15);border-top-color:var(--gold);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:14px;}
 @keyframes spin{to{transform:rotate(360deg)}}
@@ -100,22 +130,38 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
 .kfe{font-size:13px;padding:3px 10px;background:rgba(0,0,0,0.8);border-right:2px solid #f44;letter-spacing:1px;text-align:right;animation:kfi .3s ease;}
 @keyframes kfi{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:none}}
 #minimap-canvas{position:absolute;bottom:8px;right:8px;border:1px solid rgba(255,255,255,0.08);z-index:5;}
-#ctrl-tip{position:absolute;bottom:96px;right:8px;font-size:10px;color:#1a1a28;letter-spacing:1px;text-align:right;line-height:2;z-index:5;}
-#death-screen{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:8;}
+/* ── TANK INFO BUTTON & OVERLAY ─────────────────────────────────── */
+#tank-info-btn{position:fixed;top:12px;left:140px;z-index:99999;background:rgba(0,0,0,0.9);border:1px solid rgba(64,200,255,0.4);color:#40c8ff;font-family:'Black Ops One',cursive;font-size:10px;letter-spacing:2px;padding:8px 14px;cursor:pointer;transition:all .2s;}
+#tank-info-btn:hover{box-shadow:0 0 20px rgba(64,200,255,0.4);background:rgba(64,200,255,0.08);}
+body.in-game #tank-info-btn{display:none;}
+#tank-info-overlay{display:none;position:fixed;inset:0;z-index:999994;background:rgba(0,0,0,0.94);backdrop-filter:blur(8px);flex-direction:column;align-items:center;justify-content:center;}
+#tank-info-overlay.show{display:flex;}
+.ti-card{width:600px;background:rgba(8,8,20,0.99);border:1px solid rgba(64,200,255,0.25);padding:30px 36px;box-shadow:0 0 60px rgba(64,200,255,0.08);}
+.ti-header{font-family:'Black Ops One',cursive;font-size:20px;letter-spacing:5px;color:#40c8ff;text-shadow:0 0 20px #40c8ff;margin-bottom:4px;text-align:center;}
+.ti-subtitle{font-size:12px;letter-spacing:4px;color:#1a3040;text-align:center;margin-bottom:22px;}
+.ti-skin-row{display:flex;align-items:center;gap:14px;padding:12px 14px;background:rgba(64,200,255,0.04);border:1px solid rgba(64,200,255,0.12);margin-bottom:18px;}
+.ti-skin-emoji{font-size:28px;}
+.ti-skin-name{font-family:'Black Ops One',cursive;font-size:14px;color:#40c8ff;letter-spacing:3px;}
+.ti-skin-buff{font-size:12px;color:#1a5060;letter-spacing:1px;margin-top:3px;}
+.ti-stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:18px;}
+.ti-stat{padding:10px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);}
+.ti-stat-label{font-size:9px;letter-spacing:3px;color:#2a2a38;margin-bottom:5px;}
+.ti-stat-bar-wrap{height:5px;background:rgba(255,255,255,0.06);border-radius:2px;margin-bottom:4px;overflow:hidden;}
+.ti-stat-bar{height:100%;border-radius:2px;transition:width .4s ease;}
+.ti-stat-value{font-family:'Black Ops One',cursive;font-size:12px;letter-spacing:2px;}
+.ti-abilities{display:flex;gap:10px;margin-bottom:16px;}
+.ti-ab{flex:1;padding:10px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);text-align:center;}
+.ti-ab-icon{font-size:20px;margin-bottom:4px;}
+.ti-ab-name{font-family:'Black Ops One',cursive;font-size:9px;color:var(--gold);letter-spacing:1px;}
+.ti-ab-cd{font-size:10px;color:#333;letter-spacing:1px;margin-top:2px;}
+.ti-close{display:block;background:transparent;border:1px solid rgba(255,255,255,0.12);color:#333;font-family:'Black Ops One',cursive;font-size:11px;letter-spacing:3px;padding:10px 28px;cursor:pointer;transition:all .2s;margin:0 auto;}
+.ti-close:hover{border-color:#fff;color:#fff;}
+/* ctrl tip */
+#ctrl-tip{position:absolute;bottom:106px;left:8px;font-size:10px;color:#1a1a28;letter-spacing:1px;text-align:left;line-height:2;z-index:5;}
+#death-screen{position:absolute;top:92px;left:50%;transform:translateX(-50%);width:820px;bottom:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.85);z-index:8;}
 #death-msg{font-family:'Black Ops One',cursive;font-size:28px;letter-spacing:4px;color:var(--red);text-shadow:0 0 20px var(--red);}
 #death-timer{font-size:22px;letter-spacing:4px;color:#555;margin-top:8px;}
-#ability-bar{position:absolute;top:8px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:6;}
-.ab-slot{width:60px;height:60px;background:rgba(0,0,0,0.85);border:2px solid rgba(255,255,255,0.1);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;position:relative;transition:all .15s;}
-.ab-slot:hover{border-color:rgba(255,215,0,0.5);}
-.ab-slot.ready{border-color:rgba(255,215,0,0.6);box-shadow:0 0 14px rgba(255,215,0,0.2);}
-.ab-slot.active-glow{border-color:#fff;box-shadow:0 0 20px rgba(255,255,255,0.6);animation:abpulse .4s ease infinite alternate;}
-@keyframes abpulse{from{box-shadow:0 0 10px rgba(255,255,255,0.4);}to{box-shadow:0 0 30px rgba(255,255,255,0.9);}}
-.ab-slot.on-cooldown{border-color:#333;}
-.ab-slot-icon{font-size:22px;line-height:1;}
-.ab-slot-key{font-size:9px;letter-spacing:2px;color:#444;margin-top:2px;}
-.ab-slot-name{font-size:8px;letter-spacing:1px;color:#555;font-family:'Black Ops One',cursive;}
-.ab-cd-overlay{position:absolute;inset:0;background:rgba(0,0,0,0.7);display:flex;align-items:center;justify-content:center;font-family:'Black Ops One',cursive;font-size:14px;color:#aaa;}
-.ab-active-bar{position:absolute;bottom:0;left:0;height:3px;background:var(--gold);transition:width .1s linear;}
+/* old ability-bar and surrender styles replaced above */
 #death-ability-switch{margin-top:16px;width:460px;}
 #death-ability-switch h3{font-family:'Black Ops One',cursive;font-size:12px;letter-spacing:3px;color:#555;margin-bottom:8px;text-align:center;}
 .das-slots{display:flex;gap:12px;justify-content:center;margin-bottom:10px;}
@@ -136,9 +182,9 @@ canvas#c{display:block;border:1px solid var(--border);box-shadow:0 0 60px rgba(0
 .dab-icon{font-size:18px;}
 .dab-name{font-family:'Black Ops One',cursive;font-size:8px;color:var(--gold);}
 .das-hint{font-size:10px;color:#2a2a38;letter-spacing:2px;text-align:center;margin-top:6px;}
-#surrender-btn{position:absolute;top:8px;left:8px;z-index:6;background:rgba(0,0,0,0.85);border:1px solid rgba(255,64,64,0.35);color:rgba(255,64,64,0.55);font-family:'Black Ops One',cursive;font-size:9px;letter-spacing:2px;padding:5px 10px;cursor:pointer;transition:all .2s;}
-#surrender-btn:hover{border-color:#ff4040;color:#ff4040;box-shadow:0 0 12px rgba(255,64,64,0.3);}
-#surrender-confirm{position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.93);z-index:20;backdrop-filter:blur(6px);}
+#surrender-btn{background:rgba(0,0,0,0.6);border:1px solid rgba(255,64,64,0.3);color:rgba(255,64,64,0.5);font-size:16px;padding:5px 8px;cursor:pointer;transition:all .2s;line-height:1;}
+#surrender-btn:hover{border-color:#ff4040;color:#ff4040;box-shadow:0 0 10px rgba(255,64,64,0.3);}
+#surrender-confirm{position:absolute;top:92px;left:50%;transform:translateX(-50%);width:820px;bottom:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(0,0,0,0.93);z-index:20;backdrop-filter:blur(6px);}
 #surrender-confirm h2{font-family:'Black Ops One',cursive;font-size:28px;letter-spacing:4px;color:var(--red);text-shadow:0 0 20px var(--red);margin-bottom:10px;}
 #surrender-confirm p{font-size:14px;letter-spacing:3px;color:#444;margin-bottom:24px;}
 .surrender-btns{display:flex;gap:16px;}
@@ -300,6 +346,23 @@ body.in-game #shop-btn{display:none;}
   <div style="margin-top:6px;text-align:right;"><span onclick="resetProfile()" style="font-size:9px;color:#1a1a1a;letter-spacing:1px;cursor:pointer;">RESET</span></div>
 </div>
 <button id="shop-btn" onclick="openShop()">🔧 UPGRADES</button>
+<button id="tank-info-btn" onclick="openTankInfo()">🎯 TANK INFO</button>
+<div id="tank-info-overlay">
+  <div class="ti-card">
+    <div class="ti-header">🎯 TANK LOADOUT</div>
+    <div class="ti-subtitle" id="ti-nick-line">COMMANDER: PLAYER</div>
+    <div class="ti-skin-row">
+      <div class="ti-skin-emoji" id="ti-skin-emoji">🟩</div>
+      <div><div class="ti-skin-name" id="ti-skin-name">STANDARD</div><div class="ti-skin-buff" id="ti-skin-buff">No bonus</div></div>
+    </div>
+    <div class="ti-stats-grid" id="ti-stats-grid"></div>
+    <div style="font-size:9px;letter-spacing:4px;color:#1a3040;margin-bottom:8px;">EQUIPPED ABILITIES</div>
+    <div class="ti-abilities" id="ti-abilities"></div>
+    <div style="font-size:9px;letter-spacing:4px;color:#1a2040;margin-bottom:8px;">ACTIVE ABILITY COMBOS</div>
+    <div id="ti-combos" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;"></div>
+    <button class="ti-close" onclick="closeTankInfo()">✖ CLOSE</button>
+  </div>
+</div>
 <div id="shop-overlay">
   <div class="shop-card">
     <div class="shop-header">🔧 TANK WORKSHOP</div>
@@ -376,10 +439,45 @@ body.in-game #shop-btn{display:none;}
   <div id="game-screen" class="screen">
     <div id="game-wrap">
       <div id="hud">
-        <div class="phud"><div class="pname" id="h-left">YOU</div><div class="hp-wrap"><div class="hp-fill" id="hp-left" style="width:100%"></div></div></div>
-        <div id="hud-mid"><div id="hud-score">—</div><div id="hud-room">SERVER 1</div><div id="hud-coins" style="font-size:11px;color:#ffd700;letter-spacing:2px;margin-top:1px;">🪙 0</div></div>
-        <div class="phud" style="text-align:right"><div class="pname" id="h-right">OPPONENT</div><div class="hp-wrap"><div class="hp-fill" id="hp-right" style="width:100%;float:right"></div></div></div>
-        <div id="hud-lead"></div>
+        <div id="hud-top">
+          <div class="phud"><div class="pname" id="h-left">YOU</div><div class="hp-wrap"><div class="hp-fill" id="hp-left" style="width:100%"></div></div></div>
+          <div id="hud-mid"><div id="hud-score">—</div><div id="hud-room">SERVER 1</div></div>
+          <div class="phud" style="text-align:right"><div class="pname" id="h-right">OPPONENT</div><div class="hp-wrap"><div class="hp-fill" id="hp-right" style="width:100%;float:right"></div></div></div>
+          <div id="hud-lead"></div>
+        </div>
+        <div id="hud-bottom">
+          <div id="hud-surrender-wrap">
+            <button id="surrender-btn" onclick="showSurrenderConfirm()">🏳</button>
+          </div>
+          <div id="ability-bar">
+            <div class="ab-slot" id="ab-slot-0" onclick="useAbility(0)" title="Q">
+              <div class="ab-slot-left">
+                <div class="ab-slot-icon" id="ab-icon-0">—</div>
+                <div class="ab-slot-key">Q</div>
+              </div>
+              <div class="ab-slot-right">
+                <div class="ab-slot-name" id="ab-sname-0">ABILITY</div>
+                <div class="ab-slot-status" id="ab-status-0">READY</div>
+              </div>
+              <div class="ab-cd-overlay" id="ab-cd-0" style="display:none"></div>
+              <div class="ab-active-bar" id="ab-bar-0" style="width:0%"></div>
+            </div>
+            <div class="ab-divider"></div>
+            <div class="ab-slot" id="ab-slot-1" onclick="useAbility(1)" title="E">
+              <div class="ab-slot-left">
+                <div class="ab-slot-icon" id="ab-icon-1">—</div>
+                <div class="ab-slot-key">E</div>
+              </div>
+              <div class="ab-slot-right">
+                <div class="ab-slot-name" id="ab-sname-1">ABILITY</div>
+                <div class="ab-slot-status" id="ab-status-1">READY</div>
+              </div>
+              <div class="ab-cd-overlay" id="ab-cd-1" style="display:none"></div>
+              <div class="ab-active-bar" id="ab-bar-1" style="width:0%"></div>
+            </div>
+          </div>
+          <div id="hud-coins-pill">🪙 <span id="hud-coins-val">0</span></div>
+        </div>
       </div>
       <canvas id="c" width="820" height="560"></canvas>
       <div id="go">
@@ -419,24 +517,7 @@ body.in-game #shop-btn{display:none;}
           <div class="das-hint" id="das-hint">Click a slot above to select it, then click an ability below to assign it</div>
         </div>
       </div>
-      <div id="ability-bar">
-        <div class="ab-slot" id="ab-slot-0" onclick="useAbility(0)" title="Q">
-          <div class="ab-slot-icon" id="ab-icon-0">—</div>
-          <div class="ab-slot-key">Q</div>
-          <div class="ab-slot-name" id="ab-sname-0"></div>
-          <div class="ab-cd-overlay" id="ab-cd-0" style="display:none"></div>
-          <div class="ab-active-bar" id="ab-bar-0" style="width:0%"></div>
-        </div>
-        <div class="ab-slot" id="ab-slot-1" onclick="useAbility(1)" title="E">
-          <div class="ab-slot-icon" id="ab-icon-1">—</div>
-          <div class="ab-slot-key">E</div>
-          <div class="ab-slot-name" id="ab-sname-1"></div>
-          <div class="ab-cd-overlay" id="ab-cd-1" style="display:none"></div>
-          <div class="ab-active-bar" id="ab-bar-1" style="width:0%"></div>
-        </div>
-      </div>
-      <button id="surrender-btn" onclick="showSurrenderConfirm()">🏳 SURRENDER</button>
-      <div id="game-summary" style="display:none;position:absolute;top:56px;left:50%;transform:translateX(-50%);width:820px;bottom:0;z-index:25;background:rgba(0,0,0,0.96);flex-direction:column;align-items:center;justify-content:center;gap:12px;">
+      <div id="game-summary" style="display:none;position:absolute;top:92px;left:50%;transform:translateX(-50%);width:820px;bottom:0;z-index:25;background:rgba(0,0,0,0.96);flex-direction:column;align-items:center;justify-content:center;gap:12px;">
         <div style="font-family:'Black Ops One',cursive;font-size:28px;letter-spacing:6px;color:var(--gold);text-shadow:0 0 20px var(--gold);" id="summary-title">BATTLE OVER</div>
         <div id="summary-stats" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;width:420px;margin-top:8px;"></div>
         <div id="summary-xp" style="font-size:14px;letter-spacing:3px;color:#40ff80;margin-top:4px;"></div>
@@ -461,15 +542,16 @@ body.in-game #shop-btn{display:none;}
 <script>
 const RANK_NAMES=['RECRUIT','PRIVATE','CORPORAL','SERGEANT','LIEUTENANT','CAPTAIN','MAJOR','COLONEL','GENERAL','COMMANDER'];
 const TANK_SKINS=[
-  {id:'default',name:'STANDARD',unlockLv:1,emoji:'🟩',desc:'Default hull'},
-  {id:'stealth',name:'STEALTH',unlockLv:3,emoji:'⬛',desc:'Dark matte hull'},
-  {id:'camo',name:'CAMO',unlockLv:5,emoji:'🟫',desc:'Camouflage pattern'},
-  {id:'chrome',name:'CHROME',unlockLv:8,emoji:'⬜',desc:'Reflective hull'},
-  {id:'neon',name:'NEON',unlockLv:12,emoji:'🟦',desc:'Glowing neon trim'},
-  {id:'inferno',name:'INFERNO',unlockLv:16,emoji:'🟥',desc:'Fire pattern'},
-  {id:'gold',name:'GOLDEN',unlockLv:20,emoji:'🟨',desc:'Full gold hull'},
-  {id:'void',name:'VOID',unlockLv:25,emoji:'🟣',desc:'Dark energy'},
+  {id:'default', name:'STANDARD', unlockLv:1,  emoji:'🟩', desc:'Default hull',    buff:'No bonus',buffs:{}},
+  {id:'stealth', name:'STEALTH',  unlockLv:3,  emoji:'⬛', desc:'Dark matte hull', buff:'+25% invisibility duration; hidden on enemy minimap',buffs:{invisDur:0.25,minimapHide:true}},
+  {id:'camo',    name:'CAMO',     unlockLv:5,  emoji:'🟫', desc:'Camouflage hull', buff:'+1.5 HP/sec regen while stationary',buffs:{regenIdle:1.5}},
+  {id:'chrome',  name:'CHROME',   unlockLv:8,  emoji:'⬜', desc:'Reflective hull', buff:'10% chance to reflect bullets at attacker',buffs:{reflectChance:0.10}},
+  {id:'neon',    name:'NEON',     unlockLv:12, emoji:'🟦', desc:'Neon trim hull',  buff:'+15% cooldown reduction on all abilities',buffs:{cdReduce:0.15}},
+  {id:'inferno', name:'INFERNO',  unlockLv:16, emoji:'🟥', desc:'Fire hull',       buff:'+20% bullet damage; bullets ignite on hit',buffs:{dmgBonus:0.20,fireBullets:true}},
+  {id:'gold',    name:'GOLDEN',   unlockLv:20, emoji:'🟨', desc:'Gold hull',       buff:'+1 bonus coin per kill; +10% XP gain',buffs:{bonusCoin:1,xpBoost:0.10}},
+  {id:'void',    name:'VOID',     unlockLv:25, emoji:'🟣', desc:'Dark energy hull',buff:'Bullets pierce walls once; +5% speed',buffs:{wallPierce:true,speedBonus:0.05}},
 ];
+function getSkinBuff(buffKey){const sk=TANK_SKINS.find(s=>s.id===selectedSkin);return sk&&sk.buffs&&sk.buffs[buffKey]?sk.buffs[buffKey]:null;}
 const AB_UPGRADES={
   laser_range:{name:'LASER+',desc:'Beam dmg +50%',unlockLv:7,ability:'laser',icon:'⚡'},
   shield_double:{name:'2× SHIELD',desc:'Blocks 2 hits',unlockLv:10,ability:'shield',icon:'🛡️'},
@@ -511,7 +593,7 @@ function updateXPUI(){
 }
 function resetProfile(){if(!confirm('Reset ALL progress? This cannot be undone.')) return;localStorage.removeItem('tankclash_profile');profile=loadProfile();xpSessionGained=0;updateXPUI();selectedSkin='default';}
 let selectedSkin='default';
-function buildSkinRow(){const row=document.getElementById('skin-row');if(!row) return;row.innerHTML='';TANK_SKINS.forEach(sk=>{const locked=profile.level<sk.unlockLv;const d=document.createElement('div');d.className='skin-btn'+(selectedSkin===sk.id?' on':'')+(locked?' locked':'');d.innerHTML=sk.emoji+' <span>'+sk.name+'</span>'+(locked?'<span class="skin-lv">LV'+sk.unlockLv+'</span>':'');if(!locked) d.onclick=()=>{selectedSkin=sk.id;buildSkinRow();};row.appendChild(d);});}
+function buildSkinRow(){const row=document.getElementById('skin-row');if(!row) return;row.innerHTML='';TANK_SKINS.forEach(sk=>{const locked=profile.level<sk.unlockLv;const d=document.createElement('div');d.className='skin-btn'+(selectedSkin===sk.id?' on':'')+(locked?' locked':'');d.innerHTML=sk.emoji+' <span>'+sk.name+'</span>'+(locked?'<span class="skin-lv">LV'+sk.unlockLv+'</span>':'<span style="display:block;font-size:9px;color:#333;letter-spacing:1px;margin-top:2px;font-family:VT323,monospace">'+sk.buff+'</span>');if(!locked) d.onclick=()=>{selectedSkin=sk.id;buildSkinRow();};row.appendChild(d);});}
 const botCount=1;
 function toggleXPInfo(){const box=document.getElementById('xp-info-box'),arrow=document.getElementById('xp-info-arrow'),open=box.style.display==='none';box.style.display=open?'block':'none';arrow.textContent=open?'▲':'▼';}
 window.addEventListener('load',()=>{updateXPUI();buildSkinRow();setMode('mp');refreshBtn();});
@@ -526,14 +608,47 @@ const TANK_PARTS=[
 ];
 function getPartLevel(partId){return profile.tankParts?(profile.tankParts[partId]||0):0;}
 function getPartBonus(partId){const part=TANK_PARTS.find(p=>p.id===partId);const lv=getPartLevel(partId);return lv>0?part.vals[lv-1]:0;}
-function getUpgradedSpeed(){return T_SPD+getPartBonus('wheels');}
-function getUpgradedDamage(){return 20+getPartBonus('turret');}
+function getUpgradedSpeed(){return T_SPD+getPartBonus('wheels')+(getSkinBuff('speedBonus')||0);}
+function getUpgradedDamage(){const base=20+getPartBonus('turret');return Math.round(base*(1+(getSkinBuff('dmgBonus')||0)));}
 function getUpgradedMaxHP(){return 100+getPartBonus('armor');}
 function getUpgradedFireCD(){return Math.max(12,F_CD-getPartBonus('engine'));}
 function getUpgradedBulletSpd(){return B_SPD+getPartBonus('optics');}
-function getUpgradedCDMult(){return 1-getPartBonus('cooling');}
+function getUpgradedCDMult(){return 1-getPartBonus('cooling')-(getSkinBuff('cdReduce')||0);}
 function openShop(){if(!profile.tankParts)profile.tankParts={};document.getElementById('shop-xp-display').textContent=profile.xp+' XP';renderShopParts();document.getElementById('shop-overlay').classList.add('show');}
 function closeShop(){document.getElementById('shop-overlay').classList.remove('show');}
+function openTankInfo(){
+  const sk=TANK_SKINS.find(s=>s.id===selectedSkin)||TANK_SKINS[0];
+  document.getElementById('ti-nick-line').textContent='COMMANDER: '+(myNick||'PLAYER');
+  document.getElementById('ti-skin-emoji').textContent=sk.emoji;
+  document.getElementById('ti-skin-name').textContent=sk.name;
+  document.getElementById('ti-skin-buff').textContent=sk.buff;
+  // Stats
+  const spd=getUpgradedSpeed(),dmg=getUpgradedDamage(),maxHp=100+getPartBonus('armor'),fcd=getUpgradedFireCD();
+  const stats=[
+    {label:'SPEED',val:(spd*100/3.5).toFixed(0)+'%',raw:Math.min(100,(spd/3.5)*100),color:'#40c8ff'},
+    {label:'DAMAGE',val:dmg+' per bullet',raw:Math.min(100,(dmg/45)*100),color:'#ff4040'},
+    {label:'MAX HP',val:maxHp+' HP',raw:Math.min(100,(maxHp/180)*100),color:'#40ff80'},
+    {label:'FIRE RATE',val:((1/(fcd/60))).toFixed(1)+' shots/sec',raw:Math.min(100,((60/fcd)/2)*100),color:'#ffd700'},
+    {label:'BULLET SPEED',val:getUpgradedBulletSpd().toFixed(1)+'px/f',raw:Math.min(100,(getUpgradedBulletSpd()/12)*100),color:'#ff9900'},
+    {label:'CD REDUCTION',val:Math.round((getSkinBuff('cdReduce')||0)*100+getPartBonus('cooling')*100)+'%',raw:(getSkinBuff('cdReduce')||0)*100+getPartBonus('cooling')*100,color:'#a0ffee'},
+  ];
+  const grid=document.getElementById('ti-stats-grid');
+  grid.innerHTML=stats.map(s=>`<div class="ti-stat">
+    <div class="ti-stat-label">${s.label}</div>
+    <div class="ti-stat-bar-wrap"><div class="ti-stat-bar" style="width:${s.raw.toFixed(0)}%;background:${s.color};box-shadow:0 0 6px ${s.color}40;"></div></div>
+    <div class="ti-stat-value" style="color:${s.color}">${s.val}</div>
+  </div>`).join('');
+  // Abilities
+  const abDiv=document.getElementById('ti-abilities');
+  abDiv.innerHTML=selectedAbilities.map(id=>{const ab=ABILITIES[id];if(!ab)return'';return`<div class="ti-ab"><div class="ti-ab-icon">${ab.icon}</div><div class="ti-ab-name">${ab.name}</div><div class="ti-ab-cd">CD ${ab.cd}s · ${ab.desc}</div></div>`;}).join('');
+  // Active combos
+  const comboDiv=document.getElementById('ti-combos');
+  const ids=selectedAbilities;
+  const activeCombos=COMBOS.filter(c=>c.ids.every(id=>ids.includes(id)));
+  comboDiv.innerHTML=activeCombos.length?activeCombos.map(c=>`<div style="padding:5px 12px;border:1px solid ${c.color}44;background:${c.color}11;font-family:'Black Ops One',cursive;font-size:10px;letter-spacing:2px;color:${c.color}">⚡ ${c.name}</div>`).join(''):'<div style="font-size:11px;color:#1a1a28;letter-spacing:2px">No combos — pick abilities that share a combo</div>';
+  document.getElementById('tank-info-overlay').classList.add('show');
+}
+function closeTankInfo(){document.getElementById('tank-info-overlay').classList.remove('show');}
 function renderShopParts(){
   const grid=document.getElementById('shop-parts-grid');if(!grid) return;grid.innerHTML='';
   TANK_PARTS.forEach(part=>{const lv=getPartLevel(part.id),maxed=lv>=part.maxLv,cost=maxed?0:part.costs[lv],canAfford=profile.xp>=cost;const d=document.createElement('div');d.className='shop-part';d.style.opacity=(!maxed&&!canAfford)?'0.5':'1';let pips='';for(let i=0;i<part.maxLv;i++)pips+='<div class="shop-part-pip'+(i<lv?' filled':'')+'"></div>';const nextVal=!maxed?'+'+part.vals[lv]+(part.stat==='cdreduce'?'×CD':''):'';d.innerHTML='<div class="shop-part-icon">'+part.icon+'</div><div class="shop-part-name">'+part.name+'</div><div class="shop-part-desc">'+part.desc+'</div><div class="shop-part-levels">'+pips+'</div><div class="shop-part-cost">'+(maxed?'<span style="color:#40ff80">MAXED ✓</span>':'Cost: <span>'+cost+' XP</span> → '+nextVal)+'</div>'+(maxed?'<div class="shop-part-maxed">MAX</div>':'');if(!maxed&&canAfford){d.onclick=()=>{buyPart(part.id);};d.style.cursor='pointer';}else{d.style.cursor='default';}grid.appendChild(d);});
@@ -799,18 +914,68 @@ connectAbly = function() {
 };
 
 function activateCheatCode(){
-  const input = window.prompt('⚠ HACKER67 MODE\n\nHow much XP do you want?', '1000');
-  if(input === null) return;
-  const xpAmount = parseInt(input, 10);
-  if(isNaN(xpAmount) || xpAmount <= 0){ alert('Invalid amount.'); return; }
-  Object.values(AB_UPGRADES).forEach(u=>{profile.abUpgrades[u.ability]=true;});
-  if(!profile.tankParts)profile.tankParts={};
-  TANK_PARTS.forEach(p=>{profile.tankParts[p.id]=p.maxLv;});
-  awardXP('kill', xpAmount);
-  saveProfile();updateXPUI();buildSkinRow();
-  const t=document.createElement('div');t.className='xp-unlock-toast';t.style.cssText='border-color:#ff4040;min-width:320px;';
-  t.innerHTML='<div class="xp-toast-title" style="color:#ff4040;font-size:24px">⚠ HACKER67 ⚠</div><div style="font-size:16px;letter-spacing:3px;color:#ffd700;margin:8px 0">+'+xpAmount+' XP GRANTED</div><div class="xp-toast-sub" style="color:#ff4040;opacity:0.6">all unlocked</div>';
-  document.body.appendChild(t);setTimeout(()=>t.remove(),5000);
+  // Don't show twice
+  if(document.getElementById('hacker-overlay')) return;
+  const ov=document.createElement('div');
+  ov.id='hacker-overlay';
+  ov.style.cssText='position:fixed;inset:0;z-index:9999999;background:rgba(0,0,0,0.97);display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:VT323,monospace;animation:hkfade .3s ease;';
+  ov.innerHTML=`
+  <style>
+  @keyframes hkfade{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:none}}
+  @keyframes hkscan{0%{background-position:0 0}100%{background-position:0 100px}}
+  #hacker-overlay::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(255,0,0,0.03) 3px,rgba(255,0,0,0.03) 4px);animation:hkscan 2s linear infinite;pointer-events:none;}
+  #hk-box{position:relative;z-index:1;border:2px solid #ff0000;padding:40px 56px;text-align:center;background:rgba(5,0,0,0.98);box-shadow:0 0 80px rgba(255,0,0,0.5),inset 0 0 40px rgba(255,0,0,0.05);min-width:420px;}
+  #hk-skull{font-size:52px;margin-bottom:10px;display:block;animation:pulse 1s ease-in-out infinite;}
+  #hk-title{font-family:'Black Ops One',cursive;font-size:28px;letter-spacing:6px;color:#ff0000;text-shadow:0 0 30px #ff0000,0 0 60px #ff4040;margin-bottom:6px;}
+  #hk-sub{font-size:14px;letter-spacing:4px;color:#660000;margin-bottom:24px;}
+  #hk-label{font-size:12px;letter-spacing:3px;color:#440000;margin-bottom:8px;text-align:left;}
+  #hk-input{width:100%;background:rgba(255,0,0,0.06);border:1px solid #660000;color:#ff4040;font-family:VT323,monospace;font-size:24px;letter-spacing:4px;padding:10px 14px;outline:none;text-align:center;margin-bottom:18px;}
+  #hk-input:focus{border-color:#ff0000;box-shadow:0 0 14px rgba(255,0,0,0.3);}
+  #hk-input::placeholder{color:#330000;}
+  .hk-btns{display:flex;gap:12px;justify-content:center;}
+  #hk-confirm{background:transparent;border:2px solid #ff0000;color:#ff0000;font-family:'Black Ops One',cursive;font-size:12px;letter-spacing:3px;padding:10px 28px;cursor:pointer;transition:all .2s;}
+  #hk-confirm:hover{background:rgba(255,0,0,0.12);box-shadow:0 0 24px rgba(255,0,0,0.5);}
+  #hk-cancel{background:transparent;border:1px solid #220000;color:#330000;font-family:'Black Ops One',cursive;font-size:11px;letter-spacing:2px;padding:10px 20px;cursor:pointer;transition:all .2s;}
+  #hk-cancel:hover{border-color:#440000;color:#660000;}
+  #hk-err{height:16px;font-size:12px;color:#ff4040;letter-spacing:2px;margin-top:10px;}
+  </style>
+  <div id="hk-box">
+    <span id="hk-skull">💀</span>
+    <div id="hk-title">HACKER67</div>
+    <div id="hk-sub">CHEAT MODE ACTIVATED — ALL UNLOCKED</div>
+    <div id="hk-label">HOW MUCH XP DO YOU WANT?</div>
+    <input id="hk-input" type="number" min="1" max="999999" placeholder="e.g. 5000" autofocus/>
+    <div class="hk-btns">
+      <button id="hk-confirm">⚡ INJECT XP</button>
+      <button id="hk-cancel">✖ CANCEL</button>
+    </div>
+    <div id="hk-err"></div>
+  </div>`;
+  document.body.appendChild(ov);
+  setTimeout(()=>{const inp=document.getElementById('hk-input');if(inp)inp.focus();},80);
+  document.getElementById('hk-cancel').onclick=()=>{ov.style.animation='hkfade .2s ease reverse';setTimeout(()=>ov.remove(),220);};
+  document.getElementById('hk-input').addEventListener('keydown',e=>{if(e.key==='Enter')doHackerConfirm();if(e.key==='Escape')document.getElementById('hk-cancel').click();});
+  document.getElementById('hk-confirm').onclick=doHackerConfirm;
+  function doHackerConfirm(){
+    const val=parseInt(document.getElementById('hk-input').value,10);
+    const errEl=document.getElementById('hk-err');
+    if(isNaN(val)||val<=0){errEl.textContent='⚠ Enter a valid positive number';return;}
+    if(val>999999){errEl.textContent='⚠ Max is 999,999 XP';return;}
+    // Grant all upgrades
+    Object.values(AB_UPGRADES).forEach(u=>{profile.abUpgrades[u.ability]=true;});
+    if(!profile.tankParts)profile.tankParts={};
+    TANK_PARTS.forEach(p=>{profile.tankParts[p.id]=p.maxLv;});
+    awardXP('kill',val);
+    saveProfile();updateXPUI();buildSkinRow();
+    ov.style.animation='hkfade .2s ease reverse';
+    setTimeout(()=>{
+      ov.remove();
+      const t=document.createElement('div');t.className='xp-unlock-toast';
+      t.style.cssText='border-color:#ff0000;min-width:340px;box-shadow:0 0 60px rgba(255,0,0,0.5);';
+      t.innerHTML='<div class="xp-toast-title" style="color:#ff0000;font-size:26px;letter-spacing:5px">💀 HACKER67 💀</div><div style="font-size:18px;letter-spacing:3px;color:#ffd700;margin:8px 0">+'+val.toLocaleString()+' XP INJECTED</div><div class="xp-toast-sub" style="color:#ff4040;opacity:0.7">ALL PARTS & UPGRADES UNLOCKED</div>';
+      document.body.appendChild(t);setTimeout(()=>t.remove(),5000);
+    },220);
+  }
 }
 document.getElementById('nick').addEventListener('input',function(){const val=this.value;myNick=val.trim()||'Player';if(val.trim().toLowerCase()==='hacker67') activateCheatCode();});
 
@@ -821,18 +986,163 @@ function showStreakBanner(streak,customMsg,customCol){const msgs=['','','DOUBLE 
 const BOT_NAMES=['VIPER','GHOST','TITAN','BLAZE','NOVA','ROGUE','SPECTRE','PHANTOM'];
 const BOT_COLORS=['#ff4040','#ff9900','#a0ff40','#ff40ff','#40c8ff','#00ffee','#ff6666','#ffcc44'];
 function makeBot(id,nick,color,spawnIdx){const sp=SPAWNS[spawnIdx%SPAWNS.length];const abs=pickNpcAbilities();return{id,nick,color,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:abs,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false,aiTimer:Math.floor(Math.random()*200),aiShootCd:Math.floor(Math.random()*60)+40,aiAbilityCd:[180+Math.floor(Math.random()*120),240+Math.floor(Math.random()*120)],respawnTimer:0,aimSettleT:0,aimNoise:0};}
-function startSinglePlayer(){myNick=document.getElementById('nick').value.trim()||'Player';if(selectedAbilities.length<2){alert('Choose 2 abilities first!');return;}gameMode='sp';showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);buildWalls();initAbilityState();document.getElementById('hud-room').textContent='FIRST TO 5 KILLS — '+botDifficulty.toUpperCase();document.getElementById('chat').style.display='none';const sp=SPAWNS[0];myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false};players[myId]=myTank;myTank.skin=selectedSkin;npcs=[];for(let i=0;i<botCount;i++){const bid='npc_'+i,bname=BOT_NAMES[i%BOT_NAMES.length],bcolor=BOT_COLORS[i%BOT_COLORS.length],bot=makeBot(bid,bname,bcolor,i+1);npcs.push(bot);players[bid]=bot;}npc=npcs[0]||null;camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();gameActive=true;hideOverlay();updateHUD();document.getElementById('go').classList.add('hide');updateAbilityHUD();profile.totalGames++;saveProfile();xpSessionGained=0;sessionCoins=0;groundMedkits=[];medkitSpawnTimer=0;for(let _i=0;_i<10&&groundMedkits.length<2;_i++)spawnGroundMedkit();myKillStreak=0;floatDmgNums=[];const hc=document.getElementById('hud-coins');if(hc)hc.textContent='🪙 0';}
+function startSinglePlayer(){myNick=document.getElementById('nick').value.trim()||'Player';if(selectedAbilities.length<2){alert('Choose 2 abilities first!');return;}gameMode='sp';showScreen('game-screen');document.body.classList.add('in-game');window.scrollTo(0,0);buildWalls();initAbilityState();document.getElementById('hud-room').textContent='FIRST TO 5 KILLS — '+botDifficulty.toUpperCase();document.getElementById('chat').style.display='none';const sp=SPAWNS[0];myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false};players[myId]=myTank;myTank.skin=selectedSkin;npcs=[];for(let i=0;i<botCount;i++){const bid='npc_'+i;let bname=BOT_NAMES[i%BOT_NAMES.length];// rename bot if same name as player
+  if(bname.toLowerCase()===myNick.toLowerCase()){bname=bname+'_BOT';}const bcolor=BOT_COLORS[i%BOT_COLORS.length],bot=makeBot(bid,bname,bcolor,i+1);npcs.push(bot);players[bid]=bot;}npc=npcs[0]||null;camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();gameActive=true;hideOverlay();updateHUD();document.getElementById('go').classList.add('hide');updateAbilityHUD();profile.totalGames++;saveProfile();xpSessionGained=0;sessionCoins=0;groundMedkits=[];medkitSpawnTimer=0;for(let _i=0;_i<10&&groundMedkits.length<2;_i++)spawnGroundMedkit();myKillStreak=0;floatDmgNums=[];const hc=document.getElementById('hud-coins-val');if(hc)hc.textContent='0';}
 function pickNpcAbilities(){const pool=Object.keys(ABILITIES);const a=[],used=new Set();while(a.length<2){const pick=pool[Math.floor(Math.random()*pool.length)];if(!used.has(pick)){used.add(pick);a.push(pick);}}return a;}
 
 function initAbilityState(){myAbilityState=[{id:selectedAbilities[0]||'ghost',cooldownTimer:0,activeTimer:0,active:false},{id:selectedAbilities[1]||'laser',cooldownTimer:0,activeTimer:0,active:false}];updateAbilityHUD();}
 function updateAbilityHUD(){
-  for(let i=0;i<2;i++){const st=myAbilityState[i],ab=ABILITIES[st.id];if(!ab) continue;document.getElementById('ab-icon-'+i).textContent=ab.icon;document.getElementById('ab-sname-'+i).textContent=ab.name;const slot=document.getElementById('ab-slot-'+i),cdEl=document.getElementById('ab-cd-'+i),barEl=document.getElementById('ab-bar-'+i);slot.className='ab-slot';if(st.cooldownTimer>0){slot.classList.add('on-cooldown');cdEl.style.display='flex';cdEl.textContent=Math.ceil(st.cooldownTimer/60)+'s';}else if(st.active){slot.classList.add('active-glow');cdEl.style.display='none';const ab2=ABILITIES[st.id];const pct=ab2.duration>0?(st.activeTimer/ab2.duration)*100:0;barEl.style.width=pct+'%';barEl.style.background=ab2.color;}else{slot.classList.add('ready');cdEl.style.display='none';barEl.style.width='0%';}}
+  for(let i=0;i<2;i++){const st=myAbilityState[i],ab=ABILITIES[st.id];if(!ab) continue;
+    document.getElementById('ab-icon-'+i).textContent=ab.icon;
+    document.getElementById('ab-sname-'+i).textContent=ab.name;
+    const slot=document.getElementById('ab-slot-'+i),cdEl=document.getElementById('ab-cd-'+i),barEl=document.getElementById('ab-bar-'+i),statusEl=document.getElementById('ab-status-'+i);
+    slot.className='ab-slot';
+    if(st.cooldownTimer>0){
+      slot.classList.add('on-cooldown');cdEl.style.display='flex';
+      const secs=Math.ceil(st.cooldownTimer/60);cdEl.textContent=secs+'s';
+      if(statusEl)statusEl.textContent='CD '+secs+'s';
+    }else if(st.active){
+      slot.classList.add('active-glow');cdEl.style.display='none';
+      const ab2=ABILITIES[st.id];const pct=ab2.duration>0?(st.activeTimer/ab2.duration)*100:0;
+      barEl.style.width=pct+'%';barEl.style.background=ab2.color;
+      if(statusEl)statusEl.textContent='ACTIVE '+Math.ceil(st.activeTimer/60)+'s';
+    }else{
+      slot.classList.add('ready');cdEl.style.display='none';barEl.style.width='0%';
+      if(statusEl)statusEl.textContent='READY';
+    }
+  }
 }
 
+// ── COMBO EFFECTS HELPERS ──────────────────────────────────────────
+function doScreenFlash(color,alpha,ms){const d=document.createElement('div');d.style.cssText='position:fixed;inset:0;z-index:99995;pointer-events:none;background:'+color+';opacity:'+alpha+';transition:opacity '+ms+'ms ease;';document.body.appendChild(d);requestAnimationFrame(()=>{requestAnimationFrame(()=>{d.style.opacity='0';setTimeout(()=>d.remove(),ms+50);});});}
+function doRippleRings(cx,cy,color,n){for(let i=0;i<n;i++){setTimeout(()=>{shockwaves.push({x:cx,y:cy,r:4+(i*12),maxR:120+(i*30),life:1,color});},i*80);}}
+function doNovaBurst(cx,cy,color,dmg){// AoE nova that damages all enemies in radius
+  const radius=180;for(const pid in players){const t=players[pid];if(t.id===myId||!t.alive)continue;const d=Math.hypot(t.x-cx,t.y-cy);if(d<radius){const falloff=1-d/radius;applyHit(myTank,t,Math.round(dmg*falloff),cx,cy,'nova');}}
+  doRippleRings(cx,cy,color,4);spawnPart(cx,cy,color,80,10);shakeFrames=20;}
+
 const COMBOS=[
-  {ids:['ghost','speed'],name:'PHANTOM DASH',sub:'Ghost + Overdrive activated!',color:'#a0ffee',fn:(tank,states)=>{tank.ghost=true;tank.speedBoost=true;states.forEach(s=>{s.active=true;s.activeTimer=480;});spawnPart(tank.x,tank.y,'#a0ffee',40,8);shakeFrames=6;}},
-  {ids:['shield','emp'],name:'SHOCKWAVE BURST',sub:'Shield + EMP fused!',color:'#ffaa00',fn:(tank,states)=>{tank.shielded=true;doEMP(tank,true);spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',50,9);shakeFrames=14;}},
-  {ids:['laser','triple'],name:'HYPERBEAM',sub:'Triple laser barrage!',color:'#ff4040',fn:(tank,states)=>{[-0.3,0,0.3].forEach(offset=>{const a=tank.angle+offset;const reach=2000;laserBeams.push({x1:tank.x,y1:tank.y,x2:tank.x+Math.cos(a)*reach,y2:tank.y+Math.sin(a)*reach,color:'#ff4040',life:30,owner:tank.id});const hitSet=new Set();const steps=300;for(let s=1;s<=steps;s++){const tx=tank.x+Math.cos(a)*(reach*s/steps),ty=tank.y+Math.sin(a)*(reach*s/steps);for(const pid in players){if(pid===tank.id||hitSet.has(pid))continue;const t=players[pid];if(!t.alive)continue;if(Math.hypot(tx-t.x,ty-t.y)<20){hitSet.add(pid);applyHit(tank,t,50,tx,ty,'hyperbeam');spawnPart(tx,ty,'#ff4040',8,4);}}}});shakeFrames=18;spawnPart(tank.x,tank.y,'#ff4040',50,10);states.forEach(s=>{s.cooldownTimer=ABILITIES[s.id].cd*60;});}},
+  // ── 1. PHANTOM DASH — ghost + speed ──────────────────────────────
+  {ids:['ghost','speed'],name:'PHANTOM DASH',sub:'Untouchable for 8 seconds!',color:'#a0ffee',
+   fn:(tank,states)=>{
+     tank.ghost=true;tank.speedBoost=true;
+     states.forEach(s=>{s.active=true;s.activeTimer=480;s.cooldownTimer=0;});
+     doScreenFlash('#a0ffee',0.18,400);
+     for(let i=0;i<6;i++)setTimeout(()=>spawnPart(tank.x,tank.y,'#a0ffee',20,9),i*60);
+     spawnWave(tank.x,tank.y,'#a0ffee');shakeFrames=8;
+     addChatLine('COMBO','👻 PHANTOM DASH — untouchable!','#a0ffee');
+   }},
+  // ── 2. SHOCKWAVE BURST — shield + emp ────────────────────────────
+  {ids:['shield','emp'],name:'SHOCKWAVE BURST',sub:'Armored EMP detonation!',color:'#ffaa00',
+   fn:(tank,states)=>{
+     tank.shielded=true;doEMP(tank,true);
+     doScreenFlash('#ffaa00',0.22,500);
+     doRippleRings(tank.x,tank.y,'#ffaa00',5);
+     spawnPart(tank.x,tank.y,'#ffaa00',70,10);shakeFrames=18;
+     states.forEach(s=>{s.active=true;s.activeTimer=300;s.cooldownTimer=0;});
+     addChatLine('COMBO','💥 SHOCKWAVE BURST — stunned all!','#ffaa00');
+   }},
+  // ── 3. HYPERBEAM — laser + triple ────────────────────────────────
+  {ids:['laser','triple'],name:'HYPERBEAM',sub:'Five-laser annihilation!',color:'#ff2020',
+   fn:(tank,states)=>{
+     const angles=[-0.45,-0.22,0,0.22,0.45].map(o=>tank.angle+o);
+     angles.forEach(a=>{
+       const reach=2000;
+       laserBeams.push({x1:tank.x,y1:tank.y,x2:tank.x+Math.cos(a)*reach,y2:tank.y+Math.sin(a)*reach,color:'#ff2020',life:40,owner:tank.id});
+       const hitSet=new Set();
+       for(let s=1;s<=300;s++){const tx=tank.x+Math.cos(a)*(reach*s/300),ty=tank.y+Math.sin(a)*(reach*s/300);for(const pid in players){if(pid===tank.id||hitSet.has(pid))continue;const t=players[pid];if(!t.alive)continue;if(Math.hypot(tx-t.x,ty-t.y)<20){hitSet.add(pid);applyHit(tank,t,55,tx,ty,'hyperbeam');spawnPart(tx,ty,'#ff2020',10,5);}}}
+     });
+     doScreenFlash('#ff0000',0.28,350);shakeFrames=22;
+     spawnPart(tank.x,tank.y,'#ff2020',80,12);
+     states.forEach(s=>{s.cooldownTimer=ABILITIES[s.id].cd*60;});
+     addChatLine('COMBO','⚡ HYPERBEAM — 5-beam barrage!','#ff2020');
+   }},
+  // ── 4. DEATH BLOSSOM — triple + ricochet ─────────────────────────
+  {ids:['triple','ricochet'],name:'DEATH BLOSSOM',sub:'Bouncing bullet storm!',color:'#ff9900',
+   fn:(tank,states)=>{
+     tank.ricBounces=true;
+     for(let wave=0;wave<3;wave++){
+       setTimeout(()=>{
+         const n=8;for(let i=0;i<n;i++){const a=(Math.PI*2/n)*i+(wave*0.3);const bid=tank.id+'_db'+(bulletSeq++);bullets.push({id:bid,x:tank.x,y:tank.y,vx:Math.cos(a)*B_SPD,vy:Math.sin(a)*B_SPD,owner:tank.id,color:'#ff9900',bounces:0,maxBounce:6});}
+         spawnPart(tank.x,tank.y,'#ff9900',30,7);
+       },wave*120);
+     }
+     doRippleRings(tank.x,tank.y,'#ff9900',3);shakeFrames=14;
+     states.forEach(s=>{s.cooldownTimer=ABILITIES[s.id].cd*60;s.active=false;});
+     myAbilityState.forEach(s=>{if(s.id==='ricochet'){s.active=true;s.activeTimer=480;s.cooldownTimer=0;}});
+     addChatLine('COMBO','↩️ DEATH BLOSSOM — bullet storm!','#ff9900');
+   }},
+  // ── 5. VOID WALK — ghost + teleport ──────────────────────────────
+  {ids:['ghost','teleport'],name:'VOID WALK',sub:'Phase-teleport across the map!',color:'#cc40ff',
+   fn:(tank,states)=>{
+     tank.ghost=true;
+     doScreenFlash('#8800ff',0.3,250);
+     spawnPart(tank.x,tank.y,'#cc40ff',50,9);
+     setTimeout(()=>{
+       doTeleport(tank);tank.ghost=true;// stay ghosted after teleport
+       spawnPart(tank.x,tank.y,'#cc40ff',50,9);
+       doRippleRings(tank.x,tank.y,'#cc40ff',3);
+     },180);
+     states.forEach(s=>{if(s.id==='ghost'){s.active=true;s.activeTimer=360;s.cooldownTimer=0;}else{s.cooldownTimer=ABILITIES[s.id].cd*60;}});
+     addChatLine('COMBO','🌟 VOID WALK — phase teleport!','#cc40ff');
+   }},
+  // ── 6. MEDIC FORTRESS — heal + shield ────────────────────────────
+  {ids:['heal','shield'],name:'MEDIC FORTRESS',sub:'Full heal + impenetrable shield!',color:'#40ff80',
+   fn:(tank,states)=>{
+     const healAmt=profile.abUpgrades['heal']?100:75;
+     tank.hp=Math.min(100,tank.hp+healAmt);tank.shielded=true;
+     doScreenFlash('#40ff80',0.18,400);
+     doRippleRings(tank.x,tank.y,'#40ff80',3);
+     spawnPart(tank.x,tank.y,'#40ff80',60,8);
+     states.forEach(s=>{if(s.id==='shield'){s.active=true;s.activeTimer=600;s.cooldownTimer=0;}else{s.cooldownTimer=ABILITIES[s.id].cd*60;}});
+     updateHUD();shakeFrames=6;
+     addChatLine('COMBO','❤️ MEDIC FORTRESS — full heal + shield!','#40ff80');
+   }},
+  // ── 7. NUKE — emp + laser ─────────────────────────────────────────
+  {ids:['emp','laser'],name:'NUKE',sub:'Stun + execute beam!',color:'#ffe040',
+   fn:(tank,states)=>{
+     doEMP(tank,true);// stun first
+     setTimeout(()=>{
+       fireLaser(tank,true,70);// then execute
+       doScreenFlash('#ffe040',0.35,300);
+       doRippleRings(tank.x,tank.y,'#ffe040',5);shakeFrames=24;
+     },200);
+     states.forEach(s=>{s.cooldownTimer=ABILITIES[s.id].cd*60;});
+     addChatLine('COMBO','💣 NUKE — stun + execute beam!','#ffe040');
+   }},
+  // ── 8. SHADOW STRIKE — invisible + laser ──────────────────────────
+  {ids:['invisible','laser'],name:'SHADOW STRIKE',sub:'Fire from the shadows!',color:'#00ffee',
+   fn:(tank,states)=>{
+     tank.invisible=true;
+     setTimeout(()=>{
+       fireLaser(tank,true,60);
+       spawnPart(tank.x,tank.y,'#00ffee',40,8);
+       doScreenFlash('#00ffee',0.15,300);shakeFrames=10;
+     },100);
+     states.forEach(s=>{if(s.id==='invisible'){s.active=true;s.activeTimer=300;s.cooldownTimer=0;}else{s.cooldownTimer=ABILITIES[s.id].cd*60;}});
+     addChatLine('COMBO','🌀 SHADOW STRIKE — fire from shadows!','#00ffee');
+   }},
+  // ── 9. SUPERNOVA — speed + emp ────────────────────────────────────
+  {ids:['speed','emp'],name:'SUPERNOVA',sub:'Blitz through enemies, stunning all!',color:'#ff40ff',
+   fn:(tank,states)=>{
+     tank.speedBoost=true;
+     let pulses=0;const interval=setInterval(()=>{
+       doEMP(tank,true);spawnPart(tank.x,tank.y,'#ff40ff',20,6);pulses++;
+       if(pulses>=3)clearInterval(interval);
+     },400);
+     doScreenFlash('#ff40ff',0.25,600);shakeFrames=16;
+     states.forEach(s=>{if(s.id==='speed'){s.active=true;s.activeTimer=360;s.cooldownTimer=0;}else{s.cooldownTimer=ABILITIES[s.id].cd*60;}});
+     addChatLine('COMBO','⚡ SUPERNOVA — blitz + triple EMP!','#ff40ff');
+   }},
+  // ── 10. FORTRESS — shield + ricochet ─────────────────────────────
+  {ids:['shield','ricochet'],name:'FORTRESS',sub:'Shielded bouncing death!',color:'#40c8ff',
+   fn:(tank,states)=>{
+     tank.shielded=true;tank.ricBounces=true;
+     doRippleRings(tank.x,tank.y,'#40c8ff',3);
+     spawnPart(tank.x,tank.y,'#40c8ff',50,8);shakeFrames=10;
+     doScreenFlash('#40c8ff',0.16,350);
+     states.forEach(s=>{s.active=true;s.activeTimer=480;s.cooldownTimer=0;});
+     addChatLine('COMBO','🛡️ FORTRESS — shielded ricochet!','#40c8ff');
+   }},
 ];
 function checkCombos(slot){if(!myTank||!myTank.alive) return false;const ids=myAbilityState.map(s=>s.id);for(const combo of COMBOS){if(combo.ids.every(id=>ids.includes(id))){const states=combo.ids.map(id=>myAbilityState.find(s=>s.id===id));if(states.every(s=>s&&s.cooldownTimer===0&&!s.active)){const otherSlot=slot===0?1:0;if(myAbilityState[otherSlot]&&combo.ids.includes(myAbilityState[otherSlot].id)&&myAbilityState[slot]&&combo.ids.includes(myAbilityState[slot].id)){showComboFlash(combo.name,combo.sub,combo.color);combo.fn(myTank,states);awardXP('ability');awardXP('ability');updateAbilityHUD();return true;}}}}return false;}
 function showComboFlash(name,sub,color){const el=document.getElementById('combo-flash'),t=document.getElementById('combo-title'),s=document.getElementById('combo-sub');t.textContent='⚡ '+name;t.style.color=color;s.textContent=sub;el.classList.remove('show');void el.offsetWidth;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),950);}
@@ -840,7 +1150,7 @@ function useAbility(slot){if(!myTank||!myTank.alive) return;const st=myAbilitySt
 
 function activateAbility(tank,st,ab,slot,isMe){
   if(isMe){awardXP('ability');progressChallenge('abilities');progressChallenge('use_ability',{ability:ab.id});lastAbilityUsed=ab.id;}
-  const cdFrames=ab.cd*60;
+  const cdFrames=Math.round(ab.cd*60*Math.max(0.4,getUpgradedCDMult()));
   let abDuration=ab.duration,abDmg=35;
   if(tank.id===myId){if(ab.id==='laser'&&profile.abUpgrades['laser'])abDmg=53;if(ab.id==='speed'&&profile.abUpgrades['speed'])abDuration=380;}
   switch(ab.id){
@@ -859,7 +1169,7 @@ function activateAbility(tank,st,ab,slot,isMe){
 }
 
 function tickAbilities(){
-  for(let i=0;i<2;i++){const st=myAbilityState[i],ab=ABILITIES[st.id];if(!ab||!myTank) continue;if(st.cooldownTimer>0)st.cooldownTimer--;if(st.active){st.activeTimer--;const slotEl=document.getElementById('ab-slot-'+i);if(slotEl){if(st.activeTimer<=60&&st.activeTimer>0){slotEl.style.outline=Math.floor(st.activeTimer/8)%2===0?'2px solid #ff4040':'';}else{slotEl.style.outline='';}}if(st.activeTimer<=0){if(slotEl)slotEl.style.outline='';st.active=false;st.cooldownTimer=ab.cd*60;switch(ab.id){case 'ghost':if(myTank){myTank.ghost=false;pushOutOfWall(myTank);}break;case 'invisible':if(myTank)myTank.invisible=false;break;case 'shield':if(myTank)myTank.shielded=false;break;case 'speed':if(myTank)myTank.speedBoost=false;break;case 'ricochet':if(myTank)myTank.ricBounces=false;break;}}}}
+  for(let i=0;i<2;i++){const st=myAbilityState[i],ab=ABILITIES[st.id];if(!ab||!myTank) continue;if(st.cooldownTimer>0)st.cooldownTimer--;if(st.active){st.activeTimer--;const slotEl=document.getElementById('ab-slot-'+i);if(slotEl&&st.activeTimer<=60&&st.activeTimer>0){slotEl.style.borderColor=Math.floor(st.activeTimer/8)%2===0?'#ff4040':'';}if(st.activeTimer<=0){if(slotEl)slotEl.style.borderColor='';st.active=false;st.cooldownTimer=ab.cd*60;switch(ab.id){case 'ghost':if(myTank){myTank.ghost=false;pushOutOfWall(myTank);}break;case 'invisible':if(myTank)myTank.invisible=false;break;case 'shield':if(myTank)myTank.shielded=false;break;case 'speed':if(myTank)myTank.speedBoost=false;break;case 'ricochet':if(myTank)myTank.ricBounces=false;break;}}}}
   for(let i=laserBeams.length-1;i>=0;i--){laserBeams[i].life--;if(laserBeams[i].life<=0)laserBeams.splice(i,1);}
   updateAbilityHUD();
 }
@@ -932,7 +1242,11 @@ function applyHit(attacker,victim,dmg,bx,by,bid){
     spawnCoins(victim.x,victim.y,victim.color,5);
 
     if(attacker.id===myId){
-      profile.totalKills++;saveProfile();myKillStreak=(myKillStreak||0)+1;awardXP('kill');
+      profile.totalKills++;saveProfile();myKillStreak=(myKillStreak||0)+1;
+      // GOLD skin: +1 bonus coin per kill + 10% XP bonus
+      const xpBoost=getSkinBuff('xpBoost')||0;
+      awardXP('kill',Math.round(60*(1+xpBoost)));
+      if(getSkinBuff('bonusCoin')){spawnCoins(victim.x,victim.y,'#ffd700',getSkinBuff('bonusCoin'));addChatLine('SKIN','🟨 Gold bonus coin!','#ffd700');}
       progressChallenge('streak',{val:myKillStreak});
       if(myKillStreak===3){if(myTank){myTank.speedBoost=true;setTimeout(()=>{if(myTank)myTank.speedBoost=false;},4000);}showStreakBanner(3,'💨 SPEED BURST — 4 SECONDS!','#40ff80');spawnPart(myTank.x,myTank.y,'#40ff80',30,6);awardXP('kill');}
       else if(myKillStreak===5){if(myTank){myTank.hp=100;}showStreakBanner(5,'❤ FULL HEAL!','#ff4040');spawnPart(myTank.x,myTank.y,'#ff4040',40,7);awardXP('kill');awardXP('kill');updateHUD();}
@@ -978,7 +1292,21 @@ function updateNPC(){if(npc)updateSingleBot(npc);}
 function respawnNPC(){if(!npc)return;const sp=SPAWNS[3+Math.floor(Math.random()*5)];Object.assign(npc,{x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:180,ghost:false,invisible:false,shielded:false,stunTimer:0,speedBoost:false,ricBounces:false,aiShootCd:60});}
 let npcRespawnTimer=0;
 
-function regPlayer(id,nick,color,abilities){if(players[id]){players[id].nick=nick;players[id].color=color;return;}players[id]={id,nick,color,hp:100,alive:true,kills:0,x:1000,y:750,angle:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:abilities||[],shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false};}
+function regPlayer(id,nick,color,abilities){
+  if(players[id]){players[id].nick=nick;players[id].color=color;return;}
+  // Check if nick is already taken by another player in the room
+  const nickLow=nick.toLowerCase();
+  const takenBy=Object.values(players).find(p=>p.id!==id&&p.nick&&p.nick.toLowerCase()===nickLow);
+  if(takenBy){
+    // Broadcast a system chat message visible to everyone telling the newcomer to rename
+    const warnMsg=nick+' — that name is taken! Please change your username.';
+    addChatLine('⚠ SYSTEM',warnMsg,'#ff4040');
+    broadcast('chat',{nick:'⚠ SYSTEM',msg:warnMsg,color:'#ff4040'});
+    // If the newcomer is ME (just connected and someone already has my name), show the overlay
+    if(id===myId){document.getElementById('nt-name-display').textContent=nick;document.getElementById('name-taken-overlay').classList.add('show');return;}
+  }
+  players[id]={id,nick,color,hp:100,alive:true,kills:0,x:1000,y:750,angle:0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:abilities||[],shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false};
+}
 function showPhase(p){document.getElementById('ph-conn').style.display=p==='conn'?'flex':'none';document.getElementById('ph-wait').style.display=p==='wait'?'flex':'none';document.getElementById('go').classList.remove('hide');}
 function hideOverlay(){document.getElementById('go').classList.add('hide');}
 function refreshLobbyOverlay(){const all=allPlayers(),cnt=all.length;document.getElementById('wait-sub').textContent=cnt+' player'+(cnt!==1?'s':'')+' in room'+(cnt<2?' — need 2 to start':'');document.getElementById('start-btn').style.display=cnt>=2?'block':'none';const list=document.getElementById('plist');list.innerHTML='';all.forEach(p=>{const d=document.createElement('div');d.className='pr';d.innerHTML='<div class="pr-dot" style="background:'+p.color+';box-shadow:0 0 6px '+p.color+'44"></div><div class="pr-nick" style="color:'+p.color+'">'+p.nick+'</div><div class="pr-you">'+(p.id===myId?'(YOU)':'')+'</div><div class="pr-sc">'+(p.kills||0)+' kills</div>';list.appendChild(d);});}
@@ -1071,7 +1399,7 @@ let coinSeq=0;
 function spawnCoins(x,y,color,n){for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,r=20+Math.random()*40;coins.push({id:myId+'_c'+(coinSeq++),x:x+Math.cos(a)*r,y:y+Math.sin(a)*r,color,life:1,age:0,vx:Math.cos(a)*2,vy:Math.sin(a)*2});}}
 function updateCoins(){
   coins.forEach(c=>{if(myTank&&myTank.alive&&c.age>15){const mdx=myTank.x-c.x,mdy=myTank.y-c.y,md=Math.hypot(mdx,mdy);if(md<80&&md>0){const pull=0.4*(1-md/80);c.vx+=mdx/md*pull;c.vy+=mdy/md*pull;}}c.x+=c.vx;c.y+=c.vy;c.vx*=0.88;c.vy*=0.88;c.age++;});
-  if(myTank&&myTank.alive){coins=coins.filter(c=>{if(c.age<20)return true;if(Math.hypot(c.x-myTank.x,c.y-myTank.y)<22){spawnPart(c.x,c.y,'#ffd700',8,3);awardXP('coin');sessionCoins++;progressChallenge('coins');const hc=document.getElementById('hud-coins');if(hc)hc.textContent='🪙 '+sessionCoins;if(connected)broadcast('evt',{e:'coin_collect',cid:c.id});return false;}return true;});}
+  if(myTank&&myTank.alive){coins=coins.filter(c=>{if(c.age<20)return true;if(Math.hypot(c.x-myTank.x,c.y-myTank.y)<22){spawnPart(c.x,c.y,'#ffd700',8,3);awardXP('coin');sessionCoins++;progressChallenge('coins');const hc=document.getElementById('hud-coins-val');if(hc)hc.textContent=sessionCoins;if(connected)broadcast('evt',{e:'coin_collect',cid:c.id});return false;}return true;});}
   coins=coins.filter(c=>c.age<1200);
 }
 
@@ -1083,7 +1411,7 @@ function trySendMove(){
   lastSend=now;
   broadcast('mv',{id:myId,x:Math.round(myTank.x*10)/10,y:Math.round(myTank.y*10)/10,angle:Math.round(myTank.angle*100)/100});
 }
-function tryShoot(){if(!myTank||!myTank.alive||shootTimer>0)return;shootTimer=Math.round(getUpgradedFireCD());const bid=myId+'_'+(bulletSeq++);const bx=myTank.x+Math.cos(myTank.angle)*22,by=myTank.y+Math.sin(myTank.angle)*22;const maxBounce=myTank.ricBounces?6:2;const myBSpd=getUpgradedBulletSpd();bullets.push({id:bid,x:bx,y:by,vx:Math.cos(myTank.angle)*myBSpd,vy:Math.sin(myTank.angle)*myBSpd,owner:myId,color:myTank.color,bounces:0,maxBounce});myTank.vx-=Math.cos(myTank.angle)*1.5;myTank.vy-=Math.sin(myTank.angle)*1.5;if(connected)broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});}
+function tryShoot(){if(!myTank||!myTank.alive||shootTimer>0)return;shootTimer=Math.round(getUpgradedFireCD());const bid=myId+'_'+(bulletSeq++);const bx=myTank.x+Math.cos(myTank.angle)*22,by=myTank.y+Math.sin(myTank.angle)*22;const maxBounce=myTank.ricBounces?6:2;const myBSpd=getUpgradedBulletSpd();const wallPierces=getSkinBuff('wallPierce')?1:0;const fireBullet=!!getSkinBuff('fireBullets');bullets.push({id:bid,x:bx,y:by,vx:Math.cos(myTank.angle)*myBSpd,vy:Math.sin(myTank.angle)*myBSpd,owner:myId,color:fireBullet?'#ff4400':myTank.color,bounces:0,maxBounce,wallPierces,fireBullet});myTank.vx-=Math.cos(myTank.angle)*1.5;myTank.vy-=Math.sin(myTank.angle)*1.5;if(connected)broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});}
 
 function update(){
   Object.values(players).forEach(p=>{if(p.invulnTimer>0)p.invulnTimer--;if(p.stunTimer>0)p.stunTimer--;});
@@ -1109,19 +1437,29 @@ function update(){
     myTank.trail=myTank.trail||[];myTank.trail.unshift({x:myTank.x,y:myTank.y});if(myTank.trail.length>16)myTank.trail.pop();
     if(gameMode==='mp')trySendMove();
     camX=lerp(camX,myTank.x-VP_W/2,0.1);camY=lerp(camY,myTank.y-VP_H/2,0.1);clampCam();
+
+    // ── CAMO: idle HP regen ──────────────────────────────────────
+    if(getSkinBuff('regenIdle')&&roundTimer%60===0){
+      const moving=Math.hypot(myTank.vx,myTank.vy)>0.2;
+      if(!moving&&myTank.hp<100){myTank.hp=Math.min(100,myTank.hp+getSkinBuff('regenIdle'));updateHUD();spawnPart(myTank.x,myTank.y,'#40ff80',4,2);}
+    }
   }
 
-  // ═══════════════════════════════════════════════════════
-  // FIX 3: Bullet damage — always use getUpgradedDamage().
-  // Old code: (b.owner===myId)?getUpgradedDamage():20
-  // All bullets on screen are yours (you fire them locally),
-  // so upgrades should always apply. Enemies felt unkillable
-  // because NPC bullets and your upgraded damage weren't matching.
-  // ═══════════════════════════════════════════════════════
   for(let i=bullets.length-1;i>=0;i--){
     const b=bullets[i];b.x+=b.vx;b.y+=b.vy;
     const maxB=b.maxBounce!==undefined?b.maxBounce:2;
-    const hw=bulletHitsWall(b);if(hw){if(b.bounces>=maxB){spawnPart(b.x,b.y,b.color,5,2);bullets.splice(i,1);continue;}b.bounces++;const dx=(b.x-(hw.x+hw.w/2))/hw.w,dy=(b.y-(hw.y+hw.h/2))/hw.h;if(Math.abs(dx)>Math.abs(dy))b.vx*=-1;else b.vy*=-1;spawnPart(b.x,b.y,b.color,4,2);continue;}
+
+    // ── INFERNO: fire trail particles ───────────────────────────
+    if(b.fireBullet&&roundTimer%3===0)spawnPart(b.x,b.y,'#ff4400',3,2);
+
+    const hw=bulletHitsWall(b);
+    if(hw){
+      // ── VOID: pierce wall once ───────────────────────────────
+      if(b.wallPierces>0){b.wallPierces--;spawnPart(b.x,b.y,'#aa00ff',6,3);continue;}
+      if(b.bounces>=maxB){spawnPart(b.x,b.y,b.color,5,2);bullets.splice(i,1);continue;}
+      b.bounces++;const dx=(b.x-(hw.x+hw.w/2))/hw.w,dy=(b.y-(hw.y+hw.h/2))/hw.h;
+      if(Math.abs(dx)>Math.abs(dy))b.vx*=-1;else b.vy*=-1;spawnPart(b.x,b.y,b.color,4,2);continue;
+    }
     let hit=false;
     for(const pid in players){
       if(pid===b.owner)continue;
@@ -1130,8 +1468,16 @@ function update(){
       if(t.invisible&&b.owner!==t.id&&Math.random()<0.65)continue;
       if(Math.hypot(b.x-t.x,b.y-t.y)<18){
         const attacker=players[b.owner]||myTank;
-        // FIX 3: Always use upgraded damage — it's always your bullet
         const dmg=getUpgradedDamage();
+        // ── CHROME: reflect bullet at attacker ──────────────────
+        if(t.id===myId&&getSkinBuff('reflectChance')&&Math.random()<getSkinBuff('reflectChance')){
+          b.vx*=-1;b.vy*=-1;b.owner=myId;
+          spawnPart(b.x,b.y,'#ffffff',12,4);
+          addChatLine('SKIN','⬜ Chrome reflected a bullet!','#ddddff');
+          hit=true;break;
+        }
+        // ── INFERNO: extra fire particles on hit ─────────────────
+        if(b.fireBullet){spawnPart(b.x,b.y,'#ff6600',14,5);spawnWave(b.x,b.y,'#ff4400');}
         applyHit(attacker,t,dmg,b.x,b.y,b.id);
         bullets.splice(i,1);hit=true;break;
       }
