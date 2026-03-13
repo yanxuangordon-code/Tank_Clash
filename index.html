@@ -263,6 +263,12 @@ body.in-game #shop-btn{display:none;}
 .nt-name{color:#ff4040;font-family:'Black Ops One',cursive;}
 .nt-btn{background:transparent;border:2px solid #ff4040;color:#ff4040;font-family:'Black Ops One',cursive;font-size:13px;letter-spacing:4px;padding:12px 32px;cursor:pointer;transition:all .2s;}
 .nt-btn:hover{background:rgba(255,64,64,0.12);box-shadow:0 0 24px rgba(255,64,64,0.5);}
+/* ── BULLET CHARGE BAR ─────────────────────────────────── */
+#charge-bar-wrap{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:180px;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden;display:none;z-index:10;}
+#charge-bar-fill{height:100%;width:0%;border-radius:3px;background:linear-gradient(90deg,#ffd700,#ff4040);box-shadow:0 0 10px #ffd70088;transition:background 0.1s;}
+#charge-bar-wrap.active{display:block;}
+#charge-label{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);font-family:'Black Ops One',cursive;font-size:11px;letter-spacing:3px;color:#ffd700;text-shadow:0 0 8px #ffd700;pointer-events:none;display:none;z-index:10;white-space:nowrap;}
+#charge-label.active{display:block;}
 </style>
 </head>
 <body>
@@ -432,7 +438,7 @@ body.in-game #shop-btn{display:none;}
         <button class="btn" id="join-btn" onclick="doJoin()">⚔ JOIN BATTLE</button>
         <button class="btn btn-red" id="sp-btn" style="display:none" onclick="startSinglePlayer()">▶ PLAY vs BOT</button>
       </div>
-      <div style="font-size:11px;color:#1a1a28;letter-spacing:2px;">ARROWS — MOVE &nbsp;|&nbsp; SPACE — FIRE &nbsp;|&nbsp; Q / E — USE ABILITIES</div>
+      <div style="font-size:11px;color:#1a1a28;letter-spacing:2px;">ARROWS — MOVE &nbsp;|&nbsp; SPACE — FIRE &nbsp;|&nbsp; 1 / 2 — ABILITIES &nbsp;|&nbsp; 3 — MINE</div>
     </div>
   </div>
 
@@ -450,10 +456,10 @@ body.in-game #shop-btn{display:none;}
             <button id="surrender-btn" onclick="showSurrenderConfirm()">🏳</button>
           </div>
           <div id="ability-bar">
-            <div class="ab-slot" id="ab-slot-0" onclick="useAbility(0)" title="Q">
+            <div class="ab-slot" id="ab-slot-0" onclick="useAbility(0)" title="1">
               <div class="ab-slot-left">
                 <div class="ab-slot-icon" id="ab-icon-0">—</div>
-                <div class="ab-slot-key">Q</div>
+                <div class="ab-slot-key">1</div>
               </div>
               <div class="ab-slot-right">
                 <div class="ab-slot-name" id="ab-sname-0">ABILITY</div>
@@ -463,10 +469,10 @@ body.in-game #shop-btn{display:none;}
               <div class="ab-active-bar" id="ab-bar-0" style="width:0%"></div>
             </div>
             <div class="ab-divider"></div>
-            <div class="ab-slot" id="ab-slot-1" onclick="useAbility(1)" title="E">
+            <div class="ab-slot" id="ab-slot-1" onclick="useAbility(1)" title="2">
               <div class="ab-slot-left">
                 <div class="ab-slot-icon" id="ab-icon-1">—</div>
-                <div class="ab-slot-key">E</div>
+                <div class="ab-slot-key">2</div>
               </div>
               <div class="ab-slot-right">
                 <div class="ab-slot-name" id="ab-sname-1">ABILITY</div>
@@ -475,11 +481,26 @@ body.in-game #shop-btn{display:none;}
               <div class="ab-cd-overlay" id="ab-cd-1" style="display:none"></div>
               <div class="ab-active-bar" id="ab-bar-1" style="width:0%"></div>
             </div>
+            <div class="ab-divider"></div>
+            <div class="ab-slot ready" id="ab-slot-mine" onclick="useMineAbility()" title="3" style="border-color:rgba(255,102,0,0.5);">
+              <div class="ab-slot-left">
+                <div class="ab-slot-icon">💣</div>
+                <div class="ab-slot-key" style="color:#ff6600;">3</div>
+              </div>
+              <div class="ab-slot-right">
+                <div class="ab-slot-name" style="color:#ff6600;">MINE</div>
+                <div class="ab-slot-status" id="ab-status-mine">READY</div>
+              </div>
+              <div class="ab-cd-overlay" id="ab-cd-mine" style="display:none"></div>
+              <div class="ab-active-bar" id="ab-bar-mine" style="width:0%;background:#ff6600;"></div>
+            </div>
           </div>
           <div id="hud-coins-pill">🪙 <span id="hud-coins-val">0</span></div>
         </div>
       </div>
       <canvas id="c" width="820" height="560"></canvas>
+      <div id="charge-bar-wrap"><div id="charge-bar-fill"></div></div>
+      <div id="charge-label">⚡ CHARGING...</div>
       <div id="go">
         <div id="ph-conn" style="display:flex;flex-direction:column;align-items:center;gap:12px;">
           <div class="spinner"></div>
@@ -503,14 +524,14 @@ body.in-game #shop-btn{display:none;}
               <div class="das-slot-label">SLOT 1 ✓</div>
               <div class="das-slot-icon" id="das-icon-0">👻</div>
               <div class="das-slot-name" id="das-name-0">GHOST</div>
-              <div class="das-slot-key">KEY: Q</div>
+              <div class="das-slot-key">KEY: 1</div>
             </div>
             <div class="das-arrow">⟷</div>
             <div class="das-slot" id="das-slot-1" onclick="selectDeathSlot(1)">
               <div class="das-slot-label">SLOT 2</div>
               <div class="das-slot-icon" id="das-icon-1">⚡</div>
               <div class="das-slot-name" id="das-name-1">LASER</div>
-              <div class="das-slot-key">KEY: E</div>
+              <div class="das-slot-key">KEY: 2</div>
             </div>
           </div>
           <div class="death-ab-grid" id="death-ab-grid"></div>
@@ -534,7 +555,7 @@ body.in-game #shop-btn{display:none;}
       <div id="chat"><div id="chat-log"></div><div id="chat-row"><input id="ci" placeholder="chat..." maxlength="60" onkeydown="if(event.key==='Enter')sendChat()"/><button id="cs" onclick="sendChat()">▶</button></div></div>
       <div id="kf"></div>
       <canvas id="minimap-canvas" width="120" height="90"></canvas>
-      <div id="ctrl-tip">ARROWS — MOVE<br>← → — ROTATE<br>SPACE — FIRE<br>Q / E — ABILITY</div>
+      <div id="ctrl-tip">ARROWS — MOVE<br>← → — ROTATE<br>SPACE — FIRE / HOLD TO CHARGE<br>1 / 2 — ABILITY &nbsp;·&nbsp; 3 — MINE</div>
     </div>
   </div>
 </div>
@@ -688,6 +709,8 @@ const ABILITIES={
   ricochet:{id:'ricochet',name:'RICOCHET',icon:'↩️',desc:'Bullets bounce 6× for 8s',cd:12,duration:480,color:'#ff9900'},
   heal:{id:'heal',name:'MEDKIT',icon:'❤️',desc:'Restore 40 HP',cd:25,duration:0,color:'#40ff80'},
 };
+// Mine is a universal ability — always equipped, separate from the 2 ability slots
+const MINE_AB={id:'mine',name:'MINE',icon:'💣',desc:'Drop explosive trap',cd:10,color:'#ff6600'};
 const ABILITY_LIST=Object.values(ABILITIES);
 
 const MAX_P=8,COLORS=['#ff4040','#40c8ff','#ffd700','#40ff80','#ff40ff','#ff9900','#00ffee','#a0ff40'];
@@ -706,6 +729,11 @@ let camX=MAP_W/2-VP_W/2,camY=MAP_H/2-VP_H/2;
 let bullets=[],particles=[],shockwaves=[],walls=[],coins=[];
 let roundTimer=0,shakeFrames=0,shootTimer=0,bulletSeq=0;
 let deathCountdown=0;
+// ── MINES ────────────────────────────────────────────────
+let mines=[],mineSeq=0;
+// ── BULLET CHARGE ────────────────────────────────────────
+let chargeTimer=0,chargeActive=false,chargeFired=false;
+const CHARGE_MAX=90; // frames to full charge (1.5s)
 const keys={};
 let gameMode='mp';
 let botDifficulty='easy';
@@ -714,6 +742,8 @@ let myAbilityState=[
   {id:'ghost',cooldownTimer:0,activeTimer:0,active:false},
   {id:'laser',cooldownTimer:0,activeTimer:0,active:false}
 ];
+// Mine is always available — separate 3rd slot, not part of ability picker
+let mineState={cooldownTimer:0};
 let laserBeams=[];
 let npc=null;
 let npcs=[];
@@ -1147,6 +1177,32 @@ const COMBOS=[
 function checkCombos(slot){if(!myTank||!myTank.alive) return false;const ids=myAbilityState.map(s=>s.id);for(const combo of COMBOS){if(combo.ids.every(id=>ids.includes(id))){const states=combo.ids.map(id=>myAbilityState.find(s=>s.id===id));if(states.every(s=>s&&s.cooldownTimer===0&&!s.active)){const otherSlot=slot===0?1:0;if(myAbilityState[otherSlot]&&combo.ids.includes(myAbilityState[otherSlot].id)&&myAbilityState[slot]&&combo.ids.includes(myAbilityState[slot].id)){showComboFlash(combo.name,combo.sub,combo.color);combo.fn(myTank,states);awardXP('ability');awardXP('ability');updateAbilityHUD();return true;}}}}return false;}
 function showComboFlash(name,sub,color){const el=document.getElementById('combo-flash'),t=document.getElementById('combo-title'),s=document.getElementById('combo-sub');t.textContent='⚡ '+name;t.style.color=color;s.textContent=sub;el.classList.remove('show');void el.offsetWidth;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),950);}
 function useAbility(slot){if(!myTank||!myTank.alive) return;const st=myAbilityState[slot];if(st.cooldownTimer>0||st.active) return;const ab=ABILITIES[st.id];if(!ab) return;if(checkCombos(slot)) return;activateAbility(myTank,st,ab,slot,true);}
+function useMineAbility(){
+  if(!myTank||!myTank.alive) return;
+  if(mineState.cooldownTimer>0){return;} // silently ignore while on CD (bar shows it)
+  dropMine(myTank,true);
+  mineState.cooldownTimer=MINE_AB.cd*60;
+  updateMineHUD();
+}
+function updateMineHUD(){
+  const slot=document.getElementById('ab-slot-mine');
+  const cdEl=document.getElementById('ab-cd-mine');
+  const statusEl=document.getElementById('ab-status-mine');
+  if(!slot) return;
+  if(mineState.cooldownTimer>0){
+    slot.className='ab-slot on-cooldown';
+    slot.style.borderColor='';
+    cdEl.style.display='flex';
+    const secs=Math.ceil(mineState.cooldownTimer/60);
+    cdEl.textContent=secs+'s';
+    if(statusEl) statusEl.textContent='CD '+secs+'s';
+  } else {
+    slot.className='ab-slot ready';
+    slot.style.borderColor='rgba(255,102,0,0.5)';
+    cdEl.style.display='none';
+    if(statusEl) statusEl.textContent='READY';
+  }
+}
 
 function activateAbility(tank,st,ab,slot,isMe){
   if(isMe){awardXP('ability');progressChallenge('abilities');progressChallenge('use_ability',{ability:ab.id});lastAbilityUsed=ab.id;}
@@ -1170,6 +1226,8 @@ function activateAbility(tank,st,ab,slot,isMe){
 
 function tickAbilities(){
   for(let i=0;i<2;i++){const st=myAbilityState[i],ab=ABILITIES[st.id];if(!ab||!myTank) continue;if(st.cooldownTimer>0)st.cooldownTimer--;if(st.active){st.activeTimer--;const slotEl=document.getElementById('ab-slot-'+i);if(slotEl&&st.activeTimer<=60&&st.activeTimer>0){slotEl.style.borderColor=Math.floor(st.activeTimer/8)%2===0?'#ff4040':'';}if(st.activeTimer<=0){if(slotEl)slotEl.style.borderColor='';st.active=false;st.cooldownTimer=ab.cd*60;switch(ab.id){case 'ghost':if(myTank){myTank.ghost=false;pushOutOfWall(myTank);}break;case 'invisible':if(myTank)myTank.invisible=false;break;case 'shield':if(myTank)myTank.shielded=false;break;case 'speed':if(myTank)myTank.speedBoost=false;break;case 'ricochet':if(myTank)myTank.ricBounces=false;break;}}}}
+  // Tick mine cooldown separately
+  if(mineState.cooldownTimer>0){mineState.cooldownTimer--;updateMineHUD();}
   for(let i=laserBeams.length-1;i>=0;i--){laserBeams[i].life--;if(laserBeams[i].life<=0)laserBeams.splice(i,1);}
   updateAbilityHUD();
 }
@@ -1205,6 +1263,199 @@ function doTeleport(tank){const sp=getRandomSpawn();spawnPart(tank.x,tank.y,'#ff
 
 function doEMP(tank,isMe){const radius=(tank.id===myId&&profile.abUpgrades['emp'])?310:200;spawnWave(tank.x,tank.y,'#ffaa00');spawnPart(tank.x,tank.y,'#ffaa00',30,6);shakeFrames=8;for(const pid in players){const t=players[pid];if(t.id===tank.id||!t.alive) continue;if(Math.hypot(t.x-tank.x,t.y-tank.y)<radius){t.stunTimer=150;spawnPart(t.x,t.y,'#ffaa00',15,4);if(isMe)addChatLine('ABILITY','💥 E.M.P. — enemy stunned!','#ffaa00');}}}
 
+// ── MINE SYSTEM ─────────────────────────────────────────────────────
+function dropMine(tank,isMe){
+  const mid=tank.id+'_m'+(mineSeq++);
+  mines.push({id:mid,x:tank.x,y:tank.y,owner:tank.id,ownerNick:tank.nick,ownerColor:tank.color,
+    armTimer:90,         // 1.5s before it arms
+    pulse:Math.random()*Math.PI*2,
+    triggered:false,
+    explodeTimer:0});
+  spawnPart(tank.x,tank.y,'#ff6600',6,3);
+  if(isMe){addChatLine('ABILITY','💣 MINE — planted! (arms in 1.5s)','#ff6600');
+    if(connected)broadcast('evt',{e:'mine_drop',from:myId,mid,x:tank.x,y:tank.y});}
+}
+function updateMines(){
+  // Proximity warning — check if player is near any armed enemy mine
+  let dangerDist=Infinity;
+  if(myTank&&myTank.alive){
+    for(const m of mines){
+      if(m.owner===myId||m.armTimer>0||m.triggered)continue;
+      const d=Math.hypot(myTank.x-m.x,myTank.y-m.y);
+      if(d<dangerDist)dangerDist=d;
+    }
+  }
+  // Show/hide danger overlay
+  let dangerEl=document.getElementById('mine-danger');
+  if(!dangerEl){dangerEl=document.createElement('div');dangerEl.id='mine-danger';dangerEl.style.cssText='position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:4;transition:opacity .15s;opacity:0;box-shadow:inset 0 0 60px 30px rgba(255,80,0,0.45);border-radius:4px;';document.getElementById('game-screen').appendChild(dangerEl);}
+  const WARN_DIST=120;
+  if(dangerDist<WARN_DIST&&gameActive){
+    const intensity=(1-dangerDist/WARN_DIST)*0.8;
+    dangerEl.style.opacity=intensity*(0.5+0.5*Math.sin(Date.now()*0.015));
+  } else {dangerEl.style.opacity=0;}
+
+  for(let i=mines.length-1;i>=0;i--){
+    const m=mines[i];
+    m.pulse+=0.06;
+    if(m.triggered){
+      m.explodeTimer--;
+      if(m.explodeTimer<=0){
+        // BOOM
+        const boom_dmg=65;
+        const boom_r=110;
+        for(const pid in players){
+          const t=players[pid];
+          if(!t.alive)continue;
+          const d=Math.hypot(t.x-m.x,t.y-m.y);
+          if(d<boom_r){
+            const falloff=1-(d/boom_r);
+            const dmg=Math.round(boom_dmg*falloff);
+            const attacker=players[m.owner]||myTank;
+            if(attacker)applyHit(attacker,t,dmg,m.x,m.y,'mine_'+m.id);
+          }
+        }
+        // big explosion effects
+        spawnPart(m.x,m.y,'#ff6600',60,10);
+        spawnPart(m.x,m.y,'#ffd700',30,7);
+        spawnWave(m.x,m.y,'#ff6600');
+        shockwaves.push({x:m.x,y:m.y,r:10,maxR:160,life:1,color:'#ff6600'});
+        shockwaves.push({x:m.x,y:m.y,r:10,maxR:100,life:0.8,color:'#ffd700'});
+        doScreenFlash('#ff4400',0.20,300);
+        shakeFrames=16;
+        // BOOM floating text
+        floatDmgNums.push({x:m.x,y:m.y-30,vy:-1.2,dmg:0,color:'#ff6600',life:1,big:true,killBlow:false,label:'💥 BOOM'});
+        mines.splice(i,1);
+        continue;
+      }
+    } else {
+      // Arm countdown
+      if(m.armTimer>0){m.armTimer--;continue;}
+      // Check if any enemy is close enough to trigger
+      for(const pid in players){
+        const t=players[pid];
+        if(t.id===m.owner||!t.alive)continue;
+        if(Math.hypot(t.x-m.x,t.y-m.y)<28){
+          m.triggered=true;
+          m.explodeTimer=18; // short fuse after trigger
+          spawnPart(m.x,m.y,'#ff0000',12,5);
+          addChatLine('💣','MINE TRIGGERED!','#ff6600');
+          break;
+        }
+      }
+    }
+  }
+}
+function drawMines(){
+  for(const m of mines){
+    const isOwn = m.owner === myId;
+    const armed  = m.armTimer <= 0 && !m.triggered;
+    const triggered = m.triggered;
+
+    // ── ENEMY mines: completely invisible once armed, faint while arming ──
+    if(!isOwn){
+      if(armed) continue; // hidden from enemies once armed
+      // While still arming show a very faint shimmer so enemy placed mines
+      // don't vanish instantly (only visible for 1.5s while arming)
+      const armProg = 1 - m.armTimer/90; // 0→1 during arming
+      ctx.save();
+      ctx.translate(m.x, m.y);
+      ctx.globalAlpha = 0.12 * (1 - armProg); // fades out as it arms
+      ctx.fillStyle = '#ff6600';
+      ctx.shadowColor = '#ff6600';
+      ctx.shadowBlur = 6;
+      ctx.beginPath(); ctx.arc(0,0,6,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+      continue;
+    }
+
+    // ── OWN mine: full visible with clear HUD ──────────────────────────
+    const pulse = 0.5 + 0.5*Math.sin(m.pulse*(triggered ? 8 : armed ? 2.5 : 1));
+    ctx.save();
+    ctx.translate(m.x, m.y);
+
+    if(triggered){
+      // Fast red blink when triggered
+      ctx.globalAlpha = pulse;
+      ctx.shadowColor = '#ff0000';
+      ctx.shadowBlur = 28;
+      ctx.fillStyle = '#ff1100';
+      ctx.beginPath(); ctx.arc(0,0,12,0,Math.PI*2); ctx.fill();
+      // Spikes flash white
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2.5;
+      for(let k=0;k<8;k++){
+        const a=(Math.PI*2/8)*k;
+        ctx.beginPath();ctx.moveTo(Math.cos(a)*12,Math.sin(a)*12);ctx.lineTo(Math.cos(a)*18,Math.sin(a)*18);ctx.stroke();
+      }
+    } else {
+      // Subtle ground shadow
+      ctx.globalAlpha = 0.15;
+      ctx.fillStyle = '#000';
+      ctx.beginPath(); ctx.ellipse(2, 4, 12, 6, 0, 0, Math.PI*2); ctx.fill();
+
+      // Body
+      ctx.globalAlpha = armed ? 1 : 0.65 + 0.35*(1 - m.armTimer/90);
+      const bodyCol = armed ? '#ff6600' : '#cc4400';
+      ctx.shadowColor = armed ? '#ff6600' : '#ff9900';
+      ctx.shadowBlur = armed ? 14*pulse : 6;
+      ctx.fillStyle = bodyCol;
+      ctx.beginPath(); ctx.arc(0,0,10,0,Math.PI*2); ctx.fill();
+
+      // Spikes
+      ctx.strokeStyle = armed ? '#ff4400' : '#993300';
+      ctx.lineWidth = 1.8;
+      for(let k=0;k<8;k++){
+        const a=(Math.PI*2/8)*k;
+        ctx.beginPath();ctx.moveTo(Math.cos(a)*10,Math.sin(a)*10);ctx.lineTo(Math.cos(a)*15,Math.sin(a)*15);ctx.stroke();
+      }
+
+      // Inner blink dot — green while arming, gold when armed
+      ctx.globalAlpha = armed ? pulse : 0.8;
+      ctx.fillStyle = armed ? '#ffd700' : '#40ff80';
+      ctx.shadowColor = armed ? '#ffd700' : '#40ff80';
+      ctx.shadowBlur = 10;
+      ctx.beginPath(); ctx.arc(0,0,4,0,Math.PI*2); ctx.fill();
+
+      // Arming ring — shrinks inward as mine arms
+      if(m.armTimer > 0){
+        const prog = m.armTimer/90;
+        ctx.globalAlpha = 0.6 * prog;
+        ctx.strokeStyle = '#ffd700';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([3,3]);
+        ctx.beginPath(); ctx.arc(0,0,10+prog*14,0,Math.PI*2); ctx.stroke();
+        ctx.setLineDash([]);
+        // Small "ARMING" text
+        ctx.globalAlpha = 0.5 * prog;
+        ctx.fillStyle = '#ffd700';
+        ctx.font = 'bold 7px Arial';
+        ctx.textAlign = 'center';
+        ctx.shadowBlur = 0;
+        ctx.fillText('ARMING', 0, -22);
+      }
+
+      // Armed outer glow ring
+      if(armed){
+        ctx.globalAlpha = 0.18 * pulse;
+        ctx.strokeStyle = '#ff6600';
+        ctx.lineWidth = 2;
+        ctx.shadowColor = '#ff6600';
+        ctx.shadowBlur = 10;
+        ctx.beginPath(); ctx.arc(0,0,22,0,Math.PI*2); ctx.stroke();
+      }
+
+      // "MINE" label above (only owner sees)
+      ctx.globalAlpha = armed ? 0.7 : 0.4;
+      ctx.fillStyle = armed ? '#ff6600' : '#cc6600';
+      ctx.font = 'bold 8px Arial';
+      ctx.textAlign = 'center';
+      ctx.shadowBlur = 0;
+      ctx.fillText('💣 MINE', 0, -28);
+    }
+    ctx.restore();
+  }
+}
+
 // ═══════════════════════════════════════════════════════════
 // FIX 1 & 2: applyHit — removed duplicate kill broadcast,
 // death is now handled cleanly in a single place.
@@ -1223,6 +1474,19 @@ function applyHit(attacker,victim,dmg,bx,by,bid){
   spawnPart(bx,by,victim.color,14,4);
   spawnWave(bx,by,victim.color);
   shakeFrames=6;
+  // ── HIT NUMBER ──────────────────────────────────────────
+  // Color: white for normal, gold for charged shots, red for kill blow
+  const numColor = newHp<=0 ? '#ff2020' : (dmg>=30 ? '#ffd700' : '#ffffff');
+  floatDmgNums.push({
+    x: victim.x + (Math.random()-0.5)*20,
+    y: victim.y - 20,
+    vy: -1.8 - Math.random()*0.6,
+    dmg,
+    color: numColor,
+    life: 1,
+    big: dmg >= 30 || newHp <= 0,
+    killBlow: newHp <= 0,
+  });
 
   // FIX 1: Only broadcast once — here, with the correct hp value.
   // Removed the duplicate broadcast inside the newHp<=0 block below.
@@ -1237,7 +1501,7 @@ function applyHit(attacker,victim,dmg,bx,by,bid){
     spawnPart(victim.x,victim.y,victim.color,40,8);
     spawnWave(victim.x,victim.y,victim.color);
     shakeFrames=12;
-    addKF(attacker.nick,victim.nick);
+    addKF(attacker.nick,victim.nick, bid&&bid.startsWith('mine_')?'mine': bid==='laser_hit'?'laser': bid==='nova'?'emp':'bullet');
     attacker.kills=(attacker.kills||0)+1;
     spawnCoins(victim.x,victim.y,victim.color,5);
 
@@ -1281,6 +1545,10 @@ function updateSingleBot(bot){
   bot.trail=bot.trail||[];bot.trail.unshift({x:bot.x,y:bot.y});if(bot.trail.length>16)bot.trail.pop();
   if(bot.aiShootCd>0)bot.aiShootCd--;if(bot.aiShootCd<=0&&aimReady&&dist<prof.reactionDist&&!bot.huntingMedkit){bot.aiShootCd=Math.ceil(prof.shootCd*(1.0+Math.random()*0.5));bot.aimNoise=(Math.random()-0.5)*prof.aimTol*2.2;bot.aimSettleT=0;const bid=bot.id+'_b'+(bulletSeq++);const bx=bot.x+Math.cos(bot.angle)*22,by=bot.y+Math.sin(bot.angle)*22;bullets.push({id:bid,x:bx,y:by,vx:Math.cos(bot.angle)*B_SPD,vy:Math.sin(bot.angle)*B_SPD,owner:bot.id,color:bot.color,bounces:0,maxBounce:bot.ricBounces?6:2});}
   for(let i=0;i<2;i++){if(bot.aiAbilityCd[i]>0){bot.aiAbilityCd[i]--;continue;}const abId=bot.abilities[i];if(!abId)continue;const ab=ABILITIES[abId];if(!ab)continue;let use=false;const aimOk=Math.abs(angleDiff)<0.25&&dist<prof.reactionDist;switch(abId){case 'heal':use=bot.hp<50;break;case 'shield':use=dist<300;break;case 'speed':use=dist>400||bot.hp<40;break;case 'ghost':use=bot.aiTimer%300<10&&dist<500;break;case 'invisible':use=bot.hp<60;break;case 'teleport':use=bot.hp<30;break;case 'emp':use=dist<200;break;case 'laser':use=dist<500&&aimOk;break;case 'triple':use=dist<400&&aimOk;break;case 'ricochet':use=bot.aiTimer%200<8;break;}if(use){activateAbility(bot,{id:abId,cooldownTimer:0,active:false,activeTimer:0},ab,i,false);bot.aiAbilityCd[i]=ab.cd*60+(Math.random()*80|0);}}
+  // Bot mine — always available, own cooldown
+  if(!bot.mineCd)bot.mineCd=0;
+  if(bot.mineCd>0){bot.mineCd--;}
+  else if(bot.aiTimer%180<6&&dist<350){dropMine(bot,false);bot.mineCd=MINE_AB.cd*60+(Math.random()*120|0);}
   if(bot.ghost){bot.ghostT=(bot.ghostT||ABILITIES.ghost.duration);bot.ghostT--;if(bot.ghostT<=0){bot.ghost=false;bot.ghostT=0;pushOutOfWall(bot);}}
   if(bot.invisible){bot.invisT=(bot.invisT||ABILITIES.invisible.duration);bot.invisT--;if(bot.invisT<=0){bot.invisible=false;bot.invisT=0;}}
   if(bot.speedBoost){bot.speedT=(bot.speedT||ABILITIES.speed.duration);bot.speedT--;if(bot.speedT<=0){bot.speedBoost=false;bot.speedT=0;}}
@@ -1314,10 +1582,10 @@ function allPlayers(){const me={id:myId,nick:myNick,color:myColor,kills:players[
 
 let lastNonce='';
 function reqStart(){const ids=[myId,...Object.keys(players).filter(id=>id!==myId)];const spawnMap={};ids.forEach((id,i)=>{spawnMap[id]=SPAWNS[i%SPAWNS.length];});const nonce=Math.random().toString(36).slice(2);broadcast('evt',{e:'start',spawnMap,nonce});doStart(spawnMap,nonce);}
-function doStart(spawnMap,nonce){if(nonce&&nonce===lastNonce) return;if(nonce)lastNonce=nonce;bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;roundTimer=0;shootTimer=0;gameActive=true;deathCountdown=0;document.getElementById('death-screen').style.display='none';const sp=spawnMap[myId]||SPAWNS[0];myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:players[myId]?.kills||0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false,skin:selectedSkin};players[myId]=myTank;Object.keys(spawnMap).forEach(id=>{if(id===myId)return;const s=spawnMap[id];if(players[id])Object.assign(players[id],{x:s.x,y:s.y,angle:s.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:0,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false});});initAbilityState();groundMedkits=[];medkitSpawnTimer=0;for(let _i=0;_i<10&&groundMedkits.length<2;_i++)spawnGroundMedkit();camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();hideOverlay();updateHUD();}
+function doStart(spawnMap,nonce){if(nonce&&nonce===lastNonce) return;if(nonce)lastNonce=nonce;bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;mines=[];chargeTimer=0;chargeActive=false;chargeFired=false;mineState.cooldownTimer=0;roundTimer=0;shootTimer=0;gameActive=true;deathCountdown=0;document.getElementById('death-screen').style.display='none';const sp=spawnMap[myId]||SPAWNS[0];myTank={id:myId,nick:myNick,color:myColor,x:sp.x,y:sp.y,angle:sp.a,hp:100,alive:true,kills:players[myId]?.kills||0,vx:0,vy:0,trail:[],invulnTimer:0,abilities:selectedAbilities,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false,skin:selectedSkin};players[myId]=myTank;Object.keys(spawnMap).forEach(id=>{if(id===myId)return;const s=spawnMap[id];if(players[id])Object.assign(players[id],{x:s.x,y:s.y,angle:s.a,hp:100,alive:true,vx:0,vy:0,trail:[],invulnTimer:0,shielded:false,ghost:false,invisible:false,stunTimer:0,speedBoost:false,ricBounces:false});});initAbilityState();groundMedkits=[];medkitSpawnTimer=0;for(let _i=0;_i<10&&groundMedkits.length<2;_i++)spawnGroundMedkit();camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();hideOverlay();updateHUD();}
 function getRandomSpawn(){let best=SPAWNS[0],bestDist=0;SPAWNS.forEach(sp=>{let minDist=Infinity;Object.values(players).forEach(p=>{if(p.alive&&p.id!==myId)minDist=Math.min(minDist,Math.hypot(p.x-sp.x,p.y-sp.y));});if(minDist>bestDist){bestDist=minDist;best=sp;}});return best;}
 
-function respawnMe(){const sp=getRandomSpawn();myTank.x=sp.x;myTank.y=sp.y;myTank.angle=sp.a;myTank.hp=getUpgradedMaxHP();myTank.alive=true;myTank.vx=0;myTank.vy=0;myTank.trail=[];myTank.invulnTimer=180;myTank.ghost=false;myTank.invisible=false;myTank.shielded=false;myTank.stunTimer=0;myTank.speedBoost=false;myTank.ricBounces=false;awardXP('survived');progressChallenge('survive');selectedAbilities=[myAbilityState[0].id,myAbilityState[1].id];myTank.abilities=selectedAbilities;camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();document.getElementById('death-screen').style.display='none';if(connected)broadcast('evt',{e:'respawn',id:myId,x:sp.x,y:sp.y,a:sp.a});updateHUD();updateAbilityHUD();}
+function respawnMe(){const sp=getRandomSpawn();myTank.x=sp.x;myTank.y=sp.y;myTank.angle=sp.a;myTank.hp=getUpgradedMaxHP();myTank.alive=true;myTank.vx=0;myTank.vy=0;myTank.trail=[];myTank.invulnTimer=180;myTank.ghost=false;myTank.invisible=false;myTank.shielded=false;myTank.stunTimer=0;myTank.speedBoost=false;myTank.ricBounces=false;chargeTimer=0;chargeActive=false;chargeFired=false;document.getElementById('charge-bar-wrap').classList.remove('active');document.getElementById('charge-label').classList.remove('active');awardXP('survived');progressChallenge('survive');selectedAbilities=[myAbilityState[0].id,myAbilityState[1].id];myTank.abilities=selectedAbilities;camX=sp.x-VP_W/2;camY=sp.y-VP_H/2;clampCam();document.getElementById('death-screen').style.display='none';if(connected)broadcast('evt',{e:'respawn',id:myId,x:sp.x,y:sp.y,a:sp.a});updateHUD();updateAbilityHUD();}
 
 function onMove(msg){
   const d=msg.data;if(d.id===myId) return;
@@ -1377,11 +1645,17 @@ function onEvt(msg){
     updateHUD();
   }
   if(d.e==='coin_collect') coins=coins.filter(c=>c.id!==d.cid);
+
+  if(d.e==='mine_drop'&&d.from!==myId){
+    const p=players[d.from];
+    mines.push({id:d.mid,x:d.x,y:d.y,owner:d.from,ownerNick:p?p.nick:'?',ownerColor:p?p.color:'#ff6600',
+      armTimer:90,pulse:Math.random()*Math.PI*2,triggered:false,explodeTimer:0});
+  }
 }
 
 function onChatMsg(msg){addChatLine(msg.data.nick,msg.data.msg,msg.data.color);}
 
-document.addEventListener('keydown',e=>{keys[e.code]=true;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();if(e.code==='KeyQ'&&gameActive)useAbility(0);if(e.code==='KeyE'&&gameActive)useAbility(1);});
+document.addEventListener('keydown',e=>{keys[e.code]=true;if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Space'].includes(e.code))e.preventDefault();if(e.code==='Digit1'&&gameActive)useAbility(0);if(e.code==='Digit2'&&gameActive)useAbility(1);if(e.code==='Digit3'&&gameActive)useMineAbility();});
 document.addEventListener('keyup',e=>keys[e.code]=false);
 
 function lerp(a,b,t){return a+(b-a)*t;}
@@ -1411,7 +1685,103 @@ function trySendMove(){
   lastSend=now;
   broadcast('mv',{id:myId,x:Math.round(myTank.x*10)/10,y:Math.round(myTank.y*10)/10,angle:Math.round(myTank.angle*100)/100});
 }
-function tryShoot(){if(!myTank||!myTank.alive||shootTimer>0)return;shootTimer=Math.round(getUpgradedFireCD());const bid=myId+'_'+(bulletSeq++);const bx=myTank.x+Math.cos(myTank.angle)*22,by=myTank.y+Math.sin(myTank.angle)*22;const maxBounce=myTank.ricBounces?6:2;const myBSpd=getUpgradedBulletSpd();const wallPierces=getSkinBuff('wallPierce')?1:0;const fireBullet=!!getSkinBuff('fireBullets');bullets.push({id:bid,x:bx,y:by,vx:Math.cos(myTank.angle)*myBSpd,vy:Math.sin(myTank.angle)*myBSpd,owner:myId,color:fireBullet?'#ff4400':myTank.color,bounces:0,maxBounce,wallPierces,fireBullet});myTank.vx-=Math.cos(myTank.angle)*1.5;myTank.vy-=Math.sin(myTank.angle)*1.5;if(connected)broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});}
+// ── BULLET CHARGE SYSTEM ────────────────────────────────────────────
+// Tap Space = normal shot. Hold Space = charge up to 2× damage + size.
+// If held < 10 frames it's a tap and fires normally at release.
+const CHARGE_TAP_THRESHOLD = 10; // frames — shorter = tap, longer = charge
+
+function startCharge(){
+  if(!myTank||!myTank.alive||shootTimer>0) return;
+  if(!chargeActive){chargeActive=true;chargeTimer=0;chargeFired=false;}
+  else{chargeTimer=Math.min(chargeTimer+1,CHARGE_MAX);}
+  // Update charge bar UI
+  const pct=(chargeTimer/CHARGE_MAX)*100;
+  const bar=document.getElementById('charge-bar-fill');
+  const wrap=document.getElementById('charge-bar-wrap');
+  const lbl=document.getElementById('charge-label');
+  if(chargeTimer>CHARGE_TAP_THRESHOLD){
+    wrap.classList.add('active');
+    lbl.classList.add('active');
+    bar.style.width=pct+'%';
+    if(chargeTimer>=CHARGE_MAX){
+      bar.style.background='linear-gradient(90deg,#ff4040,#ffffff)';
+      lbl.textContent='⚡ MAX CHARGE!';
+    } else {
+      bar.style.background='linear-gradient(90deg,#ffd700,#ff4040)';
+      lbl.textContent='⚡ CHARGING...';
+    }
+  }
+}
+
+function releaseCharge(){
+  if(!chargeActive) return;
+  chargeActive=false;
+  document.getElementById('charge-bar-wrap').classList.remove('active');
+  document.getElementById('charge-label').classList.remove('active');
+  document.getElementById('charge-bar-fill').style.width='0%';
+  if(!chargeFired){
+    chargeFired=true;
+    tryChargeShoot(chargeTimer);
+  }
+  chargeTimer=0;
+}
+
+function updateCharge(){
+  // Nothing extra needed — startCharge increments chargeTimer each frame key is held
+}
+
+function tryChargeShoot(heldFrames){
+  if(!myTank||!myTank.alive||shootTimer>0) return;
+  const charged=heldFrames>=CHARGE_TAP_THRESHOLD;
+  const chargeRatio=Math.min(heldFrames/CHARGE_MAX,1); // 0..1
+  const isFullCharge=heldFrames>=CHARGE_MAX;
+  shootTimer=Math.round(getUpgradedFireCD()*(charged?1.8:1)); // charge shot has longer cooldown
+  const bid=myId+'_'+(bulletSeq++);
+  const bx=myTank.x+Math.cos(myTank.angle)*22,by=myTank.y+Math.sin(myTank.angle)*22;
+  const maxBounce=myTank.ricBounces?6:2;
+  const myBSpd=getUpgradedBulletSpd()*(1+chargeRatio*0.5);
+  const wallPierces=getSkinBuff('wallPierce')?1:0;
+  const fireBullet=!!getSkinBuff('fireBullets');
+  const baseColor=fireBullet?'#ff4400':myTank.color;
+  const bulletColor=isFullCharge?'#ffffff':charged?'#ffdd44':baseColor;
+  // charge multiplier: tap=1×, partial=up to 1.8×, full=2×
+  const dmgMult=charged?(1+chargeRatio):1;
+  bullets.push({
+    id:bid,x:bx,y:by,
+    vx:Math.cos(myTank.angle)*myBSpd,
+    vy:Math.sin(myTank.angle)*myBSpd,
+    owner:myId,color:bulletColor,
+    bounces:0,maxBounce,wallPierces,fireBullet,
+    chargeMult:dmgMult,
+    size:charged?4.5+chargeRatio*5:4.5, // bigger bullet when charged
+  });
+  myTank.vx-=Math.cos(myTank.angle)*(1.5+chargeRatio*3);
+  myTank.vy-=Math.sin(myTank.angle)*(1.5+chargeRatio*3);
+  // Visual feedback for charged shots
+  if(isFullCharge){
+    spawnPart(bx,by,'#ffffff',20,6);
+    spawnPart(bx,by,myTank.color,12,4);
+    shakeFrames=5;
+  } else if(charged){
+    spawnPart(bx,by,'#ffdd44',8,4);
+  }
+  if(connected)broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});
+}
+
+function tryShoot(){
+  // Legacy fast-tap path — still used by bots/abilities
+  if(!myTank||!myTank.alive||shootTimer>0)return;
+  shootTimer=Math.round(getUpgradedFireCD());
+  const bid=myId+'_'+(bulletSeq++);
+  const bx=myTank.x+Math.cos(myTank.angle)*22,by=myTank.y+Math.sin(myTank.angle)*22;
+  const maxBounce=myTank.ricBounces?6:2;
+  const myBSpd=getUpgradedBulletSpd();
+  const wallPierces=getSkinBuff('wallPierce')?1:0;
+  const fireBullet=!!getSkinBuff('fireBullets');
+  bullets.push({id:bid,x:bx,y:by,vx:Math.cos(myTank.angle)*myBSpd,vy:Math.sin(myTank.angle)*myBSpd,owner:myId,color:fireBullet?'#ff4400':myTank.color,bounces:0,maxBounce,wallPierces,fireBullet});
+  myTank.vx-=Math.cos(myTank.angle)*1.5;myTank.vy-=Math.sin(myTank.angle)*1.5;
+  if(connected)broadcast('evt',{e:'shoot',from:myId,bid,bx,by,angle:myTank.angle});
+}
 
 function update(){
   Object.values(players).forEach(p=>{if(p.invulnTimer>0)p.invulnTimer--;if(p.stunTimer>0)p.stunTimer--;});
@@ -1428,7 +1798,7 @@ function update(){
     const spd=myTank.speedBoost?getUpgradedSpeed()*2:getUpgradedSpeed();
     if(keys['ArrowUp']){myTank.vx+=Math.cos(myTank.angle)*.55;myTank.vy+=Math.sin(myTank.angle)*.55;}
     if(keys['ArrowDown']){myTank.vx-=Math.cos(myTank.angle)*.3;myTank.vy-=Math.sin(myTank.angle)*.3;}
-    if(keys['Space']||keys['KeyL'])tryShoot();
+    if(keys['Space']||keys['KeyL'])startCharge();else releaseCharge();
     myTank.vx*=.83;myTank.vy*=.83;
     const s=Math.hypot(myTank.vx,myTank.vy);if(s>spd){myTank.vx=myTank.vx/s*spd;myTank.vy=myTank.vy/s*spd;}
     const px=myTank.x,py=myTank.y;
@@ -1468,7 +1838,7 @@ function update(){
       if(t.invisible&&b.owner!==t.id&&Math.random()<0.65)continue;
       if(Math.hypot(b.x-t.x,b.y-t.y)<18){
         const attacker=players[b.owner]||myTank;
-        const dmg=getUpgradedDamage();
+        const dmg=Math.round(getUpgradedDamage()*(b.chargeMult||1));
         // ── CHROME: reflect bullet at attacker ──────────────────
         if(t.id===myId&&getSkinBuff('reflectChance')&&Math.random()<getSkinBuff('reflectChance')){
           b.vx*=-1;b.vy*=-1;b.owner=myId;
@@ -1487,7 +1857,7 @@ function update(){
   }
 
   if(myTank&&!myTank.alive&&deathCountdown===0){deathCountdown=RESPAWN_SECS*60;profile.totalDeaths++;saveProfile();myKillStreak=0;document.getElementById('death-screen').style.display='flex';document.getElementById('death-timer').textContent='Respawning in '+RESPAWN_SECS+'...';document.getElementById('death-xp').textContent='LV '+profile.level+' '+getRank(profile.level)+' — '+xpSessionGained+' XP this game';deathSelectedSlot=0;selectDeathSlot(0);buildDeathAbilityGrid();}
-  tickAbilities();updateCoins();updateGroundMedkits();
+  tickAbilities();updateCoins();updateGroundMedkits();updateMines();updateCharge();
   for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx;p.y+=p.vy;p.vx*=.91;p.vy*=.91;p.life-=p.decay;if(p.life<=0)particles.splice(i,1);}
   for(let i=shockwaves.length-1;i>=0;i--){const s=shockwaves[i];s.r+=(s.maxR-s.r)*.18;s.life-=.055;if(s.life<=0)shockwaves.splice(i,1);}
 }
@@ -1502,12 +1872,12 @@ function updateHUD(){
 }
 function addChatLine(nick,msg,color){const log=document.getElementById('chat-log');const d=document.createElement('div');d.className='cm';d.innerHTML='<span style="color:'+(color||'#888')+'">'+nick+':</span> '+msg;log.appendChild(d);log.scrollTop=log.scrollHeight;while(log.children.length>16)log.removeChild(log.firstChild);}
 function sendChat(){const ci=document.getElementById('ci'),msg=ci.value.trim();if(!msg||!connected)return;broadcast('chat',{nick:myNick,msg,color:myColor});addChatLine('YOU',msg,myColor);ci.value='';}
-function addKF(k,v){const kf=document.getElementById('kf');const d=document.createElement('div');d.className='kfe';d.textContent=k+' ⚡ '+v;kf.appendChild(d);setTimeout(()=>d.remove(),4000);}
+function addKF(k,v,weapon){const kf=document.getElementById('kf');const d=document.createElement('div');d.className='kfe';const icon=weapon==='mine'?'💣':weapon==='laser'?'🔴':weapon==='emp'?'⚡':'💥';d.textContent=k+' '+icon+' '+v;kf.appendChild(d);setTimeout(()=>d.remove(),4000);}
 function showScreen(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0);}
 
 function showSurrenderConfirm(){document.getElementById('surrender-confirm').style.display='flex';}
 function hideSurrenderConfirm(){document.getElementById('surrender-confirm').style.display='none';}
-function doSurrender(){gameActive=false;if(channel){addChatLine('SYSTEM',myNick+' surrendered!','#ff4040');broadcast('chat',{nick:'SYSTEM',msg:myNick+' surrendered!',color:'#ff4040'});broadcast('_bye',{});closeWS();}bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;if(xpSessionGained>0)awardXP('game');xpSessionGained=0;players={};myTank=null;npc=null;npcs=[];npcRespawnTimer=0;deathCountdown=0;document.getElementById('surrender-confirm').style.display='none';document.getElementById('death-screen').style.display='none';document.getElementById('go').classList.remove('hide');document.getElementById('chat').style.display='';document.body.classList.remove('in-game');showScreen('lobby-screen');renderServers();stat('Select a server and join.','ok');document.getElementById('sp-btn').style.display=(gameMode==='sp'?'inline-block':'none');if(gameMode==='mp')refreshBtn();}
+function doSurrender(){gameActive=false;if(channel){addChatLine('SYSTEM',myNick+' surrendered!','#ff4040');broadcast('chat',{nick:'SYSTEM',msg:myNick+' surrendered!',color:'#ff4040'});broadcast('_bye',{});closeWS();}bullets=[];particles=[];shockwaves=[];coins=[];laserBeams=[];groundMedkits=[];medkitSpawnTimer=0;mines=[];chargeTimer=0;chargeActive=false;chargeFired=false;mineState.cooldownTimer=0;document.getElementById('charge-bar-wrap').classList.remove('active');document.getElementById('charge-label').classList.remove('active');if(xpSessionGained>0)awardXP('game');xpSessionGained=0;players={};myTank=null;npc=null;npcs=[];npcRespawnTimer=0;deathCountdown=0;document.getElementById('surrender-confirm').style.display='none';document.getElementById('death-screen').style.display='none';document.getElementById('go').classList.remove('hide');document.getElementById('chat').style.display='';document.body.classList.remove('in-game');showScreen('lobby-screen');renderServers();stat('Select a server and join.','ok');document.getElementById('sp-btn').style.display=(gameMode==='sp'?'inline-block':'none');if(gameMode==='mp')refreshBtn();}
 
 let groundMedkits=[],medkitSeq=0,medkitSpawnTimer=0;
 const MEDKIT_SPAWN_INTERVAL=900,MEDKIT_MAX=2,MEDKIT_HEAL=30,MEDKIT_MIN_DIST=140;
@@ -1529,12 +1899,54 @@ function draw(){
   for(const w of walls){if(w.x+w.w<camX||w.x>camX+VP_W||w.y+w.h<camY||w.y>camY+VP_H)continue;const g=ctx.createLinearGradient(w.x,w.y,w.x,w.y+w.h);g.addColorStop(0,'#252538');g.addColorStop(1,'#111120');ctx.fillStyle=g;ctx.fillRect(w.x,w.y,w.w,w.h);ctx.strokeStyle='rgba(255,255,255,0.07)';ctx.lineWidth=1;ctx.strokeRect(w.x+.5,w.y+.5,w.w-1,w.h-1);}
   coins.forEach(c=>{const pulse=Math.sin(c.age*0.1)*0.3+0.7;ctx.save();ctx.globalAlpha=pulse;ctx.shadowColor='#ffd700';ctx.shadowBlur=10;ctx.fillStyle='#ffd700';ctx.beginPath();ctx.arc(c.x,c.y,6,0,Math.PI*2);ctx.fill();ctx.fillStyle='#ffaa00';ctx.beginPath();ctx.arc(c.x-1,c.y-1,3,0,Math.PI*2);ctx.fill();ctx.restore();});
   drawGroundMedkits();
+  drawMines();
   for(const s of shockwaves){ctx.save();ctx.globalAlpha=s.life*.65;ctx.strokeStyle=s.color;ctx.shadowColor=s.color;ctx.shadowBlur=14;ctx.lineWidth=2.5;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.stroke();ctx.globalAlpha=s.life*.1;ctx.fillStyle=s.color;ctx.fill();ctx.restore();}
   for(const p of particles){ctx.save();ctx.globalAlpha=p.life;ctx.shadowColor=p.color;ctx.shadowBlur=9;ctx.fillStyle=p.color;ctx.beginPath();ctx.arc(p.x,p.y,p.r*p.life,0,Math.PI*2);ctx.fill();ctx.restore();}
   for(const lb of laserBeams){ctx.save();ctx.globalAlpha=lb.life/20;ctx.strokeStyle=lb.color;ctx.shadowColor=lb.color;ctx.shadowBlur=20;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(lb.x1,lb.y1);ctx.lineTo(lb.x2,lb.y2);ctx.stroke();ctx.strokeStyle='#fff';ctx.shadowBlur=8;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(lb.x1,lb.y1);ctx.lineTo(lb.x2,lb.y2);ctx.stroke();ctx.restore();}
-  for(const b of bullets){ctx.save();const g=ctx.createLinearGradient(b.x-b.vx*6,b.y-b.vy*6,b.x,b.y);g.addColorStop(0,'transparent');g.addColorStop(1,b.color+'bb');ctx.strokeStyle=g;ctx.lineWidth=2.5;ctx.beginPath();ctx.moveTo(b.x-b.vx*6,b.y-b.vy*6);ctx.lineTo(b.x,b.y);ctx.stroke();ctx.shadowColor=b.color;ctx.shadowBlur=14;ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(b.x,b.y,4.5,0,Math.PI*2);ctx.fill();ctx.fillStyle=b.color;ctx.beginPath();ctx.arc(b.x,b.y,3,0,Math.PI*2);ctx.fill();ctx.restore();}
+  for(const b of bullets){
+    ctx.save();
+    const bs=b.size||4.5;
+    const trail=b.chargeMult>1?10:6;
+    const g=ctx.createLinearGradient(b.x-b.vx*trail,b.y-b.vy*trail,b.x,b.y);
+    g.addColorStop(0,'transparent');g.addColorStop(1,b.color+'bb');
+    ctx.strokeStyle=g;ctx.lineWidth=b.chargeMult>1?3.5:2.5;
+    ctx.beginPath();ctx.moveTo(b.x-b.vx*trail,b.y-b.vy*trail);ctx.lineTo(b.x,b.y);ctx.stroke();
+    // Extra outer glow for charged shots
+    if(b.chargeMult&&b.chargeMult>1){
+      ctx.globalAlpha=0.3;ctx.strokeStyle=b.color;ctx.lineWidth=bs*2;
+      ctx.shadowColor=b.color;ctx.shadowBlur=20;
+      ctx.beginPath();ctx.arc(b.x,b.y,bs+3,0,Math.PI*2);ctx.stroke();
+      ctx.globalAlpha=1;
+    }
+    ctx.shadowColor=b.color;ctx.shadowBlur=14;
+    ctx.fillStyle='#fff';ctx.beginPath();ctx.arc(b.x,b.y,bs,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=b.color;ctx.beginPath();ctx.arc(b.x,b.y,bs*0.65,0,Math.PI*2);ctx.fill();
+    ctx.restore();
+  }
   for(const id in players){const t=players[id];if(t.alive)drawTank(t,id===myId);}
-  for(let i=floatDmgNums.length-1;i>=0;i--){const d=floatDmgNums[i];d.y+=d.vy;d.life-=0.025;if(d.life<=0){floatDmgNums.splice(i,1);continue;}ctx.save();ctx.globalAlpha=d.life;ctx.font='bold 16px Arial';ctx.textAlign='center';ctx.strokeStyle='rgba(0,0,0,0.9)';ctx.lineWidth=3;ctx.strokeText('-'+d.dmg,d.x,d.y);ctx.fillStyle=d.color;ctx.shadowColor=d.color;ctx.shadowBlur=8;ctx.fillText('-'+d.dmg,d.x,d.y);ctx.restore();}
+  for(let i=floatDmgNums.length-1;i>=0;i--){
+    const d=floatDmgNums[i];
+    d.y+=d.vy;
+    d.vy*=0.92; // decelerate upward
+    d.life-=d.big?0.018:0.022;
+    if(d.life<=0){floatDmgNums.splice(i,1);continue;}
+    ctx.save();
+    ctx.globalAlpha=Math.min(1,d.life*2); // fade out only in last half
+    const fontSize=d.big?20:14;
+    ctx.font=`bold ${fontSize}px Arial`;
+    ctx.textAlign='center';
+    // thick dark outline for readability
+    ctx.strokeStyle='rgba(0,0,0,0.95)';
+    ctx.lineWidth=d.big?4:3;
+    const label = d.label ? d.label : d.killBlow ? '💥 KILL' : '-'+d.dmg;
+    ctx.strokeText(label,d.x,d.y);
+    // colored fill with glow
+    ctx.fillStyle=d.color;
+    ctx.shadowColor=d.color;
+    ctx.shadowBlur=d.big?16:8;
+    ctx.fillText(label,d.x,d.y);
+    ctx.restore();
+  }
   ctx.restore();
   drawMinimap();
 }
@@ -1563,7 +1975,22 @@ function drawTank(t,isMe){
 }
 
 function drawMinimap(){
-  const mw=mm.width,mh=mm.height;mctx.fillStyle='rgba(0,0,0,0.88)';mctx.fillRect(0,0,mw,mh);mctx.fillStyle='#1e1e30';walls.forEach(w=>{mctx.fillRect(w.x/MAP_W*mw,w.y/MAP_H*mh,Math.max(1,w.w/MAP_W*mw),Math.max(1,w.h/MAP_H*mh));});mctx.strokeStyle='rgba(255,255,255,0.14)';mctx.lineWidth=1;mctx.strokeRect(camX/MAP_W*mw,camY/MAP_H*mh,VP_W/MAP_W*mw,VP_H/MAP_H*mh);
+  const mw=mm.width,mh=mm.height;
+  mctx.fillStyle='rgba(0,0,0,0.88)';mctx.fillRect(0,0,mw,mh);
+  mctx.fillStyle='#1e1e30';
+  walls.forEach(w=>{mctx.fillRect(w.x/MAP_W*mw,w.y/MAP_H*mh,Math.max(1,w.w/MAP_W*mw),Math.max(1,w.h/MAP_H*mh));});
+  mctx.strokeStyle='rgba(255,255,255,0.14)';mctx.lineWidth=1;
+  mctx.strokeRect(camX/MAP_W*mw,camY/MAP_H*mh,VP_W/MAP_W*mw,VP_H/MAP_H*mh);
+  // Own mines on minimap (orange blink dot)
+  const minePulse=0.5+0.5*Math.sin(roundTimer*0.15);
+  mines.forEach(m=>{
+    if(m.owner!==myId)return;
+    const mx=m.x/MAP_W*mw,my=m.y/MAP_H*mh;
+    mctx.globalAlpha=0.5+0.5*minePulse;
+    mctx.fillStyle='#ff6600';mctx.shadowColor='#ff6600';mctx.shadowBlur=6;
+    mctx.beginPath();mctx.arc(mx,my,3,0,Math.PI*2);mctx.fill();
+    mctx.globalAlpha=1;mctx.shadowBlur=0;
+  });
   for(const id in players){const t=players[id];if(!t.alive)continue;if(t.invisible&&id!==myId)continue;mctx.fillStyle=t.color;mctx.shadowColor=t.color;mctx.shadowBlur=id===myId?6:3;mctx.beginPath();mctx.arc(t.x/MAP_W*mw,t.y/MAP_H*mh,id===myId?4:3,0,Math.PI*2);mctx.fill();}
   groundMedkits.forEach(m=>{const pulse=0.5+0.5*Math.sin(roundTimer*0.08+m.pulse),mx=m.x/MAP_W*mw,my=m.y/MAP_H*mh;mctx.strokeStyle='#40ff80';mctx.lineWidth=1.5;mctx.shadowColor='#40ff80';mctx.shadowBlur=4+pulse*6;mctx.globalAlpha=0.7+pulse*0.3;mctx.beginPath();mctx.moveTo(mx-4,my);mctx.lineTo(mx+4,my);mctx.moveTo(mx,my-4);mctx.lineTo(mx,my+4);mctx.stroke();mctx.globalAlpha=1;mctx.shadowBlur=0;});
   mctx.shadowBlur=0;
